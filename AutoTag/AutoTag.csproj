@@ -46,6 +46,11 @@
       <HintPath>..\packages\NAudio.1.8.3\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -55,8 +60,17 @@
   <ItemGroup>
     <Compile Include="FileExtensionsUtils.cs" />
     <Compile Include="ListFilesUtils.cs" />
+    <Compile Include="MusicRecognitionTests.cs" />
+    <Compile Include="MusicRecognition\ACRCloudExtrTool.cs" />
+    <Compile Include="MusicRecognition\ACRCloudJsonObject.cs" />
+    <Compile Include="MusicRecognition\ACRCloudRecognizer.cs" />
+    <Compile Include="MusicRecognition\ACRCloudStatusCode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config" />
+    <Content Include="App.config.sample" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
