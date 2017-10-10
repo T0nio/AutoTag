@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace AutoTag
 {
@@ -7,7 +6,7 @@ namespace AutoTag
     {
         public static void Main(string[] args)
         {
-            
+            Console.WriteLine("Hello World !");
         }
     }
 }
