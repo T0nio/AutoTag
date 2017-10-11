@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.0.0
-MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTag", "AutoTag/AutoTag.csproj", "{3444839A-B9FE-4B70-AB9E-78892A0FE052}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTag", "AutoTag\AutoTag.csproj", "{3444839A-B9FE-4B70-AB9E-78892A0FE052}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTagTests", "AutoTagTests\AutoTagTests.csproj", "{4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{3444839A-B9FE-4B70-AB9E-78892A0FE052}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3444839A-B9FE-4B70-AB9E-78892A0FE052}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3444839A-B9FE-4B70-AB9E-78892A0FE052}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A7576393-CC41-4607-BFF3-1EF97F98864D}
 	EndGlobalSection
 EndGlobal
