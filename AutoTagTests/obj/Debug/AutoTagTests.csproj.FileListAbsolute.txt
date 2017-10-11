@@ -1,0 +1,16 @@
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\fr\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\fr\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\fr\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\AutoTagTests.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\AutoTagTests.pdb
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\obj\Debug\AutoTagTests.csprojResolveAssemblyReference.cache
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\obj\Debug\AutoTagTests.csproj.CoreCompileInputs.cache
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\obj\Debug\AutoTagTests.dll
+D:\Documents\Programme\C#\AutoTag\AutoTagTests\obj\Debug\AutoTagTests.pdb
