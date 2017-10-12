@@ -36,6 +36,8 @@ namespace AutoTag
             {
                 Console.WriteLine("No Data Found");   
             }
+            Tags musique2 = new Tags(@"C:\Users\pierr\Music\Compil J6 2k15\10 The Nights.mp3");
+            Console.WriteLine(musique2.TagHandler.Artist);
         }
     }
 }

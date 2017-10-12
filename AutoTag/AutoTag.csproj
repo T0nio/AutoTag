@@ -67,6 +67,7 @@
     <Compile Include="Recognizer\ACRCloudStatusCode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tags.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
