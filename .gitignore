@@ -1,5 +1,3 @@
 .vs/
-AutoTag/bin/
-AutoTag/obj/
-AutoTagTests/bin/
-AutoTagTests/obj/
+bin/
+obj/
