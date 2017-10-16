@@ -1,4 +1,8 @@
 ﻿using System;
+using NAudio;
+using Id3Lib;
+using Mp3Lib;
+using System.IO;
 
 namespace AutoTag
 {
@@ -6,7 +10,8 @@ namespace AutoTag
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World !");
+            Mp3File musique = new Mp3File("C:\\Users\\pierr\\Music\\Compil J6 2k15\\10 The Nights.mp3");
+            Console.WriteLine(musique.TagHandler.Album);
         }
     }
 }
