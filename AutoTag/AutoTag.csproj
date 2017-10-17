@@ -66,14 +66,22 @@
   <ItemGroup>
     <Compile Include="FileExtensionsUtils.cs" />
     <Compile Include="ListFilesUtils.cs" />
+    <Compile Include="Recognizer\ACRCloudExtrTool.cs" />
+    <Compile Include="Recognizer\ACRCloudJsonObject.cs" />
+    <Compile Include="Recognizer\ACRCloudRecognizer.cs" />
+    <Compile Include="Recognizer\ACRCloudStatusCode.cs" />
+    <Compile Include="MusicLists.cs" />
+    <Compile Include="Musics.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tags.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
     <Content Include="App.config.sample" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Musics.com" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
