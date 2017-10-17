@@ -8,7 +8,8 @@ namespace AutoTag
 {
     class MusicLists
     {
-        public Dictionary<string, List<Musics>> Dict = new Dictionary<string, List<Musics>>();
+        public Dictionary<string, List<Musics>> Dict  { get; set; }
+
         public List<string> Extensions { get; set; }
 
         public MusicLists()
@@ -35,13 +36,13 @@ namespace AutoTag
             return toReturn;
         }
 
-        public static void FillDict(MusicLists music, string folder) //Fill a dictionnary with all the subfolders path coming from the path and link it to the list from CreateList
+        public void FillDict( string folder) //Fill a dictionnary with all the subfolders path coming from the path and link it to the list from CreateList
         {
             foreach (string dir in ListFilesUtils.ListDirectoriesFromFolder(folder))
             {
-                if (!music.Dict.ContainsKey(dir) && MusicLists.ListFromFileToMusic(dir).Count > 0)
+                if (!this.Dict.ContainsKey(dir) && MusicLists.ListFromFileToMusic(dir).Count > 0)
                 {
-                    music.Dict.Add(dir, MusicLists.ListFromFileToMusic(dir));
+                    this.Dict.Add(dir, MusicLists.ListFromFileToMusic(dir));
                 }
             }
         }
