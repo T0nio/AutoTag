@@ -42,30 +42,30 @@ namespace Recognizer
             Console.WriteLine("Genres : " + genres);*/
         }
 
-        public (bool, string, string) GetArtistAndTitleFromACR(string filePath)
+        public Tuple<bool, string, string> GetArtistAndTitleFromACR(string filePath)
         {
             string result = _recognizer.RecognizeByFile(filePath, 10);
             var songInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<ACRCloudJsonObject>(result);
 
             try
             {
-                return (true, songInfos.metadata.music[0].artists[0].name, songInfos.metadata.music[0].title);
+                return new Tuple<bool, string, string>(true, songInfos.metadata.music[0].artists[0].name, songInfos.metadata.music[0].title);
 
             }
             catch (Exception e)
             {
-                return (false, "", "");
+                return new Tuple<bool, string, string>(false, "", "");
             }
 
         }
-
+/*
         public APIJsonObject GetSongInfosFromAPI(string artist, string title)
         {
             // Do the GET API Call
             // Convert to JSON
             // Return object
             
-        }
+        }*/
         
         
     }

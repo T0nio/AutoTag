@@ -39,6 +39,9 @@
     <Reference Include="Id3Lib">
       <HintPath>..\packages\Id3 - mp3\Id3Lib.dll</HintPath>
     </Reference>
+    <Reference Include="libacrcloud_extr_tool">
+      <HintPath>..\packages\ACRCloud\libacrcloud_extr_tool.dll</HintPath>
+    </Reference>
     <Reference Include="Mp3Lib">
       <HintPath>..\packages\Id3 - mp3\Mp3Lib.dll</HintPath>
     </Reference>
@@ -52,6 +55,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>..\..\..\..\..\usr\lib\mono\4.5\Facades\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -60,11 +66,6 @@
   <ItemGroup>
     <Compile Include="FileExtensionsUtils.cs" />
     <Compile Include="ListFilesUtils.cs" />
-    <Compile Include="MusicRecognitionTests.cs" />
-    <Compile Include="Recognizer\ACRCloudExtrTool.cs" />
-    <Compile Include="Recognizer\ACRCloudJsonObject.cs" />
-    <Compile Include="Recognizer\ACRCloudRecognizer.cs" />
-    <Compile Include="Recognizer\ACRCloudStatusCode.cs" />
     <Compile Include="MusicLists.cs" />
     <Compile Include="Musics.cs" />
     <Compile Include="Program.cs" />
