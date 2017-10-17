@@ -21,18 +21,19 @@ namespace AutoTag
 
             return toReturn;
         }
+
         public static List<string> ListDirectoriesFromFolder(string folder) //Return the list of all subfolders
         {
-            List<string> toReturn = new List<string>();
-            toReturn.Add(folder);
+            List<string> toReturn = new List<string> { folder };
 
-            foreach(string dir in Directory.GetDirectories(folder))
+            foreach (string dir in Directory.GetDirectories(folder))
             {
                 toReturn.AddRange(ListDirectoriesFromFolder(dir));
             }
 
             return toReturn;
         }
+
         public static List<string> ListMusicFilesFromFolder(string folder, string extension)
         {
             return ListMusicFilesFromFolder(folder, new List<string> { extension });

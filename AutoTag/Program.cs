@@ -15,7 +15,6 @@ namespace AutoTag
     {
         public static void Main(string[] args)
         {
-<<<<<<< HEAD
 /*
             Mp3File musique = new Mp3File("C:\\Users\\pierr\\Music\\Compil J6 2k15\\10 The Nights.mp3");
             Console.WriteLine(musique.TagHandler.Album);
@@ -41,10 +40,8 @@ namespace AutoTag
             Tags musique2 = new Tags(@"C:\Users\pierr\Music\Compil J6 2k15\10 The Nights.mp3");
             Console.WriteLine(musique2.TagHandler.Artist);
             MusicLists music = new MusicLists();
-=======
             MusicLists musicList = new MusicLists();
             
->>>>>>> Dict creation
             string folder = @"C:\Users\pierr\Music\Alicia Keys";
 
             musicList.FillDict(folder);
@@ -59,6 +56,8 @@ namespace AutoTag
 
             }
 
+
+            MusicLists test = new MusicLists();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace AutoTag
     {
         public Dictionary<string, List<Musics>> Dict  { get; set; }
 
+        public Dictionary<string, List<Musics>> Dict = new Dictionary<string, List<Musics>>();
         public List<string> Extensions { get; set; }
 
         public MusicLists()
@@ -45,6 +46,12 @@ namespace AutoTag
                     this.Dict.Add(dir, MusicLists.ListFromFileToMusic(dir));
                 }
             }
+
+        }
+
+        public void FillDict() //Fill a dictionnary with all the subfolders path coming from the path and link it to the list from CreateList
+        {
+
         }
         public void LoadFromFolder()
         {
