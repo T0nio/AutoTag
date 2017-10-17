@@ -1,27 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using Recognizer;
 
 namespace AutoTag
 {
     class Musics
     {
         private Tags oldFile;
+        private Tags acrTags;
+        private Tags apiTags;
         private Tags newFile;
         public string FilePath{ get; set; }
+        private Recognizer.Recognizer Re;
 
-        public Musics(string path)
+        public Musics(string path, Recognizer.Recognizer re)
         {
             FilePath = path;
+            oldFile = new Tags();
+            acrTags = new Tags();
+            apiTags = new Tags();
+            Re = re;
         }
 
         public void ReadTags()
         {
+            
+        }
+        
+        public void ReadTagFromACR()
+        {
+            ACRCloudJsonObject infosFromACR = Re.Recognize(FilePath);
+
+            // If infosFromACR.metadata.music[0].album.name exists, then put it in acrTags.TagHandler.Album. Else null
+            acrTags.Album = infosFromACR.metadata.music[0]?.album?.name;
+            acrTags.Title = infosFromACR.metadata.music[0]?.title;
+            acrTags.Artist = infosFromACR.metadata.music[0]?.artists[0].name;
+            string genres = "";
+            if (infosFromACR.metadata.music[0].genres != null)
+            {
+                foreach (var genre in infosFromACR.metadata.music[0].genres)
+                {
+                    genres = genres + ", " + genre.name;
+                }
+                genres = genres.Substring(2);                
+            }
+            if (genres != "")
+            {
+                acrTags.Genre = genres;
+            }
+
+            acrTags.Year = infosFromACR.metadata.music[0]?.release_date.Substring(0, 4);
 
         }
 
+        public void ReadTagFromAPI()
+        {
+
+        }
         public void WriteTags()
         {
 

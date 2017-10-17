@@ -19,14 +19,5 @@ namespace AutoTag
 
         }
 
-        public void ReadTagFromACR()
-        {
-
-        }
-
-        public void ReadTagFromAPI()
-        {
-
-        }
     }
 }
