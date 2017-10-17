@@ -1,3 +1,5 @@
 .vs/
 bin/
+Autotag/bin/
 obj/
+App.config
