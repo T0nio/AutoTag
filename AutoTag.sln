@@ -1,4 +1,4 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
@@ -9,6 +9,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTagTests", "AutoTagTests\AutoTagTests.csproj", "{4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTagGUI", "AutoTagGUI\AutoTagGUI.csproj", "{A6758273-5943-4B2D-8521-4933BC344876}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTagCLI", "AutoTagCLI\AutoTagCLI.csproj", "{51B54FE1-F3A2-48FC-8659-386472F2650F}"
 EndProject
 
 Global
@@ -25,14 +27,18 @@ Global
 		{2E464916-16DA-40FE-9630-40519CD386E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E464916-16DA-40FE-9630-40519CD386E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E464916-16DA-40FE-9630-40519CD386E8}.Release|Any CPU.Build.0 = Release|Any CPU
-                {4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-                {4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-                {4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-                {4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Release|Any CPU.Build.0 = Release|Any CPU
-                {A6758273-5943-4B2D-8521-4933BC344876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU                                                                   
-                {A6758273-5943-4B2D-8521-4933BC344876}.Debug|Any CPU.Build.0 = Debug|Any CPU
-                {A6758273-5943-4B2D-8521-4933BC344876}.Release|Any CPU.ActiveCfg = Release|Any CPU
-                {A6758273-5943-4B2D-8521-4933BC344876}.Release|Any CPU.Build.0 = Release|Any CPU
+    {4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+    {4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    {4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    {4D1CD4FD-B48D-47A4-9015-54D8FC56BF0E}.Release|Any CPU.Build.0 = Release|Any CPU
+    {A6758273-5943-4B2D-8521-4933BC344876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU                                                                   
+    {A6758273-5943-4B2D-8521-4933BC344876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    {A6758273-5943-4B2D-8521-4933BC344876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    {A6758273-5943-4B2D-8521-4933BC344876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51B54FE1-F3A2-48FC-8659-386472F2650F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51B54FE1-F3A2-48FC-8659-386472F2650F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51B54FE1-F3A2-48FC-8659-386472F2650F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51B54FE1-F3A2-48FC-8659-386472F2650F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
