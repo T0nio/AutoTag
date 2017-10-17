@@ -10,7 +10,6 @@ namespace AutoTag
     {
         public Dictionary<string, List<Musics>> Dict  { get; set; }
 
-        public Dictionary<string, List<Musics>> Dict = new Dictionary<string, List<Musics>>();
         public List<string> Extensions { get; set; }
 
         public MusicLists()
