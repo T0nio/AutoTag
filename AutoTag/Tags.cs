@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Id3Lib;
+
 
 namespace AutoTag
 {
-    public class Tags : Mp3Lib.Mp3File
+    public class Tags : TagHandler
     {
-        private string path;
-
-        public Tags(string file):base(file)
+        public Tags() : base(new TagModel())
         {
-            path = file;
-        }
 
+        }
         public void ReadTagFromFile()
         {
 

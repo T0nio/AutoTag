@@ -77,7 +77,6 @@
     <Content Include="App.config.sample" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Musics.com" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
