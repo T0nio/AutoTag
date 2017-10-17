@@ -5,7 +5,7 @@ namespace AutoTag
 {
     public static class ListFilesUtils
     {
-        public static List<string> ListFilesRecursivelyFromFolder(string folder)
+        public static List<string> ListFilesRecursivelyFromFolder(string folder) //list of all files in folder and sub folder
         {
             List<string> toReturn = new List<string>();
 
@@ -21,7 +21,18 @@ namespace AutoTag
 
             return toReturn;
         }
+        public static List<string> ListDirectoriesFromFolder(string folder) //Return the list of all subfolders
+        {
+            List<string> toReturn = new List<string>();
+            toReturn.Add(folder);
 
+            foreach(string dir in Directory.GetDirectories(folder))
+            {
+                toReturn.AddRange(ListDirectoriesFromFolder(dir));
+            }
+
+            return toReturn;
+        }
         public static List<string> ListMusicFilesFromFolder(string folder, string extension)
         {
             return ListMusicFilesFromFolder(folder, new List<string> { extension });
@@ -32,7 +43,7 @@ namespace AutoTag
             return ListMusicFilesFromFolder(folder, FileExtensionsUtils.MusicFileExtensions);
         }
 
-        public static List<string> ListMusicFilesFromFolder(string folder, List<string> extensions)
+        public static List<string> ListMusicFilesFromFolder(string folder, List<string> extensions) //Select only the music files from folder and sub folders
         {
             List<string> toReturn = new List<string>();
 
@@ -44,7 +55,7 @@ namespace AutoTag
                 }
             }
 
-            foreach (string file in ListFilesRecursivelyFromFolder(folder))
+            foreach (string file in Directory.GetFiles(folder))
             {
                 if (extensions.Contains(Path.GetExtension(file)))
                 {

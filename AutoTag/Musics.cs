@@ -8,13 +8,13 @@ namespace AutoTag
 {
     class Musics
     {
-        private string filePath;
         private Tags oldFile;
         private Tags newFile;
+        public string FilePath{ get; set; }
 
         public Musics(string path)
         {
-            filePath = path;
+            FilePath = path;
             oldFile = new Tags(path);
         }
 

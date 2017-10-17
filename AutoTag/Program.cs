@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NAudio;
 using Id3Lib;
 using Mp3Lib;
@@ -38,6 +39,21 @@ namespace AutoTag
             }
             Tags musique2 = new Tags(@"C:\Users\pierr\Music\Compil J6 2k15\10 The Nights.mp3");
             Console.WriteLine(musique2.TagHandler.Artist);
+            MusicLists music = new MusicLists();
+            string folder = @"C:\Users\pierr\Music\Alicia Keys";
+
+            MusicLists.FillDict(music, folder);
+
+            foreach(KeyValuePair<string,List<Musics>> kvp in music.Dict)
+            {
+                Console.WriteLine(kvp.Key);
+                foreach(Musics value in kvp.Value)
+                {
+                    Console.WriteLine("\t" + value.FilePath);
+                }
+
+            }
+
         }
     }
 }

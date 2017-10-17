@@ -8,7 +8,7 @@ namespace AutoTag
 {
     public class Tags : Mp3Lib.Mp3File
     {
-        public string path;
+        private string path;
 
         public Tags(string file):base(file)
         {
