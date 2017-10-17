@@ -15,7 +15,6 @@ namespace AutoTag
         public Musics(string path)
         {
             FilePath = path;
-            oldFile = new Tags(path);
         }
 
         public void ReadTags()
