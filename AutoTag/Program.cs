@@ -1,5 +1,4 @@
 ﻿using System;
-<<<<<<< HEAD
 using NAudio;
 using Id3Lib;
 using Mp3Lib;
