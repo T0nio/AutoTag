@@ -5,7 +5,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AutoTag.MusicRecognition
+namespace Recognizer
 {
     class ACRCloudRecognizer
     {
@@ -45,43 +45,6 @@ namespace AutoTag.MusicRecognition
             }
         }
 
-        /**
-          *
-          *  recognize by wav audio buffer(RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 8000 Hz) 
-          *
-          *  @param wavAudioBuffer query audio buffer
-          *  @param wavAudioBufferLen the length of wavAudioBuffer
-          *  
-          *  @return result 
-          *
-          **/
-        public string Recognize(byte[] wavAudioBuffer, int wavAudioBufferLen)
-        {
-            byte[] ext_fp = null;
-            byte[] hum_fp = null;
-            IDictionary<string, Object> query_data = new Dictionary<string, Object>();
-            switch (this.rec_type)
-            {
-                case RECOGNIZER_TYPE.acr_rec_type_audio:
-                    ext_fp = this.acrTool.CreateFingerprint(wavAudioBuffer, wavAudioBufferLen, false);
-                    query_data.Add("ext_fp", ext_fp);
-                    break;
-                case RECOGNIZER_TYPE.acr_rec_type_humming:
-                    hum_fp = this.acrTool.CreateHummingFingerprint(wavAudioBuffer, wavAudioBufferLen);
-                    query_data.Add("hum_fp", hum_fp);
-                    break;
-                case RECOGNIZER_TYPE.acr_rec_type_both:
-                    ext_fp = this.acrTool.CreateFingerprint(wavAudioBuffer, wavAudioBufferLen, false);
-                    query_data.Add("ext_fp", ext_fp);
-                    hum_fp = this.acrTool.CreateHummingFingerprint(wavAudioBuffer, wavAudioBufferLen);
-                    query_data.Add("hum_fp", hum_fp);
-                    break;
-                default:
-                    return ACRCloudStatusCode.NO_RESULT;
-            }
-
-            return this.DoRecognize(query_data);
-        }
 
         /**
           *
@@ -98,7 +61,6 @@ namespace AutoTag.MusicRecognition
         public String RecognizeByFile(string filePath, int startSeconds)
         {
             byte[] ext_fp = null;
-            byte[] hum_fp = null;
             IDictionary<string, Object> query_data = new Dictionary<string, Object>();
             try
             {
@@ -107,16 +69,6 @@ namespace AutoTag.MusicRecognition
                     case RECOGNIZER_TYPE.acr_rec_type_audio:
                         ext_fp = this.acrTool.CreateFingerprintByFile(filePath, startSeconds, 12, false);
                         query_data.Add("ext_fp", ext_fp);
-                        break;
-                    case RECOGNIZER_TYPE.acr_rec_type_humming:
-                        hum_fp = this.acrTool.CreateHummingFingerprintByFile(filePath, startSeconds, 12);
-                        query_data.Add("hum_fp", hum_fp);
-                        break;
-                    case RECOGNIZER_TYPE.acr_rec_type_both:
-                        ext_fp = this.acrTool.CreateFingerprintByFile(filePath, startSeconds, 12, false);
-                        query_data.Add("ext_fp", ext_fp);
-                        hum_fp = this.acrTool.CreateHummingFingerprintByFile(filePath, startSeconds, 12);
-                        query_data.Add("hum_fp", hum_fp);
                         break;
                     default:
                         return ACRCloudStatusCode.NO_RESULT;
@@ -128,64 +80,10 @@ namespace AutoTag.MusicRecognition
                 return ACRCloudStatusCode.DECODE_AUDIO_ERROR;
             }
 
-            if (ext_fp == null && hum_fp == null)
+            if (ext_fp == null)
             {
                 return ACRCloudStatusCode.NO_RESULT;
             }
-            return this.DoRecognize(query_data);
-        }
-
-        /**
-          *
-          *  recognize by buffer of (Audio/Video file)
-          *          Audio: mp3, wav, m4a, flac, aac, amr, ape, ogg ...
-          *          Video: mp4, mkv, wmv, flv, ts, avi ...
-          *
-          *  @param fileBuffer query buffer
-          *  @param fileBufferLen the length of fileBufferLen 
-          *  @param startSeconds skip (startSeconds) seconds from from the beginning of fileBuffer
-          *  
-          *  @return result 
-          *
-          **/
-        public String RecognizeByFileBuffer(byte[] fileBuffer, int fileBufferLen, int startSeconds)
-        {
-            byte[] ext_fp = null;
-            byte[] hum_fp = null;
-            IDictionary<string, Object> query_data = new Dictionary<string, Object>();
-            try
-            {
-                switch (this.rec_type)
-                {
-                    case RECOGNIZER_TYPE.acr_rec_type_audio:
-                        ext_fp = this.acrTool.CreateFingerprintByFileBuffer(fileBuffer, fileBufferLen, startSeconds, 12, false);
-                        query_data.Add("ext_fp", ext_fp);
-                        break;
-                    case RECOGNIZER_TYPE.acr_rec_type_humming:
-                        hum_fp = this.acrTool.CreateHummingFingerprintByFileBuffer(fileBuffer, fileBufferLen, startSeconds, 12);
-                        query_data.Add("hum_fp", hum_fp);
-                        break;
-                    case RECOGNIZER_TYPE.acr_rec_type_both:
-                        ext_fp = this.acrTool.CreateFingerprintByFileBuffer(fileBuffer, fileBufferLen, startSeconds, 12, false);
-                        query_data.Add("ext_fp", ext_fp);
-                        hum_fp = this.acrTool.CreateHummingFingerprintByFileBuffer(fileBuffer, fileBufferLen, startSeconds, 12);
-                        query_data.Add("hum_fp", hum_fp);
-                        break;
-                    default:
-                        return ACRCloudStatusCode.NO_RESULT;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return ACRCloudStatusCode.DECODE_AUDIO_ERROR;
-            }
-
-            if (ext_fp == null && hum_fp == null)
-            {
-                return ACRCloudStatusCode.NO_RESULT;
-            }
-
             return this.DoRecognize(query_data);
         }
 
@@ -309,7 +207,6 @@ namespace AutoTag.MusicRecognition
         private string DoRecognize(IDictionary<string, Object> query_data)
         {
             byte[] ext_fp = null;
-            byte[] hum_fp = null;
             string method = "POST";
             string httpURL = "/v1/identify";
             string dataType = "fingerprint";
@@ -331,16 +228,7 @@ namespace AutoTag.MusicRecognition
                     dict.Add("sample", ext_fp);
                 }
             }
-            if (query_data.ContainsKey("hum_fp"))
-            {
-                hum_fp = (byte[])query_data["hum_fp"];
-                if (hum_fp != null)
-                {
-                    dict.Add("sample_hum_bytes", hum_fp.Length.ToString());
-                    dict.Add("sample_hum", hum_fp);
-                }
-            }
-            if (ext_fp == null && hum_fp == null)
+            if (ext_fp == null)
             {
                 return ACRCloudStatusCode.NO_RESULT;
             }

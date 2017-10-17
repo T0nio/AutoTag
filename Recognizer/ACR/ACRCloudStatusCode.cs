@@ -1,4 +1,4 @@
-﻿namespace AutoTag.MusicRecognition
+﻿namespace Recognizer
 {
     public class ACRCloudStatusCode
     {

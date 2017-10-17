@@ -7,7 +7,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
-using AutoTag.MusicRecognition;
+using Recognizer;
 
 namespace AutoTag
 {
@@ -21,6 +21,22 @@ namespace AutoTag
 
             new MusicRecognitionTests();
 */
+            
+        }
+
+        public void RecoTest()
+        {
+            Recognizer.Recognizer re = new Recognizer.Recognizer();
+            var songInfos = re.GetArtistAndTitleFromACR(@"songsuccess.mp3");
+
+            if (songInfos[0])
+            {
+                Console.WriteLine("Artist: " + songInfos[1] + " | Title: "+songInfos[2]);
+            }
+            else
+            {
+                Console.WriteLine("No Data Found");   
+            }
         }
     }
 }
