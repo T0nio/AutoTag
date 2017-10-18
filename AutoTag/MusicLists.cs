@@ -52,6 +52,7 @@ namespace AutoTag
         {
 
         }
+
         public void LoadFromFolder()
         {
 
