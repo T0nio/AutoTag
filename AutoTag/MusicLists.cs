@@ -38,6 +38,8 @@ namespace AutoTag
 
         public void FillDict( string folder) //Fill a dictionnary with all the subfolders path coming from the path and link it to the list from CreateList
         {
+            Dict = new Dictionary<string, List<Musics>>();
+
             foreach (string dir in ListFilesUtils.ListDirectoriesFromFolder(folder))
             {
                 if (!this.Dict.ContainsKey(dir) && MusicLists.ListFromFileToMusic(dir).Count > 0)
