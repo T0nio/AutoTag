@@ -6,7 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace AutoTag
+namespace AutoTagLib
 {
     internal class Program
     {

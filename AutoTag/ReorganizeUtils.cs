@@ -37,7 +37,6 @@ namespace AutoTagLib
         public static void ReplaceProp(Musics music, string target)
         {
             string toReturn = target;
-
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
 
             foreach(PropertyInfo p in props)
