@@ -10,17 +10,6 @@ namespace AutoTag
     {
         public static void Main(string[] args)
         {
-            //Musics originalMusic = new Musics(@"C:\Users\pierr\Music\BOB\Bassunther\Saturday.mp3");
-
-            //Musics music = new Musics(@"C:\Users\pierr\Music\BOB\Bassunther\Saturday.mp3");
-
-            //TagHandler tag = originalMusic.OldFile;
-            //music.NewFile = tag;
-            //music.WriteTags();
-            //Console.WriteLine(music.File.FileName);
-
-            // Console.WriteLine(originalMusic.OldFile.Artist);
-
             MusicLists musicLibrary = new MusicLists();
 
             musicLibrary.FillDict(@"C:\Users\pierr\Music\BOB");
@@ -34,8 +23,7 @@ namespace AutoTag
             //        Console.WriteLine("\t\t" + file.OldFile.Artist);
             //    }
             //}
-            Musics music = new Musics(@"C: \Users\pierr\Music\BOB\Bassunther\Saturday.mp3");
-            string target = $"C:\\Users\\pierr\\Music\\BOB\\Test\\";
+            string target = @"C:\Users\pierr\Music\BOB\Test\";
 
             foreach(KeyValuePair<string,List<Musics>> kvp in musicLibrary.Dict)
             {

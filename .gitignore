@@ -4,4 +4,8 @@ Autotag/bin/
 Autotag/Program.cs
 obj/
 App.config
+<<<<<<< HEAD
 .idea
+=======
+AutoTag/Program.cs
+>>>>>>> Fix MoveFiles with list
