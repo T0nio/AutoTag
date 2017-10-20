@@ -27,7 +27,7 @@ namespace AutoTag
         {
             List<Musics> toReturn = new List<Musics>();
 
-            foreach (string file in ListFilesUtils.ListMusicFilesFromFolder(folder))
+            foreach (string file in ListFilesUtils.ListMusicFilesFromFolder(folder,".mp3"))
             {
                 Musics music = new Musics(file);
                 toReturn.Add(music);

@@ -3,6 +3,7 @@
 using Id3Lib;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace AutoTag
 {
@@ -28,6 +29,14 @@ namespace AutoTag
             foreach(KeyValuePair<string,List<Musics>> kvp in musicLibrary.Dict)
             {
                 ReorganizeUtils.MoveFiles(kvp.Value, target);
+            }
+
+            Musics music = new Musics(@"C:\Users\pierr\Music\BOB\Test\Basshunter\Saturday\Saturday.mp3");
+            PropertyInfo[] props = typeof(TagHandler).GetProperties();
+
+            foreach (PropertyInfo p in props)
+            {
+                Console.WriteLine(p.Name);
             }
         }
     }
