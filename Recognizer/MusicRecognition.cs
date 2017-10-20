@@ -2,49 +2,29 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Diagnostics;
+using DiscogsNet.Api;
+using DiscogsNet.User;
 using Recognizer.API;
+using DiscogsClient;
+using DiscogsClient.Data.Query;
+using DiscogsClient.Internal;
+using RestSharpHelper;
+using RestSharpHelper.OAuth1;
 
-namespace Recognizer
+namespace MusicInfoLib
 {
-    public class Recognizer
+    public static class Infos
     {
-        private readonly ACRCloudRecognizer _recognizer; 
-        
-        public Recognizer()
+        public static ACRCloudJsonObject Recognize(string filePath)
         {
-            var config = new Dictionary<string, object>();
-            var acrCloudConfig = ConfigurationManager.GetSection("ACRCloud") as NameValueCollection;
-            config.Add("host", acrCloudConfig["host"]);
-            config.Add("access_key", acrCloudConfig["access_key"]);
-            config.Add("access_secret", acrCloudConfig["access_secret"]);
-            config.Add("timeout", int.Parse(acrCloudConfig["timeout"]));
-            
-            _recognizer = new ACRCloudRecognizer(config);
-        }
-
-        public ACRCloudJsonObject Recognize(string filePath)
-        {
-            string result = _recognizer.RecognizeByFile(filePath, 10);
+            string result = ACRCloudRecognizer.Instance.RecognizeByFile(filePath, 10);
             return Newtonsoft.Json.JsonConvert.DeserializeObject<ACRCloudJsonObject>(result);
-            
-            
-            /*
-            EXAMPLE OF DATA THAT ARE PRESENT
-            Console.WriteLine("Title: " + songInfos.metadata.music[0].title);
-            Console.WriteLine("Artist : " + songInfos.metadata.music[0].artists[0].name);
-            Console.WriteLine("Album : " + songInfos.metadata.music[0].album.name);
-            string genres = "";
-            foreach (var genre in songInfos.metadata.music[0].genres)
-            {
-                genres = genres + ", " + genre.name;
-            }
-            genres = genres.Substring(2);
-            Console.WriteLine("Genres : " + genres);*/
         }
 
-        public Tuple<bool, string, string> GetArtistAndTitleFromACR(string filePath)
+        public static Tuple<bool, string, string> GetArtistAndTitleFromACR(string filePath)
         {
-            string result = _recognizer.RecognizeByFile(filePath, 10);
+            string result = ACRCloudRecognizer.Instance.RecognizeByFile(filePath, 10);
             var songInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<ACRCloudJsonObject>(result);
 
             try
@@ -58,14 +38,34 @@ namespace Recognizer
             }
 
         }
-/*
-        public APIJsonObject GetSongInfosFromAPI(string artist, string title)
+
+        public static void GetSongInfosFromAPI(string artist, string title)
         {
             // Do the GET API Call
             // Convert to JSON
             // Return object
             
-        }*/
+            var discogsSearch = new DiscogsSearch()
+            {
+                artist = artist,
+                release_title = title
+            };
+    
+            //Retrieve observable result from search
+            var observable = DiscogsAPI.Instance.client.Search(discogsSearch);
+
+            
+            var enumerable = DiscogsAPI.Instance.client.SearchAsEnumerable(discogsSearch);
+
+            
+            foreach (var v in enumerable)
+            {
+                Console.WriteLine(v.title);                
+                Console.WriteLine(v.id);                
+            }
+            //Console.WriteLine(enumerable.ToString());
+        }
+
         
         
     }

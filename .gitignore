@@ -1,5 +1,7 @@
 .vs/
 bin/
 Autotag/bin/
+Autotag/Program.cs
 obj/
 App.config
+.idea

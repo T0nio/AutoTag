@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Recognizer
+namespace MusicInfoLib
 {
     class ACRCloudExtrTool
     {
