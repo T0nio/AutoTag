@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTagLib", "AutoTag\AutoTagLib.csproj", "{3444839A-B9FE-4B70-AB9E-78892A0FE052}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTagLib", "AutoTagLib\AutoTagLib.csproj", "{3444839A-B9FE-4B70-AB9E-78892A0FE052}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recognizer", "Recognizer\Recognizer.csproj", "{2E464916-16DA-40FE-9630-40519CD386E8}"
 EndProject

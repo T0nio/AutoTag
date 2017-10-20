@@ -56,7 +56,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoTag\AutoTagLib.csproj">
+    <ProjectReference Include="..\AutoTagLib\AutoTagLib.csproj">
       <Project>{3444839a-b9fe-4b70-ab9e-78892a0fe052}</Project>
       <Name>AutoTagLib</Name>
     </ProjectReference>
