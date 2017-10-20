@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Id3Lib;
+using Mp3Lib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
@@ -10,19 +12,18 @@ namespace AutoTag
 {
     class Musics
     {
-        private Tags oldFile;
-        private Tags acrTags;
-        private Tags apiTags;
-        private Tags newFile;
-        public string FilePath{ get; set; }
+
+        public TagHandler OldFile { get; private set; }
+        public TagHandler NewFile { get; set; }
+        public TagHandler AcrFile { get; set; }
+        public Mp3File File { get; private set; }
 
         public Musics(string path)
         {
-            FilePath = path;
-            oldFile = new Tags();
-            acrTags = new Tags();
-            apiTags = new Tags();
-            
+            File = new Mp3File(path);
+            OldFile = File.TagHandler;
+            NewFile = OldFile;
+            AcrFile = OldFile;
         }
 
         public void ReadTags()
@@ -32,12 +33,13 @@ namespace AutoTag
         
         public void ReadTagFromACR()
         {
-            ACRCloudJsonObject infosFromACR = Infos.Recognize(FilePath);
+            ACRCloudJsonObject infosFromACR = Infos.Recognize(File.FileName);
 
             // If infosFromACR.metadata.music[0].album.name exists, then put it in acrTags.TagHandler.Album. Else null
-            acrTags.Album = infosFromACR.metadata.music[0]?.album?.name;
-            acrTags.Title = infosFromACR.metadata.music[0]?.title;
-            acrTags.Artist = infosFromACR.metadata.music[0]?.artists[0].name;
+            AcrFile.Album = infosFromACR.metadata.music[0]?.album?.name;
+            AcrFile.Title = infosFromACR.metadata.music[0]?.title;
+            AcrFile.Artist = infosFromACR.metadata.music[0]?.artists[0].name;
+            AcrFile.Year = infosFromACR.metadata.music[0]?.release_date.Substring(0, 4);
             string genres = "";
             if (infosFromACR.metadata.music[0].genres != null)
             {
@@ -49,10 +51,9 @@ namespace AutoTag
             }
             if (genres != "")
             {
-                acrTags.Genre = genres;
+                AcrFile.Genre = genres;
             }
 
-            acrTags.Year = infosFromACR.metadata.music[0]?.release_date.Substring(0, 4);
 
         }
 
@@ -63,7 +64,8 @@ namespace AutoTag
         
         public void WriteTags()
         {
-
+            File.TagHandler = NewFile;
+            File.Update();
         }
 
         public void Reorganize(string option, string format)
