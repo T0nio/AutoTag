@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
@@ -8,9 +9,7 @@ using DiscogsNet.User;
 using MusicInfoLib.API;
 using DiscogsClient;
 using DiscogsClient.Data.Query;
-using DiscogsClient.Internal;
-using RestSharpHelper;
-using RestSharpHelper.OAuth1;
+
 
 namespace MusicInfoLib
 {
