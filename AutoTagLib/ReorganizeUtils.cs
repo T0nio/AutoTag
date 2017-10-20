@@ -18,25 +18,22 @@ namespace AutoTagLib
         {
             foreach (Musics music in musicList)
             {
-                if (music.File.TagHandler.Artist == " " || music.File.TagHandler.Album == " ")
+                string target = ReplaceProp(music, targetFolder);
+                Console.WriteLine(target);
+                Directory.CreateDirectory(target);
+                target = target + Path.GetFileName(music.File.FileName);
+                if (music.File.FileName != target)
                 {
-                    string target = targetFolder + $"{music.File.TagHandler.Artist}" + Path.DirectorySeparatorChar + $"{music.File.TagHandler.Album}";
-                    Console.WriteLine(music.File.FileName);
-                    Console.WriteLine(target);
-                    Directory.CreateDirectory(target);
-                    target = target + Path.DirectorySeparatorChar + Path.GetFileName(music.File.FileName);
-                    if (music.File.FileName != target)
-                    {
-                        Directory.Move(music.File.FileName, target);
-                    }
+                    Directory.Move(music.File.FileName, target);
+                    //ou copier
                 }
             }
             //Ajouter un état d'avancement
         }
 
-        public static void ReplaceProp(Musics music, string target)
+        public static string ReplaceProp(Musics music, string targetFolder)
         {
-            string toReturn = target;
+            string toReturn = targetFolder;
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
 
             foreach(PropertyInfo p in props)
@@ -45,14 +42,11 @@ namespace AutoTagLib
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        p.GetValue(music.File.TagHandler);
-
-                        Console.WriteLine(p.GetValue(music.File.TagHandler));
+                        toReturn=toReturn.Replace("%"+p.Name+"%",p.GetValue(music.File.TagHandler).ToString());
                     }
                 }
-
             }
-
+            return toReturn;
         }
 #endregion
     }
