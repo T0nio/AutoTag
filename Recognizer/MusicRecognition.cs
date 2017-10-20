@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Diagnostics;
-using DiscogsNet.Api;
-using DiscogsNet.User;
-using Recognizer.API;
-using DiscogsClient;
 using DiscogsClient.Data.Query;
-using DiscogsClient.Internal;
-using RestSharpHelper;
-using RestSharpHelper.OAuth1;
+using MusicInfoLib.API;
 
 namespace MusicInfoLib
 {
