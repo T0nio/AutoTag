@@ -13,17 +13,17 @@ namespace AutoTag
     class Musics
     {
 
-        public TagHandler OldFile { get; private set; }
-        public TagHandler NewFile { get; set; }
-        public TagHandler AcrFile { get; set; }
+        public TagHandler OriginalTags { get; private set; }
+        public TagHandler AcrTags { get; set; }
+        public TagHandler NewTags { get; set; }
         public Mp3File File { get; private set; }
 
         public Musics(string path)
         {
             File = new Mp3File(path);
-            OldFile = File.TagHandler;
-            NewFile = OldFile;
-            AcrFile = OldFile;
+            OriginalTags = File.TagHandler;
+            AcrTags = OriginalTags;
+            NewTags = OriginalTags;
         }
 
         public void ReadTags()
@@ -36,10 +36,10 @@ namespace AutoTag
             ACRCloudJsonObject infosFromACR = Infos.Recognize(File.FileName);
 
             // If infosFromACR.metadata.music[0].album.name exists, then put it in acrTags.TagHandler.Album. Else null
-            AcrFile.Album = infosFromACR.metadata.music[0]?.album?.name;
-            AcrFile.Title = infosFromACR.metadata.music[0]?.title;
-            AcrFile.Artist = infosFromACR.metadata.music[0]?.artists[0].name;
-            AcrFile.Year = infosFromACR.metadata.music[0]?.release_date.Substring(0, 4);
+            AcrTags.Album = infosFromACR.metadata.music[0]?.album?.name;
+            AcrTags.Title = infosFromACR.metadata.music[0]?.title;
+            AcrTags.Artist = infosFromACR.metadata.music[0]?.artists[0].name;
+            AcrTags.Year = infosFromACR.metadata.music[0]?.release_date.Substring(0, 4);
             string genres = "";
             if (infosFromACR.metadata.music[0].genres != null)
             {
@@ -51,7 +51,7 @@ namespace AutoTag
             }
             if (genres != "")
             {
-                AcrFile.Genre = genres;
+                AcrTags.Genre = genres;
             }
 
 
@@ -64,7 +64,7 @@ namespace AutoTag
         
         public void WriteTags()
         {
-            File.TagHandler = NewFile;
+            File.TagHandler = NewTags;
             File.Update();
         }
 
