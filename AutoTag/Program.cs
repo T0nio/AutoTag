@@ -7,6 +7,7 @@ namespace AutoTag
     {
         public static void Main(string[] args)
         {
+            Console.ReadLine();
         }
     }
 }

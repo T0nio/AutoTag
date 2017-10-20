@@ -39,14 +39,11 @@ namespace AutoTag
             AcrTags.Title = infosFromACR.metadata.music[0]?.title;
             AcrTags.Artist = infosFromACR.metadata.music[0]?.artists[0].name;
             AcrTags.Year = infosFromACR.metadata.music[0]?.release_date.Substring(0, 4);
-            string genres = "";
-            if (infosFromACR.metadata.music[0].genres != null)
+            var genres = "";
+            if (infosFromACR.metadata.music[0]?.genres != null)
             {
-                foreach (var genre in infosFromACR.metadata.music[0].genres)
-                {
-                    genres = genres + ", " + genre.name;
-                }
-                genres = genres.Substring(2);                
+                genres = infosFromACR.metadata.music[0].genres.Aggregate(genres, (current, genre) => current + ", " + genre.name);
+                genres = genres.Substring(2);
             }
             if (genres != "")
             {
