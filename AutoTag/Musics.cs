@@ -12,12 +12,20 @@ namespace AutoTag
 {
     class Musics
     {
+<<<<<<< HEAD
 
         public TagHandler OriginalTags { get; private set; }
         public TagHandler AcrTags { get; set; }
         public TagHandler NewTags { get; set; }
+=======
+ #region Properties
+        public TagHandler OldFile { get; private set; }
+        public TagHandler NewFile { get; set; }
+>>>>>>> add regions
         public Mp3File File { get; private set; }
+ #endregion
 
+ #region Constructor
         public Musics(string path)
         {
             File = new Mp3File(path);
@@ -25,7 +33,9 @@ namespace AutoTag
             AcrTags = OriginalTags;
             NewTags = OriginalTags;
         }
+#endregion
 
+#region Methods
         public void ReadTags()
         {
             
@@ -72,5 +82,6 @@ namespace AutoTag
         {
 
         }
+#endregion
     }
 }

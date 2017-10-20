@@ -8,15 +8,20 @@ namespace AutoTag
 {
     class MusicLists
     {
+#region Properties
         public Dictionary<string, List<Musics>> Dict  { get; set; }
 
         public List<string> Extensions { get; set; }
+#endregion
 
+#region Constructor
         public MusicLists()
         {
 
         }
+#endregion
 
+#region Methods
         public List<Musics> CreateList(string path) //Fill an empty list with all the files inside the path (no subfolders) with extensions authorized
         {
             return null;
@@ -74,6 +79,7 @@ namespace AutoTag
         {
 
         }
+#endregion
 
     }
 }

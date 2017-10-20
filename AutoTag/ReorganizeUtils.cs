@@ -9,6 +9,7 @@ namespace AutoTag
 {
     static class ReorganizeUtils
     {
+#region Methods
         public static void MoveFiles(List<Musics> musicList, string targetFolder) //targetFolder="C:\Users\Music\{music.newFile.Artist}\{music.newFile.Album}\"
         {
             foreach (Musics music in musicList)
@@ -22,11 +23,11 @@ namespace AutoTag
                     target = target + Path.DirectorySeparatorChar + Path.GetFileName(music.File.FileName);
                     if (music.File.FileName != target)
                     {
-                        Directory.Move(music.File.FileName, target);
-
+                        Directory.Move(music.File.FileName, target)
                     }
                 }
             }
         }
+#endregion
     }
 }
