@@ -12,11 +12,10 @@ namespace AutoTag
 {
     class Musics
     {
-
-        public TagHandler OriginalTags { get; private set; }
-        public TagHandler AcrTags { get; set; }
-        public TagHandler NewTags { get; set; }
-        public Mp3File File { get; private set; }
+        public TagHandler OriginalTags { get; }
+        public TagHandler AcrTags { get; }
+        public TagHandler NewTags { get; }
+        public Mp3File File { get; }
 
         public Musics(string path)
         {
