@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Id3Lib;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace AutoTag
 {
@@ -23,10 +26,30 @@ namespace AutoTag
                     target = target + Path.DirectorySeparatorChar + Path.GetFileName(music.File.FileName);
                     if (music.File.FileName != target)
                     {
-                        Directory.Move(music.File.FileName, target)
+                        Directory.Move(music.File.FileName, target);
                     }
                 }
             }
+        }
+        public static string RegExMatch(Match m)
+        {
+            //Get the matched string
+            string x = m.ToString();
+            PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            //Chekc if x equals a property
+
+
+            foreach (PropertyInfo p in props)
+            {
+                if (x == p.Name)
+                {
+                    return "{music.File.TagHandler." + p.Name + "}";
+
+                }
+            }
+            return x;
+
+
         }
 #endregion
     }

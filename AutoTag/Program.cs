@@ -4,6 +4,7 @@ using Id3Lib;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace AutoTag
 {
@@ -24,20 +25,22 @@ namespace AutoTag
             //        Console.WriteLine("\t\t" + file.OldFile.Artist);
             //    }
             //}
-            string target = @"C:\Users\pierr\Music\BOB\Test\";
+            //string target = @"C:\Users\pierr\Music\BOB\Test\";
 
-            foreach(KeyValuePair<string,List<Musics>> kvp in musicLibrary.Dict)
-            {
-                ReorganizeUtils.MoveFiles(kvp.Value, target);
-            }
+            //foreach(KeyValuePair<string,List<Musics>> kvp in musicLibrary.Dict)
+            //{
+            //    ReorganizeUtils.MoveFiles(kvp.Value, target);
+            //}
 
-            Musics music = new Musics(@"C:\Users\pierr\Music\BOB\Test\Basshunter\Saturday\Saturday.mp3");
-            PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            //Musics music = new Musics(@"C:\Users\pierr\Music\BOB\Test\Basshunter\Saturday\Saturday.mp3");
 
-            foreach (PropertyInfo p in props)
-            {
-                Console.WriteLine(p.Name);
-            }
+            string test = $"alpha"+ Path.DirectorySeparatorChar+ "Artist"+ Path.DirectorySeparatorChar;
+            string Artist = "test";
+            Regex rx = new Regex($"\\w+");
+
+            string result = rx.Replace(test, new MatchEvaluator(ReorganizeUtils.RegExMatch));
+
+            Console.WriteLine(result);
         }
     }
 }
