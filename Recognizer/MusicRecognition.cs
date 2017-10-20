@@ -1,6 +1,15 @@
 ﻿using System;
-using DiscogsClient.Data.Query;
+
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.Diagnostics;
+using DiscogsNet.Api;
+using DiscogsNet.User;
 using MusicInfoLib.API;
+using DiscogsClient;
+using DiscogsClient.Data.Query;
+
 
 namespace MusicInfoLib
 {

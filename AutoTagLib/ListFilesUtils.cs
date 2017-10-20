@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace AutoTag
+namespace AutoTagLib
 {
     public static class ListFilesUtils
     {

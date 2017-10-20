@@ -8,15 +8,35 @@ using System.Text;
 using System.Threading.Tasks;
 using MusicInfoLib;
 
-namespace AutoTag
+namespace AutoTagLib
 {
     class Musics
     {
+
+#region Properties
+
         public TagHandler OriginalTags { get; }
         public TagHandler AcrTags { get; }
         public TagHandler NewTags { get; }
         public Mp3File File { get; }
 
+        public enum PropertiesForUser
+        {
+            Artist,
+            Album,
+            Composer,
+            Disc,
+            FileName,
+            Genre,
+            Title,
+            Track,
+            Year
+        }
+ #endregion
+
+ #region Constructor
+
+   
         public Musics(string path)
         {
             File = new Mp3File(path);
@@ -24,7 +44,9 @@ namespace AutoTag
             AcrTags = OriginalTags;
             NewTags = OriginalTags;
         }
+#endregion
 
+#region Methods
         public void ReadTags()
         {
             
@@ -68,5 +90,6 @@ namespace AutoTag
         {
 
         }
+#endregion
     }
 }

@@ -4,19 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoTag
+namespace AutoTagLib
 {
     class MusicLists
     {
+#region Properties
         public Dictionary<string, List<Musics>> Dict  { get; set; }
 
         public List<string> Extensions { get; set; }
+#endregion
 
+#region Constructor
         public MusicLists()
         {
 
         }
+#endregion
 
+#region Methods
         public List<Musics> CreateList(string path) //Fill an empty list with all the files inside the path (no subfolders) with extensions authorized
         {
             return null;
@@ -27,7 +32,7 @@ namespace AutoTag
         {
             List<Musics> toReturn = new List<Musics>();
 
-            foreach (string file in ListFilesUtils.ListMusicFilesFromFolder(folder))
+            foreach (string file in ListFilesUtils.ListMusicFilesFromFolder(folder,".mp3"))
             {
                 Musics music = new Musics(file);
                 toReturn.Add(music);
@@ -38,6 +43,8 @@ namespace AutoTag
 
         public void FillDict( string folder) //Fill a dictionnary with all the subfolders path coming from the path and link it to the list from CreateList
         {
+            Dict = new Dictionary<string, List<Musics>>();
+
             foreach (string dir in ListFilesUtils.ListDirectoriesFromFolder(folder))
             {
                 if (!this.Dict.ContainsKey(dir) && MusicLists.ListFromFileToMusic(dir).Count > 0)
@@ -72,6 +79,7 @@ namespace AutoTag
         {
 
         }
+#endregion
 
     }
 }

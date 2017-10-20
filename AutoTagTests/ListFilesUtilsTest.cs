@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AutoTag;
+using AutoTagLib;
 using System.Collections.Generic;
 using System.Linq;
 
