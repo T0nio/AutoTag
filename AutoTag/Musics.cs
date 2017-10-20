@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
-using Recognizer;
+using MusicInfoLib;
 
 namespace AutoTag
 {
@@ -15,15 +15,14 @@ namespace AutoTag
         private Tags apiTags;
         private Tags newFile;
         public string FilePath{ get; set; }
-        private Recognizer.Recognizer Re;
 
-        public Musics(string path, Recognizer.Recognizer re)
+        public Musics(string path)
         {
             FilePath = path;
             oldFile = new Tags();
             acrTags = new Tags();
             apiTags = new Tags();
-            Re = re;
+            
         }
 
         public void ReadTags()
@@ -33,7 +32,7 @@ namespace AutoTag
         
         public void ReadTagFromACR()
         {
-            ACRCloudJsonObject infosFromACR = Re.Recognize(FilePath);
+            ACRCloudJsonObject infosFromACR = Infos.Recognize(FilePath);
 
             // If infosFromACR.metadata.music[0].album.name exists, then put it in acrTags.TagHandler.Album. Else null
             acrTags.Album = infosFromACR.metadata.music[0]?.album?.name;
@@ -61,6 +60,7 @@ namespace AutoTag
         {
 
         }
+        
         public void WriteTags()
         {
 

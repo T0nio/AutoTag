@@ -1,4 +1,4 @@
-﻿namespace Recognizer
+﻿namespace MusicInfoLib
 {
     public class ACRCloudStatusCode
     {

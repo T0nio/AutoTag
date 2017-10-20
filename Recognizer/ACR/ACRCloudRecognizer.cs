@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Recognizer
+namespace MusicInfoLib
 {
     class ACRCloudRecognizer
     {
@@ -18,32 +20,22 @@ namespace Recognizer
         private int timeout = 5 * 1000; // ms
         private RECOGNIZER_TYPE rec_type = RECOGNIZER_TYPE.acr_rec_type_audio;
         private bool debug = false;
+        public static ACRCloudRecognizer Instance { get; } = new ACRCloudRecognizer();
+
 
         private ACRCloudExtrTool acrTool = new ACRCloudExtrTool();
 
-        public ACRCloudRecognizer(IDictionary<string, Object> config)
+        private ACRCloudRecognizer()
         {
-            if (config.ContainsKey("host"))
-            {
-                this.host = (string)config["host"];
-            }
-            if (config.ContainsKey("access_key"))
-            {
-                this.accessKey = (string)config["access_key"];
-            }
-            if (config.ContainsKey("access_secret"))
-            {
-                this.accessSecret = (string)config["access_secret"];
-            }
-            if (config.ContainsKey("timeout"))
-            {
-                this.timeout = 1000 * (int)config["timeout"];
-            }
-            if (config.ContainsKey("rec_type"))
-            {
-                this.rec_type = (RECOGNIZER_TYPE)config["rec_type"];
-            }
+            var acrCloudConfig = ConfigurationManager.GetSection("ACRCloud") as NameValueCollection;
+
+            Instance.host = acrCloudConfig["host"];
+            Instance.accessKey = acrCloudConfig["access_key"];
+            Instance.accessSecret = acrCloudConfig["access_secret"];
+            Instance.timeout = int.Parse(acrCloudConfig["timeout"]);
+            Instance.rec_type = RECOGNIZER_TYPE.acr_rec_type_audio;
         }
+      
 
 
         /**
