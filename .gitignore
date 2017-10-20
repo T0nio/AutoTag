@@ -1,11 +1,7 @@
 .vs/
 bin/
-Autotag/bin/
-Autotag/Program.cs
+AutoTag/bin/
+AutoTag/Program.cs
 obj/
 App.config
-<<<<<<< HEAD
 .idea
-=======
-AutoTag/Program.cs
->>>>>>> Fix MoveFiles with list

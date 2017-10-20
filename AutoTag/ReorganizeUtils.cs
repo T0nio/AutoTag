@@ -8,7 +8,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Reflection;
 
-namespace AutoTag
+namespace AutoTagLib
 {
     static class ReorganizeUtils
     {
@@ -37,7 +37,7 @@ namespace AutoTag
         public static void ReplaceProp(Musics music, string target)
         {
             string toReturn = target;
-            TagModel value=null;
+
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
 
             foreach(PropertyInfo p in props)
