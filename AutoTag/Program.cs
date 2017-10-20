@@ -32,15 +32,10 @@ namespace AutoTag
             //    ReorganizeUtils.MoveFiles(kvp.Value, target);
             //}
 
-            //Musics music = new Musics(@"C:\Users\pierr\Music\BOB\Test\Basshunter\Saturday\Saturday.mp3");
-
-            string test = $"alpha"+ Path.DirectorySeparatorChar+ "Artist"+ Path.DirectorySeparatorChar;
-            string Artist = "test";
-            Regex rx = new Regex($"\\w+");
-
-            string result = rx.Replace(test, new MatchEvaluator(ReorganizeUtils.RegExMatch));
-
-            Console.WriteLine(result);
+            Musics music = new Musics(@"C:\Users\pierr\Music\BOB\Test\Basshunter\Saturday\Saturday.mp3");
+  
+            
+            ReorganizeUtils.ReplaceProp(music,"");
         }
     }
 }

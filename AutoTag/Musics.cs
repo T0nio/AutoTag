@@ -8,21 +8,27 @@ using System.Text;
 using System.Threading.Tasks;
 using MusicInfoLib;
 
-namespace AutoTag
+namespace AutoTagLib
 {
     class Musics
     {
-<<<<<<< HEAD
-
-        public TagHandler OriginalTags { get; private set; }
-        public TagHandler AcrTags { get; set; }
-        public TagHandler NewTags { get; set; }
-=======
- #region Properties
-        public TagHandler OldFile { get; private set; }
-        public TagHandler NewFile { get; set; }
->>>>>>> add regions
-        public Mp3File File { get; private set; }
+#region Properties
+        public TagHandler OriginalTags { get; }
+        public TagHandler AcrTags { get; }
+        public TagHandler NewTags { get; }
+        public Mp3File File { get; }
+        public enum PropertiesForUser
+        {
+            Artist,
+            Album,
+            Composer,
+            Disc,
+            FileName,
+            Genre,
+            Title,
+            Track,
+            Year
+        }
  #endregion
 
  #region Constructor

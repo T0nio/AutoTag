@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Diagnostics;
 using DiscogsNet.Api;
 using DiscogsNet.User;
-using Recognizer.API;
+using MusicInfoLib.API;
 using DiscogsClient;
 using DiscogsClient.Data.Query;
 using DiscogsClient.Internal;

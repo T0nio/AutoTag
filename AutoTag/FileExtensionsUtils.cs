@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AutoTag
+namespace AutoTagLib
 {
     public static class FileExtensionsUtils
     {

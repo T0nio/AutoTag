@@ -12,6 +12,7 @@ namespace AutoTag
 {
     static class ReorganizeUtils
     {
+
 #region Methods
         public static void MoveFiles(List<Musics> musicList, string targetFolder) //targetFolder="C:\Users\Music\{music.newFile.Artist}\{music.newFile.Album}\"
         {
@@ -30,25 +31,28 @@ namespace AutoTag
                     }
                 }
             }
+            //Ajouter un état d'avancement
         }
-        public static string RegExMatch(Match m)
+
+        public static void ReplaceProp(Musics music, string target)
         {
-            //Get the matched string
-            string x = m.ToString();
+            string toReturn = target;
+            TagModel value=null;
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
-            //Chekc if x equals a property
 
-
-            foreach (PropertyInfo p in props)
+            foreach(PropertyInfo p in props)
             {
-                if (x == p.Name)
+                foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
                 {
-                    return "{music.File.TagHandler." + p.Name + "}";
+                    if (propName.ToString() == p.Name)
+                    {
+                        p.GetValue(music.File.TagHandler);
 
+                        Console.WriteLine(p.GetValue(music.File.TagHandler));
+                    }
                 }
-            }
-            return x;
 
+            }
 
         }
 #endregion
