@@ -14,7 +14,7 @@ namespace AutoTagLib
     {
 
 #region Methods
-        public static void MoveFiles(List<Musics> musicList, string targetFolder) //targetFolder="C:\Users\Music\{music.newFile.Artist}\{music.newFile.Album}\"
+        public static void MoveFiles(List<Musics> musicList, string targetFolder) //targetFolder="C:\Users\Music\%Artist%\%Album%\"
         {
             foreach (Musics music in musicList)
             {
