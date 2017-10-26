@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<configuration>
+    <configSections>
+        <section name="ACRCloud" type="System.Configuration.NameValueSectionHandler" />
+        <section name="Discogs" type="System.Configuration.NameValueSectionHandler" />
+    </configSections>
+    
+    <ACRCloud>
+        <add key="host" value=""/>
+        <add key="access_key" value=""/>
+        <add key="access_secret" value=""/>
+        <add key="timeout" value=""/>
+    </ACRCloud>
+    
+    <Discogs>
+        <add key="key" value="" />
+        <add key="secret" value=""/>
+        <add key="userAgent" value=""/>
+    </Discogs>
+</configuration>

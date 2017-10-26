@@ -1,13 +1,6 @@
 ﻿using System;
-
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.Diagnostics;
-using DiscogsNet.Api;
-using DiscogsNet.User;
 using MusicInfoLib.API;
-using DiscogsClient;
 using DiscogsClient.Data.Query;
 
 
@@ -17,8 +10,30 @@ namespace MusicInfoLib
     {
         public static ACRCloudJsonObject Recognize(string filePath)
         {
-            string result = ACRCloudRecognizer.Instance.RecognizeByFile(filePath, 10);
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<ACRCloudJsonObject>(result);
+            try
+            {
+                string result = ACRCloudRecognizer.Instance.RecognizeByFile(filePath, 10);
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<ACRCloudJsonObject>(result);
+            }
+            catch (System.Net.WebException e)
+            {
+
+                Console.WriteLine("Net exception");
+                return new ACRCloudJsonObject()
+                {
+                    status =
+                    {
+                        msg = "Time out",
+                        code = 555,
+                        version = "1.0"
+                    }
+                };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("BUG");
+                return new ACRCloudJsonObject();
+            }
         }
 
         public static Tuple<bool, string, string> GetArtistAndTitleFromACR(string filePath)

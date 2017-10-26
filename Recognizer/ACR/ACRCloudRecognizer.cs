@@ -9,31 +9,38 @@ using System.Text;
 
 namespace MusicInfoLib
 {
-    class ACRCloudRecognizer
+    public class ACRCloudRecognizer
     {
+    
+        
+        
         public enum RECOGNIZER_TYPE { 
             acr_rec_type_audio, acr_rec_type_humming, acr_rec_type_both
         };
-        private string host = "";
-        private string accessKey = "";
-        private string accessSecret = "";
-        private int timeout = 5 * 1000; // ms
-        private RECOGNIZER_TYPE rec_type = RECOGNIZER_TYPE.acr_rec_type_audio;
+        private string _host = "";
+        private string _accessKey = "";
+        private string _accessSecret = "";
+        private int _timeout = 5 * 1000; // ms
+        private RECOGNIZER_TYPE _recType;
         private bool debug = false;
+        private readonly ACRCloudExtrTool acrTool = new ACRCloudExtrTool();
+
         public static ACRCloudRecognizer Instance { get; } = new ACRCloudRecognizer();
 
 
-        private ACRCloudExtrTool acrTool = new ACRCloudExtrTool();
-
         private ACRCloudRecognizer()
         {
+            
             var acrCloudConfig = ConfigurationManager.GetSection("ACRCloud") as NameValueCollection;
-
-            Instance.host = acrCloudConfig["host"];
-            Instance.accessKey = acrCloudConfig["access_key"];
-            Instance.accessSecret = acrCloudConfig["access_secret"];
-            Instance.timeout = int.Parse(acrCloudConfig["timeout"]);
-            Instance.rec_type = RECOGNIZER_TYPE.acr_rec_type_audio;
+           
+            if (acrCloudConfig != null)
+            {
+                _host = acrCloudConfig["host"];
+                _accessKey = acrCloudConfig["access_key"];
+                _accessSecret = acrCloudConfig["access_secret"];
+                _timeout = int.Parse(acrCloudConfig["timeout"]) * 1000;
+            }
+            _recType = RECOGNIZER_TYPE.acr_rec_type_audio;
         }
       
 
@@ -56,7 +63,7 @@ namespace MusicInfoLib
             IDictionary<string, Object> query_data = new Dictionary<string, Object>();
             try
             {
-                switch (this.rec_type)
+                switch (this._recType)
                 {
                     case RECOGNIZER_TYPE.acr_rec_type_audio:
                         ext_fp = this.acrTool.CreateFingerprintByFile(filePath, startSeconds, 12, false);
@@ -122,7 +129,7 @@ namespace MusicInfoLib
             try
             {
                 request = (HttpWebRequest)WebRequest.Create(url);
-                request.Timeout = this.timeout;
+                request.Timeout = this._timeout;
                 request.Method = "POST";
                 request.ContentType = "multipart/form-data; boundary=" + BOUNDARYSTR;
 
@@ -205,13 +212,13 @@ namespace MusicInfoLib
             string sigVersion = "1";
             string timestamp = ((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds).ToString();
 
-            string reqURL = "http://" + host + httpURL;
+            string reqURL = "http://" + _host + httpURL;
 
-            string sigStr = method + "\n" + httpURL + "\n" + accessKey + "\n" + dataType + "\n" + sigVersion + "\n" + timestamp;
-            string signature = EncryptByHMACSHA1(sigStr, this.accessSecret);
+            string sigStr = method + "\n" + httpURL + "\n" + _accessKey + "\n" + dataType + "\n" + sigVersion + "\n" + timestamp;
+            string signature = EncryptByHMACSHA1(sigStr, this._accessSecret);
 
             var dict = new Dictionary<string, object>();
-            dict.Add("access_key", this.accessKey);
+            dict.Add("access_key", this._accessKey);
             if (query_data.ContainsKey("ext_fp")) {
                 ext_fp = (byte[])query_data["ext_fp"];
                 if (ext_fp != null)
