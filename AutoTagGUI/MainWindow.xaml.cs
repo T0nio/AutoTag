@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace AutoTagGUI
 {
@@ -23,6 +25,13 @@ namespace AutoTagGUI
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog openFileDialog = new FolderBrowserDialog();
+            openFileDialog.ShowDialog();
+            DirectoryLabel.Content = openFileDialog.SelectedPath;
         }
     }
 }
