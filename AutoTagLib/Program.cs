@@ -12,9 +12,9 @@ namespace AutoTagLib
     {
         public static void Main(string[] args)
         {
-            MusicLists musicLibrary = new MusicLists();
+            /*MusicLists musicLibrary = new MusicLists();
 
-            musicLibrary.FillDict(@"C:\Users\pierr\Music\BOB");
+            musicLibrary.FillDict(@"C:\Users\pierr\Music\BOB");*/
 
             //foreach (KeyValuePair<string, List<Musics>> kvp in musicLibrary.Dict)
             //{
@@ -32,10 +32,12 @@ namespace AutoTagLib
             //    ReorganizeUtils.MoveFiles(kvp.Value, target);
             //}
 
-            Musics music = new Musics(@"C:\Users\pierr\Music\BOB\Test\Basshunter\Saturday\Saturday.mp3");
+            Musics music = new Musics(@"/data/Desktop/TestACR/unaname.mp3");
   
+            music.ReadTagFromACR();
+            music.ReadTagFromAPI();
+            music.ArbitrateNewTags();
             
-            ReorganizeUtils.ReplaceProp(music,"");
         }
     }
 }
