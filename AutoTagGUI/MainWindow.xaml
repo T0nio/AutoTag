@@ -48,15 +48,14 @@
                 <RowDefinition Height="2"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="2"/>
-                <RowDefinition Height="2"/>
+                <RowDefinition Height="3"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="3"/>
                 <RowDefinition Height="2"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="2"/>
-                <RowDefinition Height="72"/>
-                <RowDefinition Height="22"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="3"/>
                 <RowDefinition Height="2"/>
@@ -107,7 +106,7 @@
             <StackPanel Grid.Row="15"
                         Grid.ColumnSpan="3"
                         Margin="3"
-                        Orientation="Vertical" Grid.RowSpan="2">
+                        Orientation="Vertical">
                 <CheckBox IsEnabled="{Binding MusicLibraryLoaded}">Copy music files</CheckBox>
                 <StackPanel Margin="0, 3, 0, 0" Orientation="Horizontal">
                     <Button IsEnabled="{Binding MusicLibraryLoaded}" Command="{Binding LoadTargetFolder}">Choose folder</Button>
@@ -116,14 +115,14 @@
                 <Label>Reorganize format</Label>
                 <TextBox IsEnabled="{Binding MusicLibraryLoaded}">%Artist%/%Album%/%Track% - %Title%.mp3</TextBox>
             </StackPanel>
-            <Button Grid.Row="17"
+            <Button Grid.Row="16"
                     Grid.Column="1"
                     IsEnabled="{Binding MusicLibraryLoaded}">
                 Reorganize
             </Button>
 
-            <Rectangle Grid.Row="19" Grid.ColumnSpan="3" Fill="Black"/>
-            <Image Grid.Row="20" Grid.ColumnSpan="3" Source="logo.png"/>
+            <Rectangle Grid.Row="18" Grid.ColumnSpan="3" Fill="Black"/>
+            <Image Grid.Row="19" Grid.ColumnSpan="3" Source="logo.png"/>
         </Grid>
 
         <Rectangle Grid.Row="0" Grid.Column="1" Fill="Black"/>
