@@ -14,8 +14,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="2"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="75*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="50*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -55,7 +55,8 @@
                 <RowDefinition Height="2"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="2"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="72"/>
+                <RowDefinition Height="22"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="3"/>
                 <RowDefinition Height="2"/>
@@ -83,9 +84,8 @@
             </StackPanel>
             <Button Grid.Column="1"
                     Grid.Row="3"
-                    Name="btnOpenFile"
-                    Click="btnOpenFile_Click">
-                Choose Folder
+                    Command="{Binding LoadSourceFolder}">
+                Load Library
             </Button>
 
             <Rectangle Grid.Row="5" Grid.ColumnSpan="3" Fill="Black"/>
@@ -94,7 +94,8 @@
                        Text="Check and write tags"/>
             <Rectangle Grid.Row="7" Grid.ColumnSpan="3" Fill="Black"/>
             <Button Grid.Row="10"
-                    Grid.Column="1">
+                    Grid.Column="1"
+                    IsEnabled="{Binding MusicLibraryLoaded}">
                 Write Tags
             </Button>
 
@@ -106,35 +107,36 @@
             <StackPanel Grid.Row="15"
                         Grid.ColumnSpan="3"
                         Margin="3"
-                        Orientation="Vertical">
-                <CheckBox>Copy music files</CheckBox>
+                        Orientation="Vertical" Grid.RowSpan="2">
+                <CheckBox IsEnabled="{Binding MusicLibraryLoaded}">Copy music files</CheckBox>
                 <StackPanel Margin="0, 3, 0, 0" Orientation="Horizontal">
-                    <Button Click="btnOpenFile_Click">Choose folder</Button>
+                    <Button IsEnabled="{Binding MusicLibraryLoaded}" Command="{Binding LoadTargetFolder}">Choose folder</Button>
                     <Label>Target path</Label>
                 </StackPanel>
                 <Label>Reorganize format</Label>
-                <TextBox>%Artist%/%Album%/%Track% - %Title%.mp3</TextBox>
-                </StackPanel>
-            <Button Grid.Row="16"
-                    Grid.Column="1">
+                <TextBox IsEnabled="{Binding MusicLibraryLoaded}">%Artist%/%Album%/%Track% - %Title%.mp3</TextBox>
+            </StackPanel>
+            <Button Grid.Row="17"
+                    Grid.Column="1"
+                    IsEnabled="{Binding MusicLibraryLoaded}">
                 Reorganize
             </Button>
 
-            <Rectangle Grid.Row="18" Grid.ColumnSpan="3" Fill="Black"/>
-            <Image Grid.Row="19" Grid.ColumnSpan="3" Source="logo.png"/>
+            <Rectangle Grid.Row="19" Grid.ColumnSpan="3" Fill="Black"/>
+            <Image Grid.Row="20" Grid.ColumnSpan="3" Source="logo.png"/>
         </Grid>
 
         <Rectangle Grid.Row="0" Grid.Column="1" Fill="Black"/>
 
         <DockPanel Grid.Column="2"
                    Grid.Row="0">
-            <Label Name="DirectoryLabel"
+            <Label Content="{Binding MusicLibraryFolder}"
                    DockPanel.Dock="Top"/>
             <TreeView DockPanel.Dock="Bottom"
                       BorderThickness="0"
                       Grid.Column="2"
                       Grid.RowSpan="4"
-                      ItemsSource="{Binding Musics}">
+                      ItemsSource="{Binding MusicLibrary.Dict, UpdateSourceTrigger=PropertyChanged}">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="IsExpanded" Value="True"/>
@@ -145,18 +147,18 @@
                         <TextBlock  Text="{Binding Path=Key}"/>
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}"/>
+                                <TextBlock Text="{Binding FileName}"/>
                             </DataTemplate>
                         </HierarchicalDataTemplate.ItemTemplate>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
         </DockPanel>
-        
+
         <Rectangle Grid.Row="1" Grid.ColumnSpan="5" Fill="Black"/>
 
         <Label Grid.Row="0" Grid.Column="3">Tableau des tags</Label>
-        
+
         <Label Grid.Row="2" Grid.ColumnSpan="3">FOOTER DE LA MORT</Label>
     </Grid>
 </Window>
