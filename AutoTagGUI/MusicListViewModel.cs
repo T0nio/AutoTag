@@ -1,21 +1,44 @@
-﻿using System;
+﻿using AutoTagGUI.Utils;
+using AutoTagLib;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace AutoTagGUI
 {
     public class MusicListViewModel : INotifyPropertyChanged
     {
+        #region INotifyPropertyChanged Implementation
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<BoolStringClass> AllowedExtensions {
+        public void NotifyPropertyChanged([CallerMemberName] string str="")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(str));
+        }
+
+        #endregion
+
+        #region Constructor
+
+        public MusicListViewModel()
+        {
+            MusicLibrary = new MusicLists();
+            MusicLibraryFolder = @"D:\Music\The Who";
+            MusicLibrary.FillDict(MusicLibraryFolder);
+        }
+
+        #endregion
+
+        #region Properties
+
+        public List<BoolStringClass> AllowedExtensions {
             get
             {
-                return new ObservableCollection<BoolStringClass>
+                return new List<BoolStringClass>
                 {
                     new BoolStringClass {IsSelected = true, Content = ".mp3" },
                     new BoolStringClass {IsSelected = false, Content = ".wav" },
@@ -27,22 +50,140 @@ namespace AutoTagGUI
             }
         }
 
-        public Dictionary<string, List<string>> Musics
+        public bool MusicLibraryLoaded
         {
             get
             {
-                return new Dictionary<string, List<string>>
+                return MusicLibraryFolder != null && MusicLibraryFolder != String.Empty;
+            }
+            set
+            {
+                if (value != MusicLibraryLoaded)
                 {
-                    { "Directory1", new List<string> { "File1", "File2"} },
-                    { "Directory2", new List<string> {"File3", "File4", "File5"} },
-                };
+                    MusicLibraryLoaded = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
-        public class BoolStringClass
+        private MusicLists _musicLibrary;
+        public MusicLists MusicLibrary
         {
-            public bool IsSelected { get; set; }
-            public string Content { get; set; }
+            get
+            {
+                return _musicLibrary;
+            }
+
+            set
+            {
+                if (value != _musicLibrary)
+                {
+                    _musicLibrary = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
+
+        private string _musicLibraryFolder;
+        public string MusicLibraryFolder {
+            get
+            {
+                return _musicLibraryFolder;
+            }
+
+            set
+            {
+                if (value != _musicLibraryFolder)
+                {
+                    _musicLibraryFolder = value;
+                    NotifyPropertyChanged();
+                    MusicLibrary.FillDict(MusicLibraryFolder);
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("MusicLibrary"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("MusicLibraryLoaded"));
+                    }
+                }
+            }
+        }
+
+        private string _musicLibraryTargetFolder;
+        public string MusicLibraryTargetFolder {
+            get
+            {
+                return _musicLibraryTargetFolder;
+            }
+
+            set
+            {
+                if (value != _musicLibraryTargetFolder)
+                {
+                    _musicLibraryTargetFolder = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ICommand LoadTargetFolder
+        {
+            get
+            {
+                return (ICommand) new RelayCommand<MusicLists>((library) =>
+                {
+                    FolderBrowserDialog openDirDialog = new FolderBrowserDialog();
+                    openDirDialog.ShowDialog();
+                    if (openDirDialog.SelectedPath != String.Empty)
+                    {
+                        MusicLibraryTargetFolder = openDirDialog.SelectedPath;
+                    }
+                });
+            }
+        }
+
+        public ICommand LoadSourceFolder
+        {
+            get
+            {
+                return new RelayCommand<MusicLists>((library) =>
+                {
+                    FolderBrowserDialog openDirDialog = new FolderBrowserDialog();
+                    openDirDialog.ShowDialog();
+                    if (openDirDialog.SelectedPath != String.Empty)
+                    {
+                        MusicLibraryFolder = openDirDialog.SelectedPath;
+                    }
+                });
+            }
+        }
+
+        public ICommand WriteTags
+        {
+            get
+            {
+                return new RelayCommand<MusicLists>((library) =>
+                {
+                    MusicLibrary.WriteTags();
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
+                });
+            }
+        }
+
+        public ICommand Reorganize
+        {
+            get
+            {
+                return new RelayCommand<MusicLists>((library) =>
+                {
+                    MusicLibrary.Reorganization();
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
+                });
+            }
+        }
+
+        #endregion
     }
 }

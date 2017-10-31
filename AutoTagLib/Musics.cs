@@ -1,25 +1,28 @@
 ﻿using Id3Lib;
 using Mp3Lib;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
 using MusicInfoLib;
+using System.IO;
 
 namespace AutoTagLib
 {
-    class Musics
+    public class Musics
     {
 
-#region Properties
+        #region Properties
 
         public TagHandler OriginalTags { get; }
         public TagHandler AcrTags { get; }
         public TagHandler NewTags { get; }
         public Mp3File File { get; }
+        public string FileName {
+            get
+            {
+                return File.FileName.Split(Path.DirectorySeparatorChar).Last();
+            }
+        }
 
         public enum PropertiesForUser
         {
@@ -33,11 +36,11 @@ namespace AutoTagLib
             Track,
             Year
         }
- #endregion
 
- #region Constructor
+        #endregion
 
-   
+        #region Constructor
+
         public Musics(string path)
         {
             File = new Mp3File(path);
@@ -45,9 +48,10 @@ namespace AutoTagLib
             AcrTags = new Mp3File(path).TagHandler;
             NewTags = new Mp3File(path).TagHandler;
         }
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
+
         public void ReadTags()
         {
             
@@ -82,7 +86,6 @@ namespace AutoTagLib
         {
 
         }
-
 
         public void ArbitrateNewTags()
         {
@@ -144,6 +147,7 @@ namespace AutoTagLib
         {
             
         }
-#endregion
+
+        #endregion
     }
 }

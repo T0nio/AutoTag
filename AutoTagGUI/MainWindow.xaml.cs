@@ -26,12 +26,5 @@ namespace AutoTagGUI
         {
             InitializeComponent();
         }
-
-        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
-        {
-            FolderBrowserDialog openFileDialog = new FolderBrowserDialog();
-            openFileDialog.ShowDialog();
-            DirectoryLabel.Content = openFileDialog.SelectedPath;
-        }
     }
 }
