@@ -15,12 +15,13 @@ namespace AutoTagLib
 
         public TagHandler OriginalTags { get; }
         public TagHandler AcrTags { get; }
+        public TagHandler ApiTags { get; }
         public TagHandler NewTags { get; }
-        public Mp3File File { get; }
+        public Mp3File MusicFile { get; }
         public string FileName {
             get
             {
-                return File.FileName.Split(Path.DirectorySeparatorChar).Last();
+                return MusicFile.FileName.Split(Path.DirectorySeparatorChar).Last();
             }
         }
 
@@ -43,10 +44,23 @@ namespace AutoTagLib
 
         public Musics(string path)
         {
-            File = new Mp3File(path);
-            OriginalTags = File.TagHandler;
-            AcrTags = new Mp3File(path).TagHandler;
-            NewTags = new Mp3File(path).TagHandler;
+            
+            MusicFile = new Mp3File(path);
+            try
+            {
+                OriginalTags = MusicFile.TagHandler;
+                AcrTags = new Mp3File(path).TagHandler;
+                ApiTags = new Mp3File(path).TagHandler;
+                NewTags = new Mp3File(path).TagHandler;
+            }
+            catch (NotImplementedException e)
+            {
+                OriginalTags = new TagHandler(new TagModel());
+                AcrTags = new TagHandler(new TagModel());
+                ApiTags = new TagHandler(new TagModel());
+                NewTags = new TagHandler(new TagModel());
+            }
+
         }
         #endregion
 
@@ -54,13 +68,15 @@ namespace AutoTagLib
 
         public void ReadTags()
         {
-            
+            ReadTagFromACR();
+            ReadTagFromAPI();
+            ArbitrateNewTags();
         }
         
         public void ReadTagFromACR()
         {
             
-            ACRCloudJsonObject infosFromACR = Infos.Recognize(File.FileName);
+            ACRCloudJsonObject infosFromACR = Infos.Recognize(MusicFile.FileName);
 
             if (infosFromACR.status.code == 0)
             {
@@ -139,14 +155,57 @@ namespace AutoTagLib
         
         public void WriteTags()
         {
-            File.TagHandler = NewTags;
-            File.Update();
+            MusicFile.TagHandler = NewTags;
+            MusicFile.Update();
         }
 
-        public void Reorganize(string option, string format)
+        
+        /// <summary>
+        /// Move or copy the music file to its new location. 
+        /// </summary>
+        /// <param name="targetFileName">Template of new file - ex: /home/Music/%Artist%/%Album%/%Title%.%extension%</param>
+        /// <param name="copy">Is it a copy ? Or a move</param>
+        public void Reorganize(string targetFileName, bool copy)
         {
+            string target = ReplaceProp(targetFileName);
             
+            Console.WriteLine(target);
+            Directory.CreateDirectory(Path.GetDirectoryName(target));
+            if (this.MusicFile.FileName != target)
+            {
+                if (copy)
+                {
+                    File.Copy(this.MusicFile.FileName, target, true);
+                }
+                else
+                {
+                    File.Move(this.MusicFile.FileName, target);    
+                }
+            }
         }
+
+        #endregion
+
+        #region Utils
+        
+            private string ReplaceProp(string targetFolder)
+            {
+                string toReturn = targetFolder;
+                PropertyInfo[] props = typeof(TagHandler).GetProperties();
+    
+                foreach(PropertyInfo p in props)
+                {
+                    foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
+                    {
+                        if (propName.ToString() == p.Name)
+                        {
+                            toReturn=toReturn.Replace("%"+p.Name+"%",p.GetValue(this.MusicFile.TagHandler).ToString());
+                        }
+                    }
+                }
+                return toReturn;
+            }
+        
 
         #endregion
     }

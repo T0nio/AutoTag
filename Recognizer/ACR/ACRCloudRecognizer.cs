@@ -11,23 +11,39 @@ namespace MusicInfoLib
 {
     public class ACRCloudRecognizer
     {
-    
-        
-        
         public enum RECOGNIZER_TYPE { 
             acr_rec_type_audio, acr_rec_type_humming, acr_rec_type_both
         };
-        private string _host = "";
-        private string _accessKey = "";
-        private string _accessSecret = "";
+        public string _host;
+        private string _accessKey;
+        private string _accessSecret;
         private int _timeout = 5 * 1000; // ms
         private RECOGNIZER_TYPE _recType;
         private bool debug = false;
         private readonly ACRCloudExtrTool acrTool = new ACRCloudExtrTool();
 
-        public static ACRCloudRecognizer Instance { get; } = new ACRCloudRecognizer();
+        private static ACRCloudRecognizer instance = null;
+        public static ACRCloudRecognizer Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (padlock)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new ACRCloudRecognizer();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
 
+        private static readonly object padlock = new object();
 
+        
         private ACRCloudRecognizer()
         {
             
@@ -63,10 +79,10 @@ namespace MusicInfoLib
             IDictionary<string, Object> query_data = new Dictionary<string, Object>();
             try
             {
-                switch (this._recType)
+                switch (Instance._recType)
                 {
                     case RECOGNIZER_TYPE.acr_rec_type_audio:
-                        ext_fp = this.acrTool.CreateFingerprintByFile(filePath, startSeconds, 12, false);
+                        ext_fp = Instance.acrTool.CreateFingerprintByFile(filePath, startSeconds, 12, false);
                         query_data.Add("ext_fp", ext_fp);
                         break;
                     default:
@@ -129,7 +145,7 @@ namespace MusicInfoLib
             try
             {
                 request = (HttpWebRequest)WebRequest.Create(url);
-                request.Timeout = this._timeout;
+                request.Timeout = Instance._timeout;
                 request.Method = "POST";
                 request.ContentType = "multipart/form-data; boundary=" + BOUNDARYSTR;
 
@@ -215,10 +231,10 @@ namespace MusicInfoLib
             string reqURL = "http://" + _host + httpURL;
 
             string sigStr = method + "\n" + httpURL + "\n" + _accessKey + "\n" + dataType + "\n" + sigVersion + "\n" + timestamp;
-            string signature = EncryptByHMACSHA1(sigStr, this._accessSecret);
+            string signature = EncryptByHMACSHA1(sigStr, _accessSecret);
 
             var dict = new Dictionary<string, object>();
-            dict.Add("access_key", this._accessKey);
+            dict.Add("access_key", _accessKey);
             if (query_data.ContainsKey("ext_fp")) {
                 ext_fp = (byte[])query_data["ext_fp"];
                 if (ext_fp != null)

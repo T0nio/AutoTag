@@ -26,9 +26,9 @@ namespace AutoTagGUI
 
         public MusicListViewModel()
         {
-            MusicLibrary = new MusicLists();
+            MusicLibrary = new MusicsLib();
             MusicLibraryFolder = @"D:\Music\The Who";
-            MusicLibrary.FillDict(MusicLibraryFolder);
+            MusicLibrary.LoadFromFolder(MusicLibraryFolder);
         }
 
         #endregion
@@ -66,8 +66,8 @@ namespace AutoTagGUI
             }
         }
 
-        private MusicLists _musicLibrary;
-        public MusicLists MusicLibrary
+        private MusicsLib _musicLibrary;
+        public MusicsLib MusicLibrary
         {
             get
             {
@@ -97,7 +97,7 @@ namespace AutoTagGUI
                 {
                     _musicLibraryFolder = value;
                     NotifyPropertyChanged();
-                    MusicLibrary.FillDict(MusicLibraryFolder);
+                    MusicLibrary.LoadFromFolder(MusicLibraryFolder);
                     if (PropertyChanged != null)
                     {
                         PropertyChanged(this, new PropertyChangedEventArgs("MusicLibrary"));
@@ -132,7 +132,7 @@ namespace AutoTagGUI
         {
             get
             {
-                return (ICommand) new RelayCommand<MusicLists>((library) =>
+                return (ICommand) new RelayCommand<MusicsLib>((library) =>
                 {
                     FolderBrowserDialog openDirDialog = new FolderBrowserDialog();
                     openDirDialog.ShowDialog();
@@ -148,7 +148,7 @@ namespace AutoTagGUI
         {
             get
             {
-                return new RelayCommand<MusicLists>((library) =>
+                return new RelayCommand<MusicsLib>((library) =>
                 {
                     FolderBrowserDialog openDirDialog = new FolderBrowserDialog();
                     openDirDialog.ShowDialog();
@@ -164,7 +164,7 @@ namespace AutoTagGUI
         {
             get
             {
-                return new RelayCommand<MusicLists>((library) =>
+                return new RelayCommand<MusicsLib>((library) =>
                 {
                     MusicLibrary.WriteTags();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
@@ -176,7 +176,7 @@ namespace AutoTagGUI
         {
             get
             {
-                return new RelayCommand<MusicLists>((library) =>
+                return new RelayCommand<MusicsLib>((library) =>
                 {
                     MusicLibrary.Reorganization();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
