@@ -15,16 +15,20 @@ namespace AutoTagLib
             /*MusicLists musicLibrary = new MusicLists();
 
             musicLibrary.FillDict(@"C:\Users\pierr\Music\BOB");*/
+            MusicsLib musicLibrary = new MusicsLib();
+            musicLibrary.LoadFromFolder(@"C:\Users\pierr\Music\BOB");
+
+            Logger.Instance.Closelog();
 
             //foreach (KeyValuePair<string, List<Musics>> kvp in musicLibrary.Dict)
             //{
             //    Console.WriteLine(kvp.Key);
             //    foreach (Musics file in kvp.Value)
             //    {
-            //        Console.WriteLine("\t"+file.File.FileName);
-            //        Console.WriteLine("\t\t" + file.OldFile.Artist);
+            //       Console.WriteLine("\t" + file.MusicFile.FileName);
             //    }
             //}
+
             //string target = @"C:\Users\pierr\Music\BOB\Test\";
 
             //foreach(KeyValuePair<string,List<Musics>> kvp in musicLibrary.Dict)
@@ -32,12 +36,15 @@ namespace AutoTagLib
             //    ReorganizeUtils.MoveFiles(kvp.Value, target);
             //}
 
-            Musics music = new Musics(@"/data/Desktop/TestACR/unaname.mp3");
-  
-            music.ReadTagFromACR();
-            music.ReadTagFromAPI();
-            music.ArbitrateNewTags();
+          
             
+            //Musics music = new Musics(@"C:\Users\pierr\Music\BOB\Test\Basshunter\Saturday\Saturday.mp3");
+
+
+            //ReorganizeUtils.ReplaceProp(music,"");
+            //Logger.Instance.log();
+
+
         }
     }
 }

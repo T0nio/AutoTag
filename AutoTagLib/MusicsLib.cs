@@ -29,6 +29,10 @@ namespace AutoTagLib
                 if (!this.Dict.ContainsKey(dir) && listMusics.Count > 0)
                 {
                     this.Dict.Add(dir, listMusics);
+                    foreach(Musics music in listMusics)
+                    {
+                        Logger.Instance.LoadFromDirectoryLog(music);
+                    }
                 }
             }
         }
