@@ -14,7 +14,7 @@ namespace AutoTagLib
     {
         private static Logger _instance;
         static readonly object instanceLock = new object();
-        private StreamWriter logFile = new StreamWriter(@"C:\Users\pierr\Documents\PY-ECP\POOA - C#\Project AutoTag\logv1.csv");
+        private StreamWriter logFile = new StreamWriter(@"C:\Users\pierr\Documents\PY-ECP\POOA - C#\Project AutoTag\Autotag\logs\log"+DateTime.Now.Day+".csv");
         public enum Events
         {
             LoadFromDirectory,
@@ -22,7 +22,8 @@ namespace AutoTagLib
             ReadFromAPI,
             ArbitrateNewTags,
             WriteTags,
-            MoveFile
+            MoveFile,
+            CopyFile
         }
         private Logger()
         {
@@ -30,7 +31,7 @@ namespace AutoTagLib
             //Open a StreamWriter
 
 
-            logFile.WriteLine("Time;File;Event;Status;Result;Artist;Album;Composer;Disc;FileName;Genre;Title;Track;Year");
+            logFile.WriteLine("Event;Status;Result;Time;Path;File;Album;Artist;Composer;Disc;Genre;Title;Track;Year");
             
         }
 
@@ -49,27 +50,92 @@ namespace AutoTagLib
                 return _instance;
             }
         }
-
-        public void Log(Musics music, Events events, string status,string result)
+        /// <summary>
+        /// Common logs between music files
+        /// </summary>
+        /// <param name="music">Music [Object]</param>
+        /// <param name="musicfile">Is music or folder ?</param>
+        private void MusicCommonLog(Musics music)
         {
             logFile.Write(DateTime.Now+";");
-            logFile.Write(music.File.FileName+";");
-            logFile.Write(events+";");
-            logFile.Write(status+";");
-            logFile.Write(result+";");
+            logFile.Write(Path.GetDirectoryName(music.MusicFile.FileName)+";");
+            logFile.Write(Path.GetFileName(music.MusicFile.FileName) + ";");
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
 
-            foreach (PropertyInfo p in props)
+            foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
-                foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
+                foreach (PropertyInfo p in props)
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        logFile.Write(p.GetValue(music.File.TagHandler).ToString()+";");
+                        logFile.Write(p.GetValue(music.MusicFile.TagHandler).ToString() + ";");
                     }
                 }
             }
+
             logFile.WriteLine();
+        }
+
+        public void LoadFromDirectoryLog(Musics music)
+        {
+            logFile.Write(Events.LoadFromDirectory + ";");
+            logFile.Write(";");
+            logFile.Write(";");
+
+            MusicCommonLog(music);
+        }
+        public void ReadfromACRLog(Musics music)
+        {
+            logFile.Write(Events.ReadFromACR + ";");
+            logFile.Write(";");
+            logFile.Write(";");
+
+            MusicCommonLog(music);
+        }
+        public void ReadfromAPILog(Musics music)
+        {
+            logFile.Write(Events.ReadFromAPI + ";");
+            logFile.Write(";");
+            logFile.Write(";");
+
+            MusicCommonLog(music);
+        }
+        public void WriteTagsLog(Musics music)
+        {
+            logFile.Write(Events.WriteTags + ";");
+            logFile.Write(";");
+            logFile.Write(";");
+
+            MusicCommonLog(music);
+        }
+        public void ArbitrateNewTagsLog(Musics music)
+        {
+            logFile.Write(Events.ArbitrateNewTags + ";");
+            logFile.Write(";");
+            logFile.Write(";");
+
+            MusicCommonLog(music);
+        }
+        public void CopyFileLog(Musics music)
+        {
+            logFile.Write(Events.CopyFile + ";");
+            logFile.Write(";");
+            logFile.Write(";");
+
+            MusicCommonLog(music);
+        }
+        public void MoveFileLog(Musics music)
+        {
+            logFile.Write(Events.MoveFile + ";");
+            logFile.Write(";");
+            logFile.Write(";");
+
+            MusicCommonLog(music);
+        }
+
+        public void Closelog()
+        {
+            logFile.Close();
         }
     }
 }

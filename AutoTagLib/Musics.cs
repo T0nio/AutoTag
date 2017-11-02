@@ -27,11 +27,10 @@ namespace AutoTagLib
 
         public enum PropertiesForUser
         {
-            Artist,
             Album,
+            Artist,
             Composer,
             Disc,
-            FileName,
             Genre,
             Title,
             Track,
@@ -96,11 +95,12 @@ namespace AutoTagLib
                     AcrTags.Genre = genres;
                 }
             }
+            Logger.Instance.ReadfromACRLog(this);
         }
 
         public void ReadTagFromAPI()
         {
-
+            Logger.Instance.ReadfromAPILog(this);
         }
 
         public void ArbitrateNewTags()
@@ -151,12 +151,14 @@ namespace AutoTagLib
                     }
                 }
             }
+            Logger.Instance.ArbitrateNewTagsLog(this);
         }
         
         public void WriteTags()
         {
             MusicFile.TagHandler = NewTags;
             MusicFile.Update();
+            Logger.Instance.WriteTagsLog(this);
         }
 
         
@@ -176,10 +178,12 @@ namespace AutoTagLib
                 if (copy)
                 {
                     File.Copy(this.MusicFile.FileName, target, true);
+                    Logger.Instance.CopyFileLog(this);
                 }
                 else
                 {
-                    File.Move(this.MusicFile.FileName, target);    
+                    File.Move(this.MusicFile.FileName, target);
+                    Logger.Instance.MoveFileLog(this);
                 }
             }
         }

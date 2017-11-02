@@ -30,7 +30,7 @@ namespace AutoTagGUI
 
             MusicLibrary = new MusicsLib();
 
-            MusicLibrary = new MusicLists();
+            MusicLibrary = new MusicsLib();
             ReorganizeFormat = $"%Artist%{Path.DirectorySeparatorChar}%Album%{Path.DirectorySeparatorChar}%Track% - %Title%.mp3";
 
             MusicLibraryFolder = @"D:\Music\The Who";
@@ -225,7 +225,7 @@ namespace AutoTagGUI
             {
                 return new RelayCommand<MusicsLib>((library) =>
                 {
-                    MusicLibrary.Reorganization();
+                    //MusicLibrary.Reorganize();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
                 });
             }
