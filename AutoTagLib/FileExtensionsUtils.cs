@@ -55,23 +55,16 @@ namespace AutoTagLib
             }
         }
 
+        /// <summary>
+        /// Check if the extension is a music file extension
+        /// </summary>
+        /// <param name="extension">Extension</param>
+        /// <returns>true or false</returns>
         public static bool IsMusicFile(string extension)
         {
             return MusicFileExtensions.Contains(extension);
         }
 
-        public static bool IsMusicFile(List<string> extensions)
-        {
-            foreach(string extension in extensions)
-            {
-                if(!IsMusicFile(extension))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
     }
 
     public class NotMusicFileExtensionException : Exception

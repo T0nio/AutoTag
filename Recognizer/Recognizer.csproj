@@ -83,7 +83,7 @@
     <Compile Include="ACR\ACRCloudStatusCode.cs" />
     <Compile Include="API\DiscogsAPI.cs" />
     <Compile Include="API\LyricsAPI.cs" />
-    <Compile Include="MusicRecognition.cs" />
+    <Compile Include="Infos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
