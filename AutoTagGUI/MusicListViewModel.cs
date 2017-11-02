@@ -3,6 +3,7 @@ using AutoTagLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -27,6 +28,7 @@ namespace AutoTagGUI
         public MusicListViewModel()
         {
             MusicLibrary = new MusicLists();
+            ReorganizeFormat = $"%Artist%{Path.DirectorySeparatorChar}%Album%{Path.DirectorySeparatorChar}%Track% - %Title%.mp3";
             MusicLibraryFolder = @"D:\Music\The Who";
             MusicLibrary.FillDict(MusicLibraryFolder);
         }
@@ -34,6 +36,8 @@ namespace AutoTagGUI
         #endregion
 
         #region Properties
+
+        public static readonly string NoFolderSelected = "No target folder is selected";
 
         public List<BoolStringClass> AllowedExtensions {
             get
@@ -98,11 +102,8 @@ namespace AutoTagGUI
                     _musicLibraryFolder = value;
                     NotifyPropertyChanged();
                     MusicLibrary.FillDict(MusicLibraryFolder);
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("MusicLibrary"));
-                        PropertyChanged(this, new PropertyChangedEventArgs("MusicLibraryLoaded"));
-                    }
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibraryLoaded"));
                 }
             }
         }
@@ -120,7 +121,44 @@ namespace AutoTagGUI
                 {
                     _musicLibraryTargetFolder = value;
                     NotifyPropertyChanged();
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ReorganizeIsEnabled"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CompleteReorganizeFormat"));
                 }
+            }
+        }
+
+        public bool ReorganizeIsEnabled {
+            get
+            {
+                return MusicLibraryLoaded && (MusicLibraryTargetFolder != null);
+            }
+        }
+
+        private string _reorganizeFormat;
+        public string ReorganizeFormat {
+            get
+            {
+                return _reorganizeFormat;
+            }
+            set
+            {
+                if (value != _reorganizeFormat)
+                {
+                    _reorganizeFormat = value;
+                    NotifyPropertyChanged();
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CompleteReorganizeFormat"));
+                }
+            }
+        }
+
+        public string CompleteReorganizeFormat {
+            get
+            {
+                if (MusicLibraryTargetFolder != null)
+                {
+                    return $"{MusicLibraryTargetFolder}{Path.DirectorySeparatorChar}{ReorganizeFormat}";
+                }
+                return "No target folder is selected";
             }
         }
 
