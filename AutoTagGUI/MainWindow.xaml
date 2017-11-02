@@ -71,7 +71,7 @@
                         Grid.ColumnSpan="3">
                 <Label>Choose your extensions:</Label>
                 <ListBox BorderThickness="0"
-                         ItemsSource="{Binding AllowedExtensions}">
+                                 ItemsSource="{Binding AllowedExtensions}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -107,17 +107,22 @@
                         Grid.ColumnSpan="3"
                         Margin="3"
                         Orientation="Vertical">
-                <CheckBox IsEnabled="{Binding MusicLibraryLoaded}">Copy music files</CheckBox>
-                <StackPanel Margin="0, 3, 0, 0" Orientation="Horizontal">
-                    <Button IsEnabled="{Binding MusicLibraryLoaded}" Command="{Binding LoadTargetFolder}">Choose folder</Button>
-                    <Label>Target path</Label>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsEnabled="{Binding MusicLibraryLoaded}">Copy music files</CheckBox>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 3, 0 , 0">
+                    <Button IsEnabled="{Binding MusicLibraryLoaded}" Command="{Binding LoadTargetFolder}">Choose folder</Button>
+                    <Label>Target folder :</Label>
+                </StackPanel>
+                <TextBlock Text="{Binding MusicLibraryTargetFolder, TargetNullValue='No target folder is selected'}"/>
                 <Label>Reorganize format</Label>
-                <TextBox IsEnabled="{Binding MusicLibraryLoaded}">%Artist%/%Album%/%Track% - %Title%.mp3</TextBox>
+                <TextBox IsEnabled="{Binding MusicLibraryLoaded}" Text="{Binding ReorganizeFormat}"/>
+                <Label>Complete reorganize format :</Label>
+                <TextBlock Text="{Binding CompleteReorganizeFormat}"/>
             </StackPanel>
             <Button Grid.Row="16"
                     Grid.Column="1"
-                    IsEnabled="{Binding MusicLibraryLoaded}">
+                    IsEnabled="{Binding ReorganizeIsEnabled}">
                 Reorganize
             </Button>
 
