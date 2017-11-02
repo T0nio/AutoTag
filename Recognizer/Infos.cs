@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using MusicInfoLib.API;
 using DiscogsClient.Data.Query;
 
