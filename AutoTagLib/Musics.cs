@@ -1,10 +1,12 @@
 ﻿using Id3Lib;
 using Mp3Lib;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using MusicInfoLib;
 using System.IO;
+using MinimumEditDistance;
 
 namespace AutoTagLib
 {
@@ -24,6 +26,8 @@ namespace AutoTagLib
                 return MusicFile.FileName.Split(Path.DirectorySeparatorChar).Last();
             }
         }
+        private List<char> illegalCharFromFileName = new List<char>(){ '/', '\\', ':', '*', '?', '"', '<', '>', '|'};
+        private string illegalCharReplacor = "-";
 
         public enum PropertiesForUser
         {
@@ -132,7 +136,6 @@ namespace AutoTagLib
                             if (p.GetValue(NewTags).ToString() == emptyTag)
                             {
                                 p.SetValue(NewTags, p.GetValue(AcrTags));
-                                Console.WriteLine(p.Name + "   " + p.GetValue(AcrTags));
                             }
                             else
                             {
@@ -145,6 +148,20 @@ namespace AutoTagLib
                                             p.SetValue(NewTags, p.GetValue(AcrTags));
                                         }
                                         break;
+                                }
+
+                                string s1 = p.GetValue(NewTags).ToString();
+                                string s2 = p.GetValue(AcrTags).ToString();
+
+                                if (s1 != s2)
+                                {
+                                    float ratio = 1 - (float)Levenshtein.CalculateDistance(s1, s2, 1) / (float)s2.Length;
+                                    
+                                    if (ratio >= 0.75)
+                                    {
+                                        Console.WriteLine(p.Name + " quasi match : " + s1 + " ~ " + s2 + " ratio: "+ratio);
+                                        p.SetValue(NewTags, p.GetValue(AcrTags));
+                                    }                                    
                                 }
                             }
                         }
@@ -169,8 +186,10 @@ namespace AutoTagLib
         {
             string target = ReplaceProp(targetFileName);
             
-            Console.WriteLine(target);
+            target = target.Replace(((char) 0).ToString(), "");
+            
             Directory.CreateDirectory(Path.GetDirectoryName(target));
+
             if (this.MusicFile.FileName != target)
             {
                 if (copy)
@@ -199,9 +218,15 @@ namespace AutoTagLib
                     {
                         if (propName.ToString() == p.Name)
                         {
+                            
                             toReturn=toReturn.Replace("%"+p.Name+"%",p.GetValue(this.MusicFile.TagHandler).ToString());
+
                         }
                     }
+                }
+                foreach (char c in illegalCharFromFileName)
+                {
+                    toReturn = toReturn.Replace(c.ToString(), illegalCharReplacor);
                 }
                 return toReturn;
             }
