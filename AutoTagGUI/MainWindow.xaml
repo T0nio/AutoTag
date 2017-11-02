@@ -70,12 +70,16 @@
                         Grid.ColumnSpan="3">
                 <Label>Choose your extensions:</Label>
                 <ListBox BorderThickness="0"
-                                 ItemsSource="{Binding AllowedExtensions}">
+                         ItemsSource="{Binding AllowedExtensions}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
-                                <CheckBox IsEnabled="False" IsChecked="{Binding IsSelected}" Content="{Binding Content}"/>
-                            </Grid>
+                            <CheckBox IsEnabled="False" IsChecked="{Binding IsSelected}" Content="{Binding Content}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
