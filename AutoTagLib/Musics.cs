@@ -218,15 +218,15 @@ namespace AutoTagLib
                     {
                         if (propName.ToString() == p.Name)
                         {
-                            
-                            toReturn=toReturn.Replace("%"+p.Name+"%",p.GetValue(this.MusicFile.TagHandler).ToString());
-
+                            var propValue = p.GetValue(this.MusicFile.TagHandler).ToString();
+                            foreach (char c in illegalCharFromFileName)
+                            {
+                                
+                                propValue = propValue.Replace(c.ToString(), illegalCharReplacor);
+                            }
+                            toReturn=toReturn.Replace("%"+p.Name+"%", propValue);
                         }
                     }
-                }
-                foreach (char c in illegalCharFromFileName)
-                {
-                    toReturn = toReturn.Replace(c.ToString(), illegalCharReplacor);
                 }
                 return toReturn;
             }
