@@ -12,9 +12,11 @@ namespace AutoTagLib
 {
     public class Logger
     {
+#region Properties
         private static Logger _instance;
         static readonly object instanceLock = new object();
-        private StreamWriter logFile = new StreamWriter(@"C:\Users\pierr\Documents\PY-ECP\POOA - C#\Project AutoTag\Autotag\logs\log"+DateTime.Now.Day+".csv");
+        private StreamWriter logFile = new StreamWriter($"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}" +
+                                    $"logs{Path.DirectorySeparatorChar}{DateTime.Now.ToString("yyyyMMddHHmm")}.csv");
         public enum Events
         {
             LoadFromDirectory,
@@ -25,16 +27,14 @@ namespace AutoTagLib
             MoveFile,
             CopyFile
         }
+#endregion
+#region Constructor
         private Logger()
         {
-            // Create file with date and time when GUI is open
-            //Open a StreamWriter
-
-
-            logFile.WriteLine("Event;Status;Result;Time;Path;File;Album;Artist;Composer;Disc;Genre;Title;Track;Year");
-            
+            logFile.WriteLine("Event;Status;Time;Path;File;Album;Artist;Composer;Disc;Genre;Title;Track;Year;New Path"); //Initialize the csv file        
         }
-
+#endregion
+#region Instance
         public static Logger Instance
         {
             get
@@ -50,92 +50,111 @@ namespace AutoTagLib
                 return _instance;
             }
         }
+#endregion
+#region Methods
         /// <summary>
-        /// Common logs between music files
+        /// Common logs for music files
         /// </summary>
         /// <param name="music">Music [Object]</param>
-        /// <param name="musicfile">Is music or folder ?</param>
         private void MusicCommonLog(Musics music)
         {
-            logFile.Write(DateTime.Now+";");
-            logFile.Write(Path.GetDirectoryName(music.MusicFile.FileName)+";");
-            logFile.Write(Path.GetFileName(music.MusicFile.FileName) + ";");
+            logFile.Write("Success;");
+            logFile.Write($"{DateTime.Now};");
+            logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
+            logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
-
             foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
                 foreach (PropertyInfo p in props)
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        logFile.Write(p.GetValue(music.MusicFile.TagHandler).ToString() + ";");
+                        logFile.Write($"=\"{p.GetValue(music.MusicFile.TagHandler).ToString()}\";");
                     }
                 }
             }
-
-            logFile.WriteLine();
         }
-
+        /// <summary>
+        /// log when music file is loaded from directory
+        /// </summary>
+        /// <param name="music">Music [object]</param>
         public void LoadFromDirectoryLog(Musics music)
         {
-            logFile.Write(Events.LoadFromDirectory + ";");
-            logFile.Write(";");
-            logFile.Write(";");
-
+            logFile.Write($"{Events.LoadFromDirectory};");
             MusicCommonLog(music);
+            logFile.WriteLine(";");
         }
+        /// <summary>
+        /// log tags coming from ACR
+        /// </summary>
+        /// <param name="music">Music [object]</param>
         public void ReadfromACRLog(Musics music)
         {
-            logFile.Write(Events.ReadFromACR + ";");
-            logFile.Write(";");
-            logFile.Write(";");
-
+            logFile.Write($"{Events.ReadFromACR};");
             MusicCommonLog(music);
+            // Add information from ACR ?
+            logFile.WriteLine(";");
         }
+        /// <summary>
+        /// log tags coming from API
+        /// </summary>
+        /// <param name="music">Music [object]</param>
         public void ReadfromAPILog(Musics music)
         {
-            logFile.Write(Events.ReadFromAPI + ";");
-            logFile.Write(";");
-            logFile.Write(";");
-
+            logFile.Write($"{Events.ReadFromAPI};");
             MusicCommonLog(music);
-        }
-        public void WriteTagsLog(Musics music)
-        {
-            logFile.Write(Events.WriteTags + ";");
-            logFile.Write(";");
-            logFile.Write(";");
+            logFile.WriteLine(";");
 
-            MusicCommonLog(music);
         }
+        /// <summary>
+        /// log tags that are choosen from old, ACR and API tags
+        /// </summary>
+        /// <param name="music">Music [object]</param>
         public void ArbitrateNewTagsLog(Musics music)
         {
-            logFile.Write(Events.ArbitrateNewTags + ";");
-            logFile.Write(";");
-            logFile.Write(";");
-
+            logFile.Write($"{Events.ArbitrateNewTags};");
             MusicCommonLog(music);
+            logFile.WriteLine(";");
         }
-        public void CopyFileLog(Musics music)
+        /// <summary>
+        /// log when tags are written in the file
+        /// </summary>
+        /// <param name="music">Music [object]</param>
+        public void WriteTagsLog(Musics music)
         {
-            logFile.Write(Events.CopyFile + ";");
-            logFile.Write(";");
-            logFile.Write(";");
-
+            logFile.Write($"{Events.WriteTags};");
             MusicCommonLog(music);
+            logFile.WriteLine(";");
         }
-        public void MoveFileLog(Musics music)
+        /// <summary>
+        /// log file when copied
+        /// </summary>
+        /// <param name="music">Music [object]</param>
+        /// <param name="newPath">new path of the file with new name</param>
+        public void CopyFileLog(Musics music,string newPath)
         {
-            logFile.Write(Events.MoveFile + ";");
-            logFile.Write(";");
-            logFile.Write(";");
-
+            logFile.Write($"{Events.CopyFile};");
             MusicCommonLog(music);
+            logFile.WriteLine($"{newPath};");
         }
-
+        /// <summary>
+        /// log file when moved
+        /// </summary>
+        /// <param name="music">Music [object]</param>
+        /// <param name="newPath">new path of the file with new name</param>
+        public void MoveFileLog(Musics music, string newPath)
+        {
+            logFile.Write($"{Events.MoveFile};");
+            MusicCommonLog(music);
+            logFile.WriteLine($"{newPath};");
+        }
+        /// <summary>
+        /// Close the log when app is closed
+        /// </summary>
         public void Closelog()
         {
             logFile.Close();
         }
+#endregion
     }
 }

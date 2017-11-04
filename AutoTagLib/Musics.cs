@@ -196,13 +196,13 @@ namespace AutoTagLib
             {
                 if (copy)
                 {
+                    Logger.Instance.CopyFileLog(this, target);
                     File.Copy(this.MusicFile.FileName, target, true);
-                    Logger.Instance.CopyFileLog(this);
                 }
                 else
                 {
+                    Logger.Instance.MoveFileLog(this, target);
                     File.Move(this.MusicFile.FileName, target);
-                    Logger.Instance.MoveFileLog(this);
                 }
             }
         }
