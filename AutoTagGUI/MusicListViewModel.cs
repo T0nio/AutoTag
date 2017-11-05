@@ -27,14 +27,8 @@ namespace AutoTagGUI
 
         public MusicListViewModel()
         {
-
-            MusicLibrary = new MusicsLib();
-
-            MusicLibrary = new MusicsLib();
-            ReorganizeFormat = $"%Artist%{Path.DirectorySeparatorChar}%Album%{Path.DirectorySeparatorChar}%Track% - %Title%.mp3";
-
-            MusicLibraryFolder = @"D:\Music\The Who";
-            MusicLibrary.LoadFromFolder(MusicLibraryFolder);
+            this.MusicLibrary = new MusicsLib();
+            this.ReorganizeFormat = $"%Artist%{Path.DirectorySeparatorChar}%Album%{Path.DirectorySeparatorChar}%Track% - %Title%.mp3";
         }
 
         #endregion
@@ -58,17 +52,30 @@ namespace AutoTagGUI
             }
         }
 
-        public bool MusicLibraryLoaded
+        public List<string> SelectedExtensions
         {
             get
             {
-                return MusicLibraryFolder != null && MusicLibraryFolder != String.Empty;
+                List<string> toReturn = new List<string>();
+                foreach (BoolStringClass extension in this.AllowedExtensions)
+                {
+                    if (extension.IsSelected)
+                    {
+                        toReturn.Add(extension.Content);
+                    }
+                }
+                return toReturn;
             }
+        }
+
+        public bool MusicLibraryLoaded
+        {
+            get { return this.MusicLibraryFolder != null && this.MusicLibraryFolder != String.Empty; }
             set
             {
                 if (value != MusicLibraryLoaded)
                 {
-                    MusicLibraryLoaded = value;
+                    this.MusicLibraryLoaded = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -77,11 +84,7 @@ namespace AutoTagGUI
         private MusicsLib _musicLibrary;
         public MusicsLib MusicLibrary
         {
-            get
-            {
-                return _musicLibrary;
-            }
-
+            get { return _musicLibrary; }
             set
             {
                 if (value != _musicLibrary)
@@ -94,11 +97,7 @@ namespace AutoTagGUI
 
         private string _musicLibraryFolder;
         public string MusicLibraryFolder {
-            get
-            {
-                return _musicLibraryFolder;
-            }
-
+            get {  return _musicLibraryFolder; }
             set
             {
                 if (value != _musicLibraryFolder)
@@ -106,7 +105,8 @@ namespace AutoTagGUI
                     _musicLibraryFolder = value;
                     NotifyPropertyChanged();
 
-                    MusicLibrary.LoadFromFolder(MusicLibraryFolder);
+                    this.MusicLibrary.Extensions = this.SelectedExtensions;
+                    this.MusicLibrary.LoadFromFolder(MusicLibraryFolder);
                     if (PropertyChanged != null)
                     {
                         PropertyChanged(this, new PropertyChangedEventArgs("MusicLibrary"));
@@ -119,11 +119,7 @@ namespace AutoTagGUI
 
         private string _musicLibraryTargetFolder;
         public string MusicLibraryTargetFolder {
-            get
-            {
-                return _musicLibraryTargetFolder;
-            }
-
+            get { return _musicLibraryTargetFolder; }
             set
             {
                 if (value != _musicLibraryTargetFolder)
@@ -136,19 +132,24 @@ namespace AutoTagGUI
             }
         }
 
-        public bool ReorganizeIsEnabled {
-            get
+        public bool ReorganizeIsEnabled { get { return MusicLibraryLoaded && (MusicLibraryTargetFolder != null); } }
+
+        private bool _copyFiles;
+        public bool CopyFiles {
+            get { return _copyFiles; }
+            set
             {
-                return MusicLibraryLoaded && (MusicLibraryTargetFolder != null);
+                if (value != _copyFiles)
+                {
+                    _copyFiles = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         private string _reorganizeFormat;
         public string ReorganizeFormat {
-            get
-            {
-                return _reorganizeFormat;
-            }
+            get { return _reorganizeFormat; }
             set
             {
                 if (value != _reorganizeFormat)
@@ -163,9 +164,9 @@ namespace AutoTagGUI
         public string CompleteReorganizeFormat {
             get
             {
-                if (MusicLibraryTargetFolder != null)
+                if (this.MusicLibraryTargetFolder != null)
                 {
-                    return $"{MusicLibraryTargetFolder}{Path.DirectorySeparatorChar}{ReorganizeFormat}";
+                    return $"{this.MusicLibraryTargetFolder}{Path.DirectorySeparatorChar}{this.ReorganizeFormat}";
                 }
                 return "No target folder is selected";
             }
@@ -185,7 +186,7 @@ namespace AutoTagGUI
                     openDirDialog.ShowDialog();
                     if (openDirDialog.SelectedPath != String.Empty)
                     {
-                        MusicLibraryTargetFolder = openDirDialog.SelectedPath;
+                        this.MusicLibraryTargetFolder = openDirDialog.SelectedPath;
                     }
                 });
             }
@@ -201,7 +202,7 @@ namespace AutoTagGUI
                     openDirDialog.ShowDialog();
                     if (openDirDialog.SelectedPath != String.Empty)
                     {
-                        MusicLibraryFolder = openDirDialog.SelectedPath;
+                        this.MusicLibraryFolder = openDirDialog.SelectedPath;
                     }
                 });
             }
@@ -213,7 +214,8 @@ namespace AutoTagGUI
             {
                 return new RelayCommand<MusicsLib>((library) =>
                 {
-                    MusicLibrary.WriteTags();
+                    this.MusicLibrary.ReadTags();
+                    this.MusicLibrary.WriteTags();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
                 });
             }
@@ -225,7 +227,7 @@ namespace AutoTagGUI
             {
                 return new RelayCommand<MusicsLib>((library) =>
                 {
-                    //MusicLibrary.Reorganize();
+                    MusicLibrary.Reorganize(this.CompleteReorganizeFormat, this.CopyFiles);
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
                 });
             }
