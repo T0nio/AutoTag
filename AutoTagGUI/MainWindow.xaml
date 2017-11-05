@@ -135,32 +135,74 @@
 
         <GridSplitter Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Background="Black"/>
 
-        <DockPanel Grid.Column="2"
-                   Grid.Row="0">
-            <Label Content="{Binding MusicLibraryFolder}"
-                   DockPanel.Dock="Top"/>
-            <TreeView DockPanel.Dock="Bottom"
-                      BorderThickness="0"
-                      Grid.Column="2"
-                      Grid.RowSpan="4"
-                      ItemsSource="{Binding MusicLibrary.Dict, UpdateSourceTrigger=PropertyChanged}">
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="True"/>
-                    </Style>
-                </TreeView.ItemContainerStyle>
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
-                        <TextBlock  Text="{Binding Path=Key}"/>
-                        <HierarchicalDataTemplate.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding FileName}"/>
-                            </DataTemplate>
-                        </HierarchicalDataTemplate.ItemTemplate>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
-        </DockPanel>
+        <ScrollViewer Grid.Column="2" Grid.Row="0" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Grid.IsSharedSizeScope="True">
+                <Grid Margin="35, 0, 0, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="Group1"/>
+                        <ColumnDefinition SharedSizeGroup="Group2"/>
+                        <ColumnDefinition SharedSizeGroup="Group3"/>
+                        <ColumnDefinition SharedSizeGroup="Group4"/>
+                        <ColumnDefinition SharedSizeGroup="Group5"/>
+                        <ColumnDefinition SharedSizeGroup="Group6"/>
+                        <ColumnDefinition SharedSizeGroup="Group7"/>
+                        <ColumnDefinition SharedSizeGroup="Group8"/>
+                        <ColumnDefinition SharedSizeGroup="Group9"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Folder"/>
+                    <Label Grid.Column="1" Content="Title"/>
+                    <Label Grid.Column="2" Content="Album"/>
+                    <Label Grid.Column="3" Content="Artist"/>
+                    <Label Grid.Column="4" Content="Track"/>
+                    <Label Grid.Column="5" Content="Disc"/>
+                    <Label Grid.Column="6" Content="Composer"/>
+                    <Label Grid.Column="7" Content="Genre"/>
+                    <Label Grid.Column="8" Content="Year"/>
+                </Grid>
+                <TreeView DockPanel.Dock="Bottom"
+                            BorderThickness="0"
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            ItemsSource="{Binding MusicLibrary.Dict, UpdateSourceTrigger=PropertyChanged}">
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="True"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
+                            <TextBlock Text="{Binding Path=Key}"/>
+                            <HierarchicalDataTemplate.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="Group1"/>
+                                            <ColumnDefinition SharedSizeGroup="Group2"/>
+                                            <ColumnDefinition SharedSizeGroup="Group3"/>
+                                            <ColumnDefinition SharedSizeGroup="Group4"/>
+                                            <ColumnDefinition SharedSizeGroup="Group5"/>
+                                            <ColumnDefinition SharedSizeGroup="Group6"/>
+                                            <ColumnDefinition SharedSizeGroup="Group7"/>
+                                            <ColumnDefinition SharedSizeGroup="Group8"/>
+                                            <ColumnDefinition SharedSizeGroup="Group9"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding FileName}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding MusicFile.TagHandler.Title}" Grid.Column="1"/>
+                                        <TextBlock Text="{Binding MusicFile.TagHandler.Album}" Grid.Column="2"/>
+                                        <TextBlock Text="{Binding MusicFile.TagHandler.Artist}" Grid.Column="3"/>
+                                        <TextBlock Text="{Binding MusicFile.TagHandler.Track}" Grid.Column="4"/>
+                                        <TextBlock Text="{Binding MusicFile.TagHandler.Disc}" Grid.Column="5"/>
+                                        <TextBlock Text="{Binding MusicFile.TagHandler.Composer}" Grid.Column="6"/>
+                                        <TextBlock Text="{Binding MusicFile.TagHandler.Genre}" Grid.Column="7"/>
+                                        <TextBlock Text="{Binding MusicFile.TagHandler.Year}" Grid.Column="8"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </StackPanel>
+        </ScrollViewer>
 
         <Rectangle Grid.Row="1" Grid.ColumnSpan="3" Fill="Black"/>
 
