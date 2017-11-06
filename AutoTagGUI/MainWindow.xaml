@@ -97,7 +97,8 @@
             <Rectangle Grid.Row="7" Grid.ColumnSpan="3" Fill="Black"/>
             <Button Grid.Row="10"
                     Grid.Column="1"
-                    IsEnabled="{Binding MusicLibraryLoaded}">
+                    IsEnabled="{Binding MusicLibraryLoaded}"
+                    Command="{Binding WriteTags}">
                 Write Tags
             </Button>
 
@@ -111,7 +112,7 @@
                         Margin="3"
                         Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox IsEnabled="{Binding MusicLibraryLoaded}">Copy music files</CheckBox>
+                    <CheckBox IsEnabled="{Binding MusicLibraryLoaded}" IsChecked="{Binding CopyFiles}">Copy music files</CheckBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0, 3, 0 , 0">
                     <Button IsEnabled="{Binding MusicLibraryLoaded}" Command="{Binding LoadTargetFolder}">Choose folder</Button>
@@ -125,7 +126,8 @@
             </StackPanel>
             <Button Grid.Row="16"
                     Grid.Column="1"
-                    IsEnabled="{Binding ReorganizeIsEnabled}">
+                    IsEnabled="{Binding ReorganizeIsEnabled}"
+                    Command="{Binding Reorganize}">
                 Reorganize
             </Button>
 

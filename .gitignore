@@ -6,3 +6,4 @@ obj/
 App.config
 AutoTagCLI/App.config
 .idea
+logs/
