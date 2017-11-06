@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using AutoTagLib;
 
@@ -7,29 +9,25 @@ namespace AutoTagCLI
     class Program
     {
         public enum ACTION {
-            noaction, help, recognizeonly, recognizeorganizemv, recognizeorganizecp
+            help, recognize, move, copy
         }
-        
+
         static void Main(string[] args)
         {
-            
-            
             int i = 0;
-
             string directory = "";
             string destinationDirectory = "";
+            List<ACTION> action = new List<ACTION>();
 
-            ACTION action = ACTION.noaction;
-            
             while (i < args.Length)
             {
-                if (action != ACTION.help)
+                if (action.IndexOf(ACTION.help) == -1)
                 {
                     switch (args[i])
                     {
                         case "--help":
                             i = args.Length;
-                            action = ACTION.help;
+                            action.Add(ACTION.help);
                             break;
 
                         case "-d":
@@ -41,17 +39,35 @@ namespace AutoTagCLI
                             i++;
                             destinationDirectory = args[i];
                             break;
-                        
-                        case "-ro":
-                            action = ACTION.recognizeonly;
-                            break;
                             
-                        case "-rm":
-                            action = ACTION.recognizeorganizemv;
-                            break;
-                            
-                        case "-rc":
-                            action = ACTION.recognizeorganizecp;
+                        default:
+                            if (args[i][0] == '-')
+                            {
+                                foreach (var options in args[i].Substring(1))
+                                {
+                                    switch (options)
+                                    {
+                                        case 'r':
+                                            action.Add(ACTION.recognize);
+                                            break;
+                                        
+                                        case 'm':
+                                            action.Add(ACTION.move);
+                                            break;
+                                        
+                                        case 'c':
+                                            action.Add(ACTION.copy);
+                                            break;
+                                        default:
+                                            action.Add(ACTION.help);
+                                            break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                action.Add(ACTION.help);
+                            }
                             break;
                     }
                     i++;
@@ -61,20 +77,26 @@ namespace AutoTagCLI
                     i = args.Length;
                 }
             }
-            if (action == ACTION.noaction)
+            if (action.Count == 0)
             {
-                action = ACTION.help;
+                action.Add(ACTION.help);
             }
 
-            if (action == ACTION.help)
+            if (action.IndexOf(ACTION.help) != -1)
             {
                 Help.DisplayHelp();
             }
             else
             {
-                if ((action == ACTION.recognizeorganizecp || action == ACTION.recognizeorganizemv) &&
-                    (directory == "" || destinationDirectory == ""))
+                if (action.IndexOf(ACTION.recognize) >= 0 && directory == String.Empty)
                 {
+                    Console.WriteLine("Please enter a directory to explore.");
+                }
+                else if (action.IndexOf(ACTION.copy) >= 0 && action.IndexOf(ACTION.move) >= 0)
+                {
+                    Console.WriteLine("Please chose copy OR move operation.");
+                }
+                else if((action.IndexOf(ACTION.copy) >= 0 || action.IndexOf(ACTION.move) >= 0) && destinationDirectory == String.Empty){
                     Console.WriteLine("Please enter a directory to filter AND a destination directory.");
                 }
                 else
@@ -83,25 +105,36 @@ namespace AutoTagCLI
                     //musicList.Extensions = myNewExtensions;
                     try
                     {
-                        // Add possibility of just reorganize
-                        
+                        Console.WriteLine("Loading list of files");
                         myMusics.LoadFromFolder(directory);
-                        
-                        myMusics.ReadTags();
-                        
-                        myMusics.WriteTags();
-
-                        if (action != ACTION.recognizeonly)
+                        if (action.IndexOf(ACTION.recognize) >= 0)
                         {
-                            myMusics.Reorganize(destinationDirectory, action == ACTION.recognizeorganizecp);
+                            Console.WriteLine("Recognizing tags");
+                            myMusics.ReadTags();
+                            Console.WriteLine("Writing tags");
+                            myMusics.WriteTags();
                         }
-                         
+
+                        if (action.IndexOf(ACTION.copy) >= 0)
+                        {
+                            Console.WriteLine("Copying files to new path");
+                            myMusics.Reorganize(destinationDirectory, true);
+                        }
+
+                        if (action.IndexOf(ACTION.move) >= 0)
+                        {
+                            Console.WriteLine("Moving files to new path");
+                            myMusics.Reorganize(destinationDirectory, false);
+                        }
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
                         Console.WriteLine("Directory name invalid");
-                        throw;
+                    }
+                    finally
+                    {
+                        Console.WriteLine("Finish !");
                     }
                 }
             }
