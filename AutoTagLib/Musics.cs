@@ -150,19 +150,23 @@ namespace AutoTagLib
                                         break;
                                 }
 
-                                string s1 = p.GetValue(NewTags).ToString();
-                                string s2 = p.GetValue(AcrTags).ToString();
-
-                                if (s1 != s2)
+                                if (p.Name != "Year")
                                 {
-                                    float ratio = 1 - (float)Levenshtein.CalculateDistance(s1, s2, 1) / (float)s2.Length;
-                                    
-                                    if (ratio >= 0.75)
+                                    string s1 = p.GetValue(NewTags).ToString();
+                                    string s2 = p.GetValue(AcrTags).ToString();
+
+                                    if (s1 != s2)
                                     {
-                                        Console.WriteLine(p.Name + " quasi match : " + s1 + " ~ " + s2 + " ratio: "+ratio);
-                                        p.SetValue(NewTags, p.GetValue(AcrTags));
+                                        float ratio = 1 - (float)Levenshtein.CalculateDistance(s1, s2, 1) / (float)s2.Length;
+                                    
+                                        if (ratio >= 0.75)
+                                        {
+                                            Console.WriteLine(p.Name + " quasi match : " + s1 + " ~ " + s2 + " ratio: "+ratio);
+                                            p.SetValue(NewTags, p.GetValue(AcrTags));
+                                        }                                    
                                     }                                    
                                 }
+
                             }
                         }
                     }
