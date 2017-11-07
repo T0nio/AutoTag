@@ -110,11 +110,30 @@ namespace AutoTagLib
         /// log tags that are choosen from old, ACR and API tags
         /// </summary>
         /// <param name="music">Music [object]</param>
-        public void ArbitrateNewTagsLog(Musics music)
+        public void ArbitrateNewTagsLog(Musics music,List<string> compareTags)
         {
             logFile.Write($"{Events.ArbitrateNewTags};");
-            MusicCommonLog(music);
-            logFile.WriteLine(";");
+            logFile.Write($"=\"");
+
+            foreach (string change in compareTags)
+            {
+                        logFile.Write($"-{change}-");
+            }
+            logFile.Write($"\";");
+            logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
+            logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
+            PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
+            {
+                foreach (PropertyInfo p in props)
+                {
+                    if (propName.ToString() == p.Name)
+                    {
+                        logFile.Write($"=\"{p.GetValue(music.NewTags).ToString()}\";");
+                    }
+                }
+            }
+            logFile.WriteLineAsync();
         }
         /// <summary>
         /// log when tags are written in the file
