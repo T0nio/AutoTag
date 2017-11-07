@@ -56,28 +56,6 @@ namespace AutoTagLib
 #endregion
 #region Methods
         /// <summary>
-        /// Common logs for music files
-        /// </summary>
-        /// <param name="music">Music [Object]</param>
-        private void MusicCommonLog(Musics music)
-        {
-            logFile.Write(";");
-            logFile.Write($"{DateTime.Now};");
-            logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
-            logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
-            PropertyInfo[] props = typeof(TagHandler).GetProperties();
-            foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
-            {
-                foreach (PropertyInfo p in props)
-                {
-                    if (propName.ToString() == p.Name)
-                    {
-                        logFile.Write($"=\"{p.GetValue(music.MusicFile.TagHandler).ToString()}\";");
-                    }
-                }
-            }
-        }
-        /// <summary>
         /// log when music file is loaded from directory
         /// </summary>
         /// <param name="music">Music [object]</param>
@@ -157,28 +135,20 @@ namespace AutoTagLib
         /// log tags that are choosen from old, ACR and API tags
         /// </summary>
         /// <param name="music">Music [object]</param>
-        /// <param name="conservedTags">conserved tags between all</param>
+        /// <param name="compareTags">list with all changed tags</param>
         public void ArbitrateNewTagsLog(Musics music,List<string> compareTags)
         {
             logFile.Write($"{DateTime.Now};");
             logFile.Write($"{Events.ArbitrateNewTags};");
             logFile.Write($"=\"");
-            PropertyInfo[] props = typeof(TagHandler).GetProperties();
-            int i = 0;
-            foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
+            foreach (string change in compareTags)
             {
-                foreach (PropertyInfo p in props)
-                {
-                    if (propName.ToString() == p.Name)
-                    {
-                        logFile.Write($"-{compareTags[i]}-");
-                        i++;
-                    }
-                }
+                logFile.Write($"-{change}-");
             }
             logFile.Write($"\";");
             logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
             logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
+            PropertyInfo[] props = typeof(TagHandler).GetProperties();
             foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
                 foreach (PropertyInfo p in props)

@@ -137,6 +137,7 @@ namespace AutoTagLib
                             if (p.GetValue(NewTags).ToString() == emptyTag)
                             {
                                 p.SetValue(NewTags, p.GetValue(AcrTags));
+                                compareTags.Add($"{p.GetValue(OriginalTags)} to {p.GetValue(AcrTags)}");
                             }
                             else
                             {
@@ -147,6 +148,7 @@ namespace AutoTagLib
                                         if (p.GetValue(NewTags).ToString().Length < p.GetValue(AcrTags).ToString().Length)
                                         {
                                             p.SetValue(NewTags, p.GetValue(AcrTags));
+                                            compareTags.Add($"{p.GetValue(OriginalTags)} to {p.GetValue(AcrTags)}");
                                         }
                                         break;
                                 }
@@ -162,26 +164,13 @@ namespace AutoTagLib
                                     
                                         if (ratio >= 0.75)
                                         {
-                                            Console.WriteLine(p.Name + " quasi match : " + s1 + " ~ " + s2 + " ratio: "+ratio);
                                             p.SetValue(NewTags, p.GetValue(AcrTags));
+                                            compareTags.Add($"{p.GetValue(OriginalTags)} to {p.GetValue(AcrTags)}");
                                         }                                    
-                                    }                                    
-                                        Console.WriteLine(p.Name + " quasi match : " + s1 + " ~ " + s2 + " ratio: "+ratio);
-                                        p.SetValue(NewTags, p.GetValue(AcrTags));
-                                        compareTags.Add($"{s1}->{s2} : {ratio}");
-                                    }else
-                                    {
-                                        compareTags.Add($"{s2}->{s1} : {ratio}");
                                     }
                                 }
-                                else
-                                {
-                                    compareTags.Add(s1);
-                                }
-
                             }
                         }
-                        compareTags.Add(p.GetValue(NewTags).ToString());
                     }
                 }
             }
