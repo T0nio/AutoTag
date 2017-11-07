@@ -15,12 +15,13 @@ namespace AutoTagCLI
         static void Main(string[] args)
         {
             int i = 0;
-            string directory = "";
-            string destinationDirectory = "";
+            string directory = string.Empty;
+            string destinationDirectory = string.Empty;
             List<ACTION> action = new List<ACTION>();
 
             while (i < args.Length)
             {
+                // When we triggered the help action, we don't do nothing more
                 if (action.IndexOf(ACTION.help) == -1)
                 {
                     switch (args[i])
@@ -77,11 +78,11 @@ namespace AutoTagCLI
                     i = args.Length;
                 }
             }
-            if (action.Count == 0)
+            if(action.Count == 0)
             {
                 action.Add(ACTION.help);
             }
-
+    
             if (action.IndexOf(ACTION.help) != -1)
             {
                 Help.DisplayHelp();
@@ -127,10 +128,13 @@ namespace AutoTagCLI
                             myMusics.Reorganize(destinationDirectory, false);
                         }
                     }
+                    catch (DirectoryNotFoundException e)
+                    {
+                        Console.WriteLine("Please enter a valid input directory name");
+                    }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
-                        Console.WriteLine("Directory name invalid");
                     }
                     finally
                     {
