@@ -26,8 +26,8 @@ namespace AutoTagLib
                 return MusicFile.FileName.Split(Path.DirectorySeparatorChar).Last();
             }
         }
-        private List<char> illegalCharFromFileName = new List<char>(){ '/', '\\', ':', '*', '?', '"', '<', '>', '|'};
-        private string illegalCharReplacor = "-";
+        private readonly List<char> _illegalCharFromFileName = new List<char>(){ '/', '\\', ':', '*', '?', '"', '<', '>', '|'};
+        private readonly string _illegalCharReplacor = "-";
 
         public enum PropertiesForUser
         {
@@ -56,7 +56,7 @@ namespace AutoTagLib
                 ApiTags = new Mp3File(path).TagHandler;
                 NewTags = new Mp3File(path).TagHandler;
             }
-            catch (NotImplementedException e)
+            catch (Exception e)
             {
                 OriginalTags = new TagHandler(new TagModel());
                 AcrTags = new TagHandler(new TagModel());
@@ -194,6 +194,8 @@ namespace AutoTagLib
             
             target = target.Replace(((char) 0).ToString(), "");
             
+            // getNewFileName -> if null => filename = oldfilename 
+            
             Directory.CreateDirectory(Path.GetDirectoryName(target));
 
             if (this.MusicFile.FileName != target)
@@ -222,17 +224,23 @@ namespace AutoTagLib
     
                 foreach(PropertyInfo p in props)
                 {
-                    foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
+                    foreach (var propName in Enum.GetValues(typeof(PropertiesForUser)))
                     {
                         if (propName.ToString() == p.Name)
                         {
                             var propValue = p.GetValue(this.MusicFile.TagHandler).ToString();
-                            foreach (char c in illegalCharFromFileName)
+                            foreach (char c in _illegalCharFromFileName)
                             {
-                                
-                                propValue = propValue.Replace(c.ToString(), illegalCharReplacor);
+                                propValue = propValue.Replace(c.ToString(), _illegalCharReplacor);
                             }
-                            toReturn=toReturn.Replace("%"+p.Name+"%", propValue);
+                            if (propValue == "")
+                            {
+                                return MusicFile.FileName;
+                            }
+                            else
+                            {
+                                toReturn=toReturn.Replace("%"+p.Name+"%", propValue);                                
+                            }
                         }
                     }
                 }
