@@ -33,14 +33,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DiscogsClient, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\DiscogsClient.2.0.0\lib\net461\DiscogsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="DiscogsNet, Version=1.6.1.1, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\DiscogsNet.1.6.1.1\lib\net40\DiscogsNet.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\packages\Id3 - mp3\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Id3Lib">
       <HintPath>..\packages\Id3 - mp3\Id3Lib.dll</HintPath>
-    </Reference>
-    <Reference Include="libacrcloud_extr_tool">
-      <HintPath>..\packages\ACRCloud\libacrcloud_extr_tool.dll</HintPath>
     </Reference>
     <Reference Include="MinimumEditDistance, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\LevenshteinMinimumEditDistance.1.2.0\lib\MinimumEditDistance.dll</HintPath>
@@ -50,6 +53,15 @@
     </Reference>
     <Reference Include="NAudio, Version=1.8.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.8.3\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharpHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\RestSharpHelper.1.1.0\lib\net461\RestSharpHelper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System" />
@@ -64,12 +76,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorManager\ErrorManager.cs" />
+    <Compile Include="ErrorManager\IErrorManager.cs" />
     <Compile Include="FileExtensionsUtils.cs" />
+    <Compile Include="ErrorManager\Lookup.cs" />
     <Compile Include="MusicsLib.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Musics.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recognizer\ACR\ACRCloudExtrTool.cs" />
+    <Compile Include="Recognizer\ACR\ACRCloudJsonObject.cs" />
+    <Compile Include="Recognizer\ACR\ACRCloudRecognizer.cs" />
+    <Compile Include="Recognizer\ACR\ACRCloudStatusCode.cs" />
+    <Compile Include="Recognizer\API\DiscogsAPI.cs" />
+    <Compile Include="Recognizer\API\LyricsAPI.cs" />
+    <Compile Include="Recognizer\Infos.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -77,12 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Recognizer\Recognizer.csproj">
-      <Project>{2e464916-16da-40fe-9630-40519cd386e8}</Project>
-      <Name>Recognizer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

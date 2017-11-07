@@ -1,9 +1,9 @@
 ﻿using System;
 using MusicInfoLib.API;
 using DiscogsClient.Data.Query;
+using AutoTagLib.ErrorManager;
 
-
-namespace MusicInfoLib
+namespace AutoTagLib.Recognizer
 {
     public static class Infos
     {
@@ -16,8 +16,8 @@ namespace MusicInfoLib
             }
             catch (System.Net.WebException e)
             {
-
-                Console.WriteLine("Net exception");
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_timeout);
+                
                 return new ACRCloudJsonObject()
                 {
                     status =
@@ -30,7 +30,7 @@ namespace MusicInfoLib
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_unknown);
                 return new ACRCloudJsonObject()
                 {
                     status =
@@ -60,6 +60,8 @@ namespace MusicInfoLib
 
         }
 
+        
+        // Not implemented yet
         public static void GetSongInfosFromAPI(string artist, string title)
         {
             // Do the GET API Call

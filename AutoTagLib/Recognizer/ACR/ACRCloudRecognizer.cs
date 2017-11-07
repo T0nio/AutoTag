@@ -6,8 +6,9 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using AutoTagLib.ErrorManager;
 
-namespace MusicInfoLib
+namespace AutoTagLib.Recognizer
 {
     public class ACRCloudRecognizer
     {
@@ -91,7 +92,8 @@ namespace MusicInfoLib
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_decode_audio);
+                //Console.WriteLine(e.ToString());
                 return ACRCloudStatusCode.DECODE_AUDIO_ERROR;
             }
 
@@ -164,13 +166,16 @@ namespace MusicInfoLib
                 result = myReader.ReadToEnd();
             }
             catch (WebException e)
-            {
-                Console.WriteLine("timeout:\n" + e.ToString());
+            {            
+                // HEREGUY
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_timeout);
+                
                 result = ACRCloudStatusCode.HTTP_ERROR;
             }
             catch (Exception e)
             {
-                Console.WriteLine("other excption:" + e.ToString());
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_unknown);
+                //Console.WriteLine("other excption:" + e.ToString());
                 result = ACRCloudStatusCode.HTTP_ERROR;
             }
             finally
