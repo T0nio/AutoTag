@@ -72,7 +72,7 @@ namespace AutoTagLib
         public void ReadTags()
         {
             ReadTagFromACR();
-            ReadTagFromAPI();
+            //ReadTagFromAPI();
             ArbitrateNewTags();
         }
         
@@ -181,6 +181,7 @@ namespace AutoTagLib
 
                             }
                         }
+                        compareTags.Add(p.GetValue(NewTags).ToString());
                     }
                 }
             }
@@ -211,7 +212,6 @@ namespace AutoTagLib
         public void Reorganize(string targetFileName, bool copy)
         {
             string target = ReplaceProp(targetFileName);
-            string previousPath = this.MusicFile.FileName;
             
             target = target.Replace(((char) 0).ToString(), "");
             
@@ -222,12 +222,12 @@ namespace AutoTagLib
                 if (copy)
                 {
                     File.Copy(this.MusicFile.FileName, target, true);
-                    Logger.Instance.CopyFileLog(this, previousPath);
+                    Logger.Instance.CopyFileLog(this, target);
                 }
                 else
                 {
                     File.Move(this.MusicFile.FileName, target);
-                    Logger.Instance.MoveFileLog(this, previousPath);
+                    Logger.Instance.MoveFileLog(this, target);
                 }
             }
         }

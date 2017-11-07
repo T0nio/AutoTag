@@ -30,8 +30,16 @@ namespace MusicInfoLib
             }
             catch (Exception e)
             {
-                Console.WriteLine("BUG");
-                return new ACRCloudJsonObject();
+                Console.WriteLine(e.ToString());
+                return new ACRCloudJsonObject()
+                {
+                    status =
+                    {
+                        msg = "Unknown error",
+                        code = 666,
+                        version = "1.0"
+                    }
+                };
             }
         }
 
