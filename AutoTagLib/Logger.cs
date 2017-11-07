@@ -110,7 +110,7 @@ namespace AutoTagLib
         /// log tags that are choosen from old, ACR and API tags
         /// </summary>
         /// <param name="music">Music [object]</param>
-        public void ArbitrateNewTagsLog(Musics music)
+        public void ArbitrateNewTagsLog(Musics music,List<string> compareTags)
         {
             logFile.Write($"{Events.ArbitrateNewTags};");
             logFile.Write($"=\"");

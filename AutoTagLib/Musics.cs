@@ -121,6 +121,7 @@ namespace AutoTagLib
             string emptyTag = "";
             
             PropertyInfo[] tagsProps = typeof(TagHandler).GetProperties();
+            List<string> compareTags = new List<string>();
 
             foreach(PropertyInfo p in tagsProps)
             {
@@ -171,7 +172,7 @@ namespace AutoTagLib
                     }
                 }
             }
-            Logger.Instance.ArbitrateNewTagsLog(this);
+            Logger.Instance.ArbitrateNewTagsLog(this,compareTags);
         }
         
         public void WriteTags()
