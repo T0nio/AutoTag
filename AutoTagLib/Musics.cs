@@ -72,7 +72,7 @@ namespace AutoTagLib
         public void ReadTags()
         {
             ReadTagFromACR();
-            //ReadTagFromAPI();
+            ReadTagFromAPI();
             ArbitrateNewTags();
         }
         
@@ -99,12 +99,12 @@ namespace AutoTagLib
                     AcrTags.Genre = genres;
                 }
             }
-            Logger.Instance.ReadfromACRLog(this,infosFromACR.status.code,infosFromACR.status.msg);
+            Logger.Instance.ReadfromACRLog(this);
         }
 
         public void ReadTagFromAPI()
         {
-            Logger.Instance.ReadfromAPILog(this,string.Empty);
+            Logger.Instance.ReadfromAPILog(this);
         }
 
         public void ArbitrateNewTags()
@@ -118,14 +118,13 @@ namespace AutoTagLib
                 Todo:
                 + Checker plus fin pour les genres (comparer la liste, et garder tous les tags, sans doublons
             */
-            string emptyTag = string.Empty;
-
-            List<string> compareTags = new List<string>();
+            string emptyTag = "";
+            
             PropertyInfo[] tagsProps = typeof(TagHandler).GetProperties();
 
-            foreach (var propName in Enum.GetValues(typeof(PropertiesForUser)))
+            foreach(PropertyInfo p in tagsProps)
             {
-                foreach (PropertyInfo p in tagsProps)
+                foreach (var propName in Enum.GetValues(typeof(PropertiesForUser)))
                 {
                     if (propName.ToString() == p.Name)
                     {
@@ -166,41 +165,21 @@ namespace AutoTagLib
                                             p.SetValue(NewTags, p.GetValue(AcrTags));
                                         }                                    
                                     }                                    
-                                        Console.WriteLine(p.Name + " quasi match : " + s1 + " ~ " + s2 + " ratio: "+ratio);
-                                        p.SetValue(NewTags, p.GetValue(AcrTags));
-                                        compareTags.Add($"{s1}->{s2} : {ratio}");
-                                    }else
-                                    {
-                                        compareTags.Add($"{s2}->{s1} : {ratio}");
-                                    }
-                                }
-                                else
-                                {
-                                    compareTags.Add(s1);
                                 }
 
                             }
                         }
-                        compareTags.Add(p.GetValue(NewTags).ToString());
                     }
                 }
             }
-            Logger.Instance.ArbitrateNewTagsLog(this,compareTags);
+            Logger.Instance.ArbitrateNewTagsLog(this);
         }
         
         public void WriteTags()
         {
-            try
-            {
-                MusicFile.TagHandler = NewTags;
-                MusicFile.Update();
-            }
-            catch (NotImplementedException e)
-            {
-                Logger.Instance.WriteTagsLog(this, e.ToString());
-            }
-            Logger.Instance.WriteTagsLog(this,"No exception");
-
+            MusicFile.TagHandler = NewTags;
+            MusicFile.Update();
+            Logger.Instance.WriteTagsLog(this);
         }
 
         
@@ -221,13 +200,13 @@ namespace AutoTagLib
             {
                 if (copy)
                 {
-                    File.Copy(this.MusicFile.FileName, target, true);
                     Logger.Instance.CopyFileLog(this, target);
+                    File.Copy(this.MusicFile.FileName, target, true);
                 }
                 else
                 {
-                    File.Move(this.MusicFile.FileName, target);
                     Logger.Instance.MoveFileLog(this, target);
+                    File.Move(this.MusicFile.FileName, target);
                 }
             }
         }
