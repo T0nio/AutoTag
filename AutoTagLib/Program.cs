@@ -16,10 +16,8 @@ namespace AutoTagLib
 
             musicLibrary.FillDict(@"C:\Users\pierr\Music\BOB");*/
             MusicsLib musicLibrary = new MusicsLib();
-            musicLibrary.LoadFromFolder(@"C:\Users\pierr\Music\Test");
-            musicLibrary.ReadTags();
-            musicLibrary.WriteTags();
-            musicLibrary.Reorganize(@"C:\Users\pierr\Music\TestResult\%Title%.mp3",true);
+            musicLibrary.LoadFromFolder(@"C:\Users\pierr\Music\BOB");
+
             Logger.Instance.Closelog();
 
             //foreach (KeyValuePair<string, List<Musics>> kvp in musicLibrary.Dict)
