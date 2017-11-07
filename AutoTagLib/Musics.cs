@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using MusicInfoLib;
 using System.IO;
 using MinimumEditDistance;
+using AutoTagLib.Recognizer;
 
 namespace AutoTagLib
 {

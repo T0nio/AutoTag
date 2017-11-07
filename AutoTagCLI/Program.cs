@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using AutoTagLib;
+using AutoTagLib.ErrorManager;
 
 namespace AutoTagCLI
 {
@@ -14,6 +15,10 @@ namespace AutoTagCLI
 
         static void Main(string[] args)
         {
+            var errorManager = (IErrorManager)CLIErrorManager.GetInstance();
+            Lookup.GetInstance().Register(typeof(IErrorManager), errorManager);
+           
+            
             int i = 0;
             string directory = string.Empty;
             string destinationDirectory = string.Empty;
@@ -83,13 +88,13 @@ namespace AutoTagCLI
                 action.Add(ACTION.help);
             }
     
-            if (action.IndexOf(ACTION.help) != -1)
+            if (action.Contains(ACTION.help))
             {
                 Help.DisplayHelp();
             }
             else
             {
-                if (action.IndexOf(ACTION.recognize) >= 0 && directory == String.Empty)
+                if (action.Contains(ACTION.recognize) && directory == String.Empty)
                 {
                     Console.WriteLine("Please enter a directory to explore.");
                 }
@@ -107,6 +112,8 @@ namespace AutoTagCLI
                     try
                     {
                         Console.WriteLine("Loading list of files");
+
+
                         myMusics.LoadFromFolder(directory);
                         if (action.IndexOf(ACTION.recognize) >= 0)
                         {
@@ -131,6 +138,10 @@ namespace AutoTagCLI
                     catch (DirectoryNotFoundException e)
                     {
                         Console.WriteLine("Please enter a valid input directory name");
+                    }
+                    catch (System.Net.WebException e)
+                    {
+                        Console.WriteLine("Net Exption déso");
                     }
                     catch (Exception e)
                     {

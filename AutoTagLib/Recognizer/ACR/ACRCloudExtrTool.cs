@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MusicInfoLib
+namespace AutoTagLib.Recognizer
 {
     class ACRCloudExtrTool
     {
@@ -145,5 +145,4 @@ namespace MusicInfoLib
         [DllImport("libacrcloud_extr_tool")]
         private static extern void acr_init();
     }
-
 }
