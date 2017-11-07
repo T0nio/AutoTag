@@ -136,6 +136,7 @@ namespace AutoTagLib
                             if (p.GetValue(NewTags).ToString() == emptyTag)
                             {
                                 p.SetValue(NewTags, p.GetValue(AcrTags));
+                                compareTags.Add($"{p.GetValue(OriginalTags)} to {p.GetValue(AcrTags)}");
                             }
                             else
                             {
@@ -146,6 +147,7 @@ namespace AutoTagLib
                                         if (p.GetValue(NewTags).ToString().Length < p.GetValue(AcrTags).ToString().Length)
                                         {
                                             p.SetValue(NewTags, p.GetValue(AcrTags));
+                                            compareTags.Add($"{p.GetValue(OriginalTags)} to {p.GetValue(AcrTags)}");
                                         }
                                         break;
                                 }
@@ -154,19 +156,16 @@ namespace AutoTagLib
                                 {
                                     string s1 = p.GetValue(NewTags).ToString();
                                     string s2 = p.GetValue(AcrTags).ToString();
-
                                     if (s1 != s2)
                                     {
                                         float ratio = 1 - (float)Levenshtein.CalculateDistance(s1, s2, 1) / (float)s2.Length;
-                                    
                                         if (ratio >= 0.75)
                                         {
-                                            Console.WriteLine(p.Name + " quasi match : " + s1 + " ~ " + s2 + " ratio: "+ratio);
                                             p.SetValue(NewTags, p.GetValue(AcrTags));
+                                            compareTags.Add($"{p.GetValue(OriginalTags)} to {p.GetValue(AcrTags)} : r={ratio}");
                                         }                                    
                                     }                                    
                                 }
-
                             }
                         }
                     }

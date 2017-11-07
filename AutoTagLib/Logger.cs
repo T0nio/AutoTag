@@ -113,8 +113,27 @@ namespace AutoTagLib
         public void ArbitrateNewTagsLog(Musics music)
         {
             logFile.Write($"{Events.ArbitrateNewTags};");
-            MusicCommonLog(music);
-            logFile.WriteLine(";");
+            logFile.Write($"=\"");
+
+            foreach (string change in compareTags)
+            {
+                        logFile.Write($"-{change}-");
+            }
+            logFile.Write($"\";");
+            logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
+            logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
+            PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
+            {
+                foreach (PropertyInfo p in props)
+                {
+                    if (propName.ToString() == p.Name)
+                    {
+                        logFile.Write($"=\"{p.GetValue(music.NewTags).ToString()}\";");
+                    }
+                }
+            }
+            logFile.WriteLineAsync();
         }
         /// <summary>
         /// log when tags are written in the file
