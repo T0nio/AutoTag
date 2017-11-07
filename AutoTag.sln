@@ -4,8 +4,6 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTagLib", "AutoTagLib\AutoTagLib.csproj", "{3444839A-B9FE-4B70-AB9E-78892A0FE052}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recognizer", "Recognizer\Recognizer.csproj", "{2E464916-16DA-40FE-9630-40519CD386E8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTagGUI", "AutoTagGUI\AutoTagGUI.csproj", "{A6758273-5943-4B2D-8521-4933BC344876}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTagCLI", "AutoTagCLI\AutoTagCLI.csproj", "{51B54FE1-F3A2-48FC-8659-386472F2650F}"
@@ -20,10 +18,6 @@ Global
 		{3444839A-B9FE-4B70-AB9E-78892A0FE052}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3444839A-B9FE-4B70-AB9E-78892A0FE052}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3444839A-B9FE-4B70-AB9E-78892A0FE052}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E464916-16DA-40FE-9630-40519CD386E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E464916-16DA-40FE-9630-40519CD386E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E464916-16DA-40FE-9630-40519CD386E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E464916-16DA-40FE-9630-40519CD386E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6758273-5943-4B2D-8521-4933BC344876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6758273-5943-4B2D-8521-4933BC344876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6758273-5943-4B2D-8521-4933BC344876}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,6 +32,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {58D3703F-6C32-4605-A8AB-5191B3B7725B}
-																SolutionGuid = {A7576393-CC41-4607-BFF3-1EF97F98864D}
+		SolutionGuid = {A7576393-CC41-4607-BFF3-1EF97F98864D}
 	EndGlobalSection
 EndGlobal

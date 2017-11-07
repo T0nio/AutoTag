@@ -1,6 +1,6 @@
 ﻿using DiscogsClient.Internal;
 
-namespace MusicInfoLib.API
+namespace AutoTagLib.Recognizer
 {
     public class DiscogsAPI
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MusicInfoLib
+namespace AutoTagLib.Recognizer
 {
 public class Status
 {
