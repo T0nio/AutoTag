@@ -1,9 +1,8 @@
 .vs/
 bin/
-AutoTagLib/bin/
 AutoTagLib/Program.cs
 obj/
 App.config
-AutoTagCLI/App.config
 .idea
 logs/
+*.csproj.user

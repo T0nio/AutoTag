@@ -56,7 +56,7 @@ namespace AutoTagLib
                 ApiTags = new Mp3File(path).TagHandler;
                 NewTags = new Mp3File(path).TagHandler;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 OriginalTags = new TagHandler(new TagModel());
                 AcrTags = new TagHandler(new TagModel());
@@ -72,7 +72,7 @@ namespace AutoTagLib
         public void ReadTags()
         {
             ReadTagFromACR();
-            //ReadTagFromAPI();
+            // ReadTagFromAPI();
             ArbitrateNewTags();
         }
         
@@ -88,13 +88,13 @@ namespace AutoTagLib
                 AcrTags.Title = infosFromACR?.metadata?.music[0]?.title;
                 AcrTags.Artist = infosFromACR.metadata?.music[0]?.artists[0].name;
                 AcrTags.Year = infosFromACR.metadata?.music[0]?.release_date.Substring(0, 4);
-                var genres = "";
+                var genres = String.Empty;
                 if (infosFromACR.metadata?.music[0]?.genres != null)
                 {
                     genres = infosFromACR.metadata?.music[0].genres.Aggregate(genres, (current, genre) => current + ", " + genre.name);
                     genres = genres.Substring(2);
                 }
-                if (genres != "")
+                if (genres != String.Empty)
                 {
                     AcrTags.Genre = genres;
                 }
@@ -104,7 +104,7 @@ namespace AutoTagLib
 
         public void ReadTagFromAPI()
         {
-            Logger.Instance.ReadfromAPILog(this,string.Empty);
+            Logger.Instance.ReadfromAPILog(this, string.Empty);
         }
 
         public void ArbitrateNewTags()
@@ -138,8 +138,7 @@ namespace AutoTagLib
                             {
                                 p.SetValue(NewTags, p.GetValue(AcrTags));
                                 compareTags.Add($"{p.GetValue(OriginalTags)} to {p.GetValue(AcrTags)}");
-                            }
-                            else
+                            } else
                             {
                                 // Puis on gère les cas particuliers
                                 switch (p.Name)
@@ -174,7 +173,7 @@ namespace AutoTagLib
                     }
                 }
             }
-            Logger.Instance.ArbitrateNewTagsLog(this,compareTags);
+            Logger.Instance.ArbitrateNewTagsLog(this, compareTags);
         }
         
         public void WriteTags()
@@ -188,7 +187,7 @@ namespace AutoTagLib
             {
                 Logger.Instance.WriteTagsLog(this, e.ToString());
             }
-            Logger.Instance.WriteTagsLog(this,"No exception");
+            Logger.Instance.WriteTagsLog(this, "No exception");
 
         }
 
@@ -214,8 +213,7 @@ namespace AutoTagLib
                 {
                     File.Copy(this.MusicFile.FileName, target, true);
                     Logger.Instance.CopyFileLog(this, target);
-                }
-                else
+                } else
                 {
                     File.Move(this.MusicFile.FileName, target);
                     Logger.Instance.MoveFileLog(this, target);
@@ -227,37 +225,35 @@ namespace AutoTagLib
 
         #region Utils
         
-            private string ReplaceProp(string targetFolder)
-            {
-                string toReturn = targetFolder;
-                PropertyInfo[] props = typeof(TagHandler).GetProperties();
+        private string ReplaceProp(string targetFolder)
+        {
+            string toReturn = targetFolder;
+            PropertyInfo[] props = typeof(TagHandler).GetProperties();
     
-                foreach(PropertyInfo p in props)
+            foreach(PropertyInfo p in props)
+            {
+                foreach (var propName in Enum.GetValues(typeof(PropertiesForUser)))
                 {
-                    foreach (var propName in Enum.GetValues(typeof(PropertiesForUser)))
+                    if (propName.ToString() == p.Name)
                     {
-                        if (propName.ToString() == p.Name)
+                        var propValue = p.GetValue(this.MusicFile.TagHandler).ToString();
+                        foreach (char c in _illegalCharFromFileName)
                         {
-                            var propValue = p.GetValue(this.MusicFile.TagHandler).ToString();
-                            foreach (char c in _illegalCharFromFileName)
-                            {
-                                propValue = propValue.Replace(c.ToString(), _illegalCharReplacor);
-                            }
-                            if (propValue == "")
-                            {
-                                return MusicFile.FileName;
-                            }
-                            else
-                            {
-                                toReturn=toReturn.Replace("%"+p.Name+"%", propValue);                                
-                            }
+                            propValue = propValue.Replace(c.ToString(), _illegalCharReplacor);
+                        }
+                        if (propValue == String.Empty)
+                        {
+                            toReturn = toReturn.Replace($"%{p.Name}%", $"Unknown {p.Name}");
+                        } else
+                        {
+                            toReturn = toReturn.Replace($"%{p.Name}%", propValue);
                         }
                     }
                 }
-                return toReturn;
             }
+            return toReturn;
+        }
         
-
         #endregion
     }
 }

@@ -47,10 +47,7 @@ namespace AutoTagLib.Recognizer
         
         private ACRCloudRecognizer()
         {
-            
-            var acrCloudConfig = ConfigurationManager.GetSection("ACRCloud") as NameValueCollection;
-           
-            if (acrCloudConfig != null)
+            if (ConfigurationManager.GetSection("ACRCloud") is NameValueCollection acrCloudConfig)
             {
                 _host = acrCloudConfig["host"];
                 _accessKey = acrCloudConfig["access_key"];
@@ -90,9 +87,9 @@ namespace AutoTagLib.Recognizer
                         return ACRCloudStatusCode.NO_RESULT;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_decode_audio);
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_decode_audio);
                 //Console.WriteLine(e.ToString());
                 return ACRCloudStatusCode.DECODE_AUDIO_ERROR;
             }
@@ -165,16 +162,16 @@ namespace AutoTagLib.Recognizer
                 myReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                 result = myReader.ReadToEnd();
             }
-            catch (WebException e)
+            catch (WebException)
             {            
                 // HEREGUY
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_timeout);
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_timeout);
                 
                 result = ACRCloudStatusCode.HTTP_ERROR;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_unknown);
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
                 //Console.WriteLine("other excption:" + e.ToString());
                 result = ACRCloudStatusCode.HTTP_ERROR;
             }
@@ -238,8 +235,7 @@ namespace AutoTagLib.Recognizer
             string sigStr = method + "\n" + httpURL + "\n" + _accessKey + "\n" + dataType + "\n" + sigVersion + "\n" + timestamp;
             string signature = EncryptByHMACSHA1(sigStr, _accessSecret);
 
-            var dict = new Dictionary<string, object>();
-            dict.Add("access_key", _accessKey);
+            var dict = new Dictionary<string, object> { { "access_key", _accessKey } };
             if (query_data.ContainsKey("ext_fp")) {
                 ext_fp = (byte[])query_data["ext_fp"];
                 if (ext_fp != null)

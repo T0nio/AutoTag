@@ -12,7 +12,7 @@ namespace AutoTagGUI
             return _instance ?? (_instance = new GUIErrorManager());
         }
 
-        protected override void showError(errorCodes code, string message)
+        protected override void ShowError(ErrorCodes code, string message)
         {
             MessageBox.Show($"{code}: {message}");
         }

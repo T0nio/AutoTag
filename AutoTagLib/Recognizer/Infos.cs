@@ -14,9 +14,9 @@ namespace AutoTagLib.Recognizer
                 string result = ACRCloudRecognizer.Instance.RecognizeByFile(filePath, 10);
                 return Newtonsoft.Json.JsonConvert.DeserializeObject<ACRCloudJsonObject>(result);
             }
-            catch (System.Net.WebException e)
+            catch (System.Net.WebException)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_timeout);
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_timeout);
                 
                 return new ACRCloudJsonObject()
                 {
@@ -28,9 +28,9 @@ namespace AutoTagLib.Recognizer
                     }
                 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(errorCodes.acr_unknown);
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
                 return new ACRCloudJsonObject()
                 {
                     status =
@@ -53,13 +53,12 @@ namespace AutoTagLib.Recognizer
                 return new Tuple<bool, string, string>(true, songInfos.metadata.music[0].artists[0].name, songInfos.metadata.music[0].title);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new Tuple<bool, string, string>(false, "", "");
             }
 
         }
-
         
         // Not implemented yet
         public static void GetSongInfosFromAPI(string artist, string title)
@@ -76,10 +75,7 @@ namespace AutoTagLib.Recognizer
     
             //Retrieve observable result from search
             var observable = DiscogsAPI.Instance.client.Search(discogsSearch);
-
-            
             var enumerable = DiscogsAPI.Instance.client.SearchAsEnumerable(discogsSearch);
-
             
             foreach (var v in enumerable)
             {
@@ -88,8 +84,5 @@ namespace AutoTagLib.Recognizer
             }
             //Console.WriteLine(enumerable.ToString());
         }
-
-        
-        
     }
 }
