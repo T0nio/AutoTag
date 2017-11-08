@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="App.config.sample" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoTagLib\AutoTagLib.csproj">
