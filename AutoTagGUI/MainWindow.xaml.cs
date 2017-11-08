@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using AutoTagLib.ErrorManager;
+using System.Windows;
 
 namespace AutoTagGUI
 {
@@ -9,6 +10,8 @@ namespace AutoTagGUI
     {
         public MainWindow()
         {
+            var errorManager = (IErrorManager)GUIErrorManager.GetInstance();
+            Lookup.GetInstance().Register(typeof(IErrorManager), errorManager);
             InitializeComponent();
         }
     }
