@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3444839A-B9FE-4B70-AB9E-78892A0FE052}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AutoTagLib</RootNamespace>
     <AssemblyName>AutoTagLib</AssemblyName>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DiscogsClient, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -80,7 +83,6 @@
     <Compile Include="MusicsLib.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Musics.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recognizer\ACR\ACRCloudExtrTool.cs" />
     <Compile Include="Recognizer\ACR\ACRCloudJsonObject.cs" />
