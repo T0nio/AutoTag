@@ -14,7 +14,7 @@ namespace AutoTagGUI
 
         protected override void showError(errorCodes code, string message)
         {
-            MessageBox.Show($"{code}: {message}");
+            MessageBox.Show($"{code}: {message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
