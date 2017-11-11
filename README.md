@@ -33,7 +33,7 @@ Those metadata are often incomplete. We are using an API to fullfill or create t
 ### 2. Reorganize the music library
 
 Once the data are complete, we can now manage the library. The software allows the user to specify a target folder that can be as followed :
-> C:\Users\Musics\%Artist%\%Album%\%Track% - %Title%.mp3
+> C:\Users\Musics\\%Artist%\\%Album%\\%Track% - %Title%.mp3
 
 The music files will be then renamed and moved (or copy) in the folder of their artists and the subfolder of their albums. For instance, if we have the music *Paradise* of *Coldplay*, it will be stored here :
 > C:\Users\Musics\Coldplay\Mylo Xyloto\3 - Paradise.mp3
