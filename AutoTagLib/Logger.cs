@@ -12,12 +12,13 @@ namespace AutoTagLib
 {
     public class Logger
     {
-#region Properties
+        #region Properties
+
         private static Logger _instance;
         static readonly object instanceLock = new object();
         private StreamWriter logFile;
-        private string pathLog = $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}" +
-                                 $"logs{Path.DirectorySeparatorChar}{DateTime.Now.ToString("yyyyMMddHHmm")}.csv";
+        private string pathLog = $"logs{Path.DirectorySeparatorChar}{DateTime.Now.ToString("yyyyMMddHHmm")}.csv";
+
         public enum Events
         {
             LoadFromDirectory,
@@ -28,33 +29,42 @@ namespace AutoTagLib
             MoveFile,
             CopyFile
         }
-#endregion
-#region Constructor
+
+        #endregion
+
+        #region Constructor
+
         private Logger()
         {
             Directory.CreateDirectory(Path.GetDirectoryName(pathLog));
             logFile = new StreamWriter(pathLog);
             logFile.WriteLineAsync("Time;Event;Result;Path;File;Album;Artist;Composer;Disc;Genre;Title;Track;Year"); //Initialize the csv file        
         }
-#endregion
-#region Instance
+
+        #endregion
+
+        #region Instance
+
         public static Logger Instance
         {
             get
             {
-                if (_instance == null) //Les locks prennent du temps, il est préférable de vérifier d'abord la nullité de l'instance.
+                if (_instance == null) // Les locks prennent du temps, il est préférable de vérifier d'abord la nullité de l'instance.
                 {
                     lock (instanceLock)
                     {
-                        if (_instance == null) //on vérifie encore, au cas où l'instance aurait été créée entretemps.
+                        if (_instance == null) // on vérifie encore, au cas où l'instance aurait été créée entretemps.
                             _instance = new Logger();
                     }
                 }
                 return _instance;
             }
         }
-#endregion
-#region Methods
+
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// log when music file is loaded from directory
         /// </summary>
@@ -80,6 +90,7 @@ namespace AutoTagLib
             }
             logFile.WriteLineAsync();
         }
+
         /// <summary>
         /// log tags coming from ACR
         /// </summary>
@@ -106,6 +117,7 @@ namespace AutoTagLib
             }
             logFile.WriteLineAsync();
         }
+
         /// <summary>
         /// log tags coming from API
         /// </summary>
@@ -131,6 +143,7 @@ namespace AutoTagLib
             }
             logFile.WriteLineAsync();
         }
+
         /// <summary>
         /// log tags that are choosen from old, ACR and API tags
         /// </summary>
@@ -161,6 +174,7 @@ namespace AutoTagLib
             }
             logFile.WriteLineAsync();
         }
+
         /// <summary>
         /// log when tags are written in the file
         /// </summary>
@@ -186,6 +200,7 @@ namespace AutoTagLib
             }
             logFile.WriteLineAsync();
         }
+
         /// <summary>
         /// log file when copied
         /// </summary>
@@ -211,6 +226,7 @@ namespace AutoTagLib
             }
             logFile.WriteLineAsync();
         }
+
         /// <summary>
         /// log file when moved
         /// </summary>
@@ -236,6 +252,7 @@ namespace AutoTagLib
             }
             logFile.WriteLineAsync();
         }
+
         /// <summary>
         /// Close the log when app is closed
         /// </summary>
@@ -243,6 +260,7 @@ namespace AutoTagLib
         {
             logFile.Close();
         }
-#endregion
+
+        #endregion
     }
 }

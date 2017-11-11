@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace AutoTagLib.ErrorManager
+﻿namespace AutoTagLib.ErrorManager
 {
     public interface IErrorManager
     {
-        void NewError(errorCodes errorCode);
+        void NewError(ErrorCodes errorCode);
     }
 }

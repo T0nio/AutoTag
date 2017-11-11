@@ -69,9 +69,7 @@ namespace AutoTagLib
 
     public class NotMusicFileExtensionException : Exception
     {
-        public NotMusicFileExtensionException(string extension) : base (
-            $"Extension {extension} is not a music file extension."
-        )
+        public NotMusicFileExtensionException(string extension) : base ($"Extension {extension} is not a music file extension.")
         {
         }
     }
