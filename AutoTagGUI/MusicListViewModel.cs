@@ -204,6 +204,7 @@ namespace AutoTagGUI
                     {
                         this.MusicLibraryFolder = openDirDialog.SelectedPath;
                     }
+                    MessageBox.Show("Your music library has been loaded !", "Library loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             }
         }
@@ -217,6 +218,7 @@ namespace AutoTagGUI
                     this.MusicLibrary.ReadTags();
                     this.MusicLibrary.WriteTags();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
+                    MessageBox.Show("All tags for your music library have been written !", "Tags written", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             }
         }
@@ -229,6 +231,7 @@ namespace AutoTagGUI
                 {
                     MusicLibrary.Reorganize(this.CompleteReorganizeFormat, this.CopyFiles);
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
+                    MessageBox.Show("Your music library has been reorganized !", "Library reoarginzed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             }
         }
