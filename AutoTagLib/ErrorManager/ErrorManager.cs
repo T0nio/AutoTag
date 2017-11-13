@@ -6,7 +6,7 @@ namespace AutoTagLib.ErrorManager
 {
     public enum ErrorCodes
     {
-        unknown, acr_timeout, acr_unknown, acr_decode_audio
+        unknown, acr_timeout, acr_unknown, acr_decode_audio, acr_dll
     }
 
 
@@ -20,6 +20,7 @@ namespace AutoTagLib.ErrorManager
             _errors.Add(ErrorCodes.acr_timeout, "Un problème réseau est survenu. Merci de vérifier votre connexion internet.");
             _errors.Add(ErrorCodes.acr_unknown, "Un problème est survenue lors de la reconnaissance audio des titres.");
             _errors.Add(ErrorCodes.acr_decode_audio, "Un problème est survenue lors de la lecture d'un des titres.");
+            _errors.Add(ErrorCodes.acr_dll, "Un problème est survenue avec la DLL ACRCloud. Verifiez qu'elle est bien présent dans le repertoire courant (libacrcloud_extr_tool.dll/libacrcloud_extr_tool.so)");
         }
         
         public void NewError(ErrorCodes errorCode)

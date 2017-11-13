@@ -28,9 +28,14 @@ namespace AutoTagLib.Recognizer
                     }
                 };
             }
-            catch (Exception)
+            catch (System.DllNotFoundException e)
+            {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_dll);
+            }
+            catch (Exception e)
             {
                 ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
+                
                 return new ACRCloudJsonObject()
                 {
                     status =

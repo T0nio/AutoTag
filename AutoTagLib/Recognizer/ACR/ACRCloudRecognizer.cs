@@ -169,7 +169,7 @@ namespace AutoTagLib.Recognizer
                 
                 result = ACRCloudStatusCode.HTTP_ERROR;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
                 //Console.WriteLine("other excption:" + e.ToString());
