@@ -1,5 +1,6 @@
 ﻿using AutoTagGUI.Utils;
 using AutoTagLib;
+using AutoTagLib.ErrorManager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,6 +35,8 @@ namespace AutoTagGUI
         #endregion
 
         #region Properties
+
+        private static GUIErrorManager _guiErrorManager = (GUIErrorManager)GUIErrorManager.GetInstance(); 
 
         public static readonly string NoFolderSelected = "No target folder is selected";
 
@@ -187,6 +190,8 @@ namespace AutoTagGUI
                     if (openDirDialog.SelectedPath != String.Empty)
                     {
                         this.MusicLibraryTargetFolder = openDirDialog.SelectedPath;
+                        _guiErrorManager.WaitErrorManager();
+                        _guiErrorManager.ClearErrorManager();
                     }
                 });
             }
@@ -203,6 +208,8 @@ namespace AutoTagGUI
                     if (openDirDialog.SelectedPath != String.Empty)
                     {
                         this.MusicLibraryFolder = openDirDialog.SelectedPath;
+                        _guiErrorManager.WaitErrorManager();
+                        _guiErrorManager.ClearErrorManager();
                     }
                     MessageBox.Show("Your music library has been loaded !", "Library loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
@@ -217,6 +224,8 @@ namespace AutoTagGUI
                 {
                     this.MusicLibrary.ReadTags();
                     this.MusicLibrary.WriteTags();
+                    _guiErrorManager.WaitErrorManager();
+                    _guiErrorManager.ClearErrorManager();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
                     MessageBox.Show("All tags for your music library have been written !", "Tags written", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
@@ -230,6 +239,8 @@ namespace AutoTagGUI
                 return new RelayCommand<MusicsLib>((library) =>
                 {
                     MusicLibrary.Reorganize(this.CompleteReorganizeFormat, this.CopyFiles);
+                    _guiErrorManager.WaitErrorManager();
+                    _guiErrorManager.ClearErrorManager();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
                     MessageBox.Show("Your music library has been reorganized !", "Library reoarginzed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });

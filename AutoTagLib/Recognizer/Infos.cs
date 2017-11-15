@@ -82,7 +82,6 @@ namespace AutoTagLib.Recognizer
                 Console.WriteLine(v.title);                
                 Console.WriteLine(v.id);                
             }
-            //Console.WriteLine(enumerable.ToString());
         }
     }
 }
