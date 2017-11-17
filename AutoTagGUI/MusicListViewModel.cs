@@ -1,11 +1,11 @@
 ﻿using AutoTagGUI.Utils;
 using AutoTagLib;
-using AutoTagLib.ErrorManager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -30,6 +30,8 @@ namespace AutoTagGUI
         {
             this.MusicLibrary = new MusicsLib();
             this.ReorganizeFormat = $"%Artist%{Path.DirectorySeparatorChar}%Album%{Path.DirectorySeparatorChar}%Track% - %Title%.mp3";
+            this.ProgressBarVisibility = Visibility.Hidden;
+            this.CurrentOperation = "";
         }
 
         #endregion
@@ -79,6 +81,33 @@ namespace AutoTagGUI
                 if (value != MusicLibraryLoaded)
                 {
                     this.MusicLibraryLoaded = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private Visibility _progressBarVisibility;
+        public Visibility ProgressBarVisibility
+        {
+            get { return _progressBarVisibility; }
+            set
+            {
+                if(value != _progressBarVisibility)
+                {
+                    this._progressBarVisibility = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private string _currentOperation;
+        public string CurrentOperation {
+            get { return _currentOperation; }
+            set
+            {
+                if (value != _currentOperation)
+                {
+                    _currentOperation = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -177,6 +206,22 @@ namespace AutoTagGUI
 
         #endregion
 
+        #region Methods
+
+        private void ShowProgressBar(string msg)
+        {
+            this.ProgressBarVisibility = Visibility.Visible;
+            this.CurrentOperation = msg;
+        }
+
+        private void HideProgressBar()
+        {
+            this.ProgressBarVisibility = Visibility.Hidden;
+            this.CurrentOperation = "";
+        }
+
+        #endregion
+
         #region Commands
 
         public ICommand LoadTargetFolder
@@ -189,7 +234,9 @@ namespace AutoTagGUI
                     openDirDialog.ShowDialog();
                     if (openDirDialog.SelectedPath != String.Empty)
                     {
+                        this.ShowProgressBar("Loading Target Folder");
                         this.MusicLibraryTargetFolder = openDirDialog.SelectedPath;
+                        this.HideProgressBar();
                         _guiErrorManager.WaitErrorManager();
                         _guiErrorManager.ClearErrorManager();
                     }
@@ -207,11 +254,13 @@ namespace AutoTagGUI
                     openDirDialog.ShowDialog();
                     if (openDirDialog.SelectedPath != String.Empty)
                     {
+                        this.ShowProgressBar("Loading Source Folder");
                         this.MusicLibraryFolder = openDirDialog.SelectedPath;
+                        this.HideProgressBar();
                         _guiErrorManager.WaitErrorManager();
                         _guiErrorManager.ClearErrorManager();
                     }
-                    MessageBox.Show("Your music library has been loaded !", "Library loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Windows.Forms.MessageBox.Show("Your music library has been loaded !", "Library loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             }
         }
@@ -222,12 +271,14 @@ namespace AutoTagGUI
             {
                 return new RelayCommand<MusicsLib>((library) =>
                 {
+                    this.ShowProgressBar("Writing tags in loaded library");
                     this.MusicLibrary.ReadTags();
                     this.MusicLibrary.WriteTags();
+                    this.HideProgressBar();
                     _guiErrorManager.WaitErrorManager();
                     _guiErrorManager.ClearErrorManager();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
-                    MessageBox.Show("All tags for your music library have been written !", "Tags written", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Windows.Forms.MessageBox.Show("All tags for your music library have been written !", "Tags written", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             }
         }
@@ -238,11 +289,13 @@ namespace AutoTagGUI
             {
                 return new RelayCommand<MusicsLib>((library) =>
                 {
+                    this.ShowProgressBar("Reorganizing your library");
                     MusicLibrary.Reorganize(this.CompleteReorganizeFormat, this.CopyFiles);
+                    this.HideProgressBar();
                     _guiErrorManager.WaitErrorManager();
                     _guiErrorManager.ClearErrorManager();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
-                    MessageBox.Show("Your music library has been reorganized !", "Library reoarginzed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Windows.Forms.MessageBox.Show("Your music library has been reorganized !", "Library reoarginzed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             }
         }
