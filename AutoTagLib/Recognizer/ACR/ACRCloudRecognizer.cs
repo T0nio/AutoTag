@@ -90,7 +90,6 @@ namespace AutoTagLib.Recognizer
             catch (Exception)
             {
                 ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_decode_audio);
-                //Console.WriteLine(e.ToString());
                 return ACRCloudStatusCode.DECODE_AUDIO_ERROR;
             }
 
@@ -172,7 +171,6 @@ namespace AutoTagLib.Recognizer
             catch (Exception)
             {
                 ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
-                //Console.WriteLine("other excption:" + e.ToString());
                 result = ACRCloudStatusCode.HTTP_ERROR;
             }
             finally
