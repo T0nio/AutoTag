@@ -31,6 +31,16 @@ namespace AutoTagLib.Recognizer
             catch (System.DllNotFoundException e)
             {
                 ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_dll);
+
+                return new ACRCloudJsonObject()
+                {
+                    status =
+                    {
+                        msg = "DLL Not Found",
+                        code = 777,
+                        version = "1.0"
+                    }
+                };
             }
             catch (Exception e)
             {

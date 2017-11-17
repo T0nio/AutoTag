@@ -19,7 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="2"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="28"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" 
@@ -208,6 +208,12 @@
 
         <Rectangle Grid.Row="1" Grid.ColumnSpan="3" Fill="Black"/>
 
-        <Label Grid.Row="2" Grid.ColumnSpan="3">FOOTER DE LA MORT</Label>
+        <Grid Margin="5" Grid.Row="2" Grid.ColumnSpan="3">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding CurrentOperation}"/>
+                <ProgressBar DockPanel.Dock="Right" Margin="10, 0, 0, 0" Visibility="{Binding ProgressBarVisibility}" IsIndeterminate="True" />
+            </DockPanel>
+        </Grid>
+
     </Grid>
 </Window>
