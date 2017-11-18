@@ -47,18 +47,16 @@ The music files will be then renamed and moved (or copy) in the folder of their 
 
 ### Using in Linux
 
-If you want to use AutoTag on Linux yuo need to use [Mono](http://www.mono-project.com/). 
-After that you can execute AutoTag (bin in AutoTag/bin/CLI)
+If the user wants to use AutoTag on Linux, he will need to use [Mono](http://www.mono-project.com/). 
+After that he will be able to execute AutoTag (bin in AutoTag/bin/CLI)
 > mono AutoTagCLI.exe [params]
 
-For example:
+For example (recognition of the music library and move to a new place):
 > mono AutoTagCLI.exe -d /home/user/Music -dd /home/user/NewMusicFolder/%Artist%/%Title%.mp3 -rm
 
-If you want to recognize your music library, and then move it to a new place.
-You can use:
+For some help about the usage of the CLI.:
 > mono AutoTagCLI.exe --help 
 
-for some help about the usage of the CLI.
 
 
 
