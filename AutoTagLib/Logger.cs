@@ -78,13 +78,17 @@ namespace AutoTagLib
             logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
             logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            string prop = string.Empty;
             foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
                 foreach (PropertyInfo p in props)
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        logFile.Write($"=\"{p.GetValue(music.OriginalTags).ToString()}\";");
+                        prop = p.GetValue(music.OriginalTags).ToString();
+                        prop = prop.Replace(";", ",");
+                        prop = prop.Replace("\"", "'");
+                        logFile.Write($"=\"{prop}\";");
                     }
                 }
             }
@@ -105,13 +109,17 @@ namespace AutoTagLib
             logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
             logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            string prop = string.Empty;
             foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
                 foreach (PropertyInfo p in props)
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        logFile.Write($"=\"{p.GetValue(music.AcrTags).ToString()}\";");
+                        prop = p.GetValue(music.AcrTags).ToString();
+                        prop = prop.Replace(";", ",");
+                        prop = prop.Replace("\"", "'");
+                        logFile.Write($"=\"{prop}\";");
                     }
                 }
             }
@@ -131,13 +139,17 @@ namespace AutoTagLib
             logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
             logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            string prop = string.Empty;
             foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
                 foreach (PropertyInfo p in props)
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        logFile.Write($"=\"{p.GetValue(music.ApiTags).ToString()}\";");
+                        prop = p.GetValue(music.ApiTags).ToString();
+                        prop = prop.Replace(";", ",");
+                        prop = prop.Replace("\"", "'");
+                        logFile.Write($"=\"{prop}\";");
                     }
                 }
             }
@@ -162,13 +174,17 @@ namespace AutoTagLib
             logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
             logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            string prop = string.Empty;
             foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
                 foreach (PropertyInfo p in props)
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        logFile.Write($"=\"{p.GetValue(music.NewTags).ToString()}\";");
+                        prop = p.GetValue(music.NewTags).ToString();
+                        prop = prop.Replace(";", ",");
+                        prop = prop.Replace("\"", "'");
+                        logFile.Write($"=\"{prop}\";");
                     }
                 }
             }
@@ -188,13 +204,17 @@ namespace AutoTagLib
             logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
             logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            string prop = string.Empty;
             foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
                 foreach (PropertyInfo p in props)
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        logFile.Write($"=\"{p.GetValue(music.MusicFile.TagHandler).ToString()}\";");
+                        prop = p.GetValue(music.MusicFile.TagHandler).ToString();
+                        prop = prop.Replace(";", ",");
+                        prop = prop.Replace("\"", "'");
+                        logFile.Write($"=\"{prop}\";");
                     }
                 }
             }
@@ -214,13 +234,17 @@ namespace AutoTagLib
             logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
             logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            string prop = string.Empty;
             foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
                 foreach (PropertyInfo p in props)
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        logFile.Write($"=\"{p.GetValue(music.MusicFile.TagHandler).ToString()}\";");
+                        prop = p.GetValue(music.MusicFile.TagHandler).ToString();
+                        prop = prop.Replace(";", ",");
+                        prop = prop.Replace("\"", "'");
+                        logFile.Write($"=\"{prop}\";");
                     }
                 }
             }
@@ -240,13 +264,17 @@ namespace AutoTagLib
             logFile.Write($"{Path.GetDirectoryName(music.MusicFile.FileName)};");
             logFile.Write($"{Path.GetFileName(music.MusicFile.FileName)};");
             PropertyInfo[] props = typeof(TagHandler).GetProperties();
+            string prop = string.Empty;
             foreach (var propName in Enum.GetValues(typeof(Musics.PropertiesForUser)))
             {
                 foreach (PropertyInfo p in props)
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        logFile.Write($"=\"{p.GetValue(music.MusicFile.TagHandler).ToString()}\";");
+                        prop = p.GetValue(music.MusicFile.TagHandler).ToString();
+                        prop = prop.Replace(";", ",");
+                        prop = prop.Replace("\"", "'");
+                        logFile.Write($"=\"{prop}\";");
                     }
                 }
             }
