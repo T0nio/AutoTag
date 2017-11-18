@@ -54,11 +54,26 @@ After that he will be able to execute AutoTag (bin in AutoTag/bin/CLI)
 For example (recognition of the music library and move to a new place):
 > mono AutoTagCLI.exe -d /home/user/Music -dd /home/user/NewMusicFolder/%Artist%/%Title%.mp3 -rm
 
-For some help about the usage of the CLI.:
+For some help about the usage of the CLI:
 > mono AutoTagCLI.exe --help 
 
 
 
 
 ## Next development <a name="next"></a>
+
+Here is a non-exhaustive list of the next development that will be available soon:
+* Manage other extensions than .mp3
+* Propose a conversion to .mp3 to manage the tags
+* Better comparison between the informations of the original file and the API
+* Cross-case comparison with another database including the lyrics of the songs
+
 ## Legal Notice <a name="notice"></a>
+
+The three authors of this software are :
+* *Hachemin Pierre-Yves*
+* *Seys Thibaut*
+* *Vadot Antoine*
+
+
+22/11/2017 : v1
