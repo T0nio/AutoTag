@@ -7,6 +7,8 @@ using System.Reflection;
 using System.IO;
 using MinimumEditDistance;
 using AutoTagLib.Recognizer;
+using AutoTagLib.ErrorManager;
+using Id3Lib.Exceptions;
 
 namespace AutoTagLib
 {
@@ -47,7 +49,6 @@ namespace AutoTagLib
 
         public Musics(string path)
         {
-            
             MusicFile = new Mp3File(path);
             try
             {
@@ -55,30 +56,36 @@ namespace AutoTagLib
                 AcrTags = new Mp3File(path).TagHandler;
                 ApiTags = new Mp3File(path).TagHandler;
                 NewTags = new Mp3File(path).TagHandler;
-            }
-            catch (Exception)
+            } catch (NotImplementedException)
             {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.id3v2_not_supported);
+                OriginalTags = new TagHandler(new TagModel());
+                AcrTags = new TagHandler(new TagModel());
+                ApiTags = new TagHandler(new TagModel());
+                NewTags = new TagHandler(new TagModel());
+            } catch (InvalidFrameException)
+            {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.invalid_encoding);
+                OriginalTags = new TagHandler(new TagModel());
+                AcrTags = new TagHandler(new TagModel());
+                ApiTags = new TagHandler(new TagModel());
+                NewTags = new TagHandler(new TagModel());
+            } catch (Exception)
+            {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.unknown);
                 OriginalTags = new TagHandler(new TagModel());
                 AcrTags = new TagHandler(new TagModel());
                 ApiTags = new TagHandler(new TagModel());
                 NewTags = new TagHandler(new TagModel());
             }
-
+            Logger.Instance.LoadFromDirectoryLog(this);
         }
         #endregion
 
         #region Methods
 
-        public void ReadTags()
+        public bool ReadTagFromACR()
         {
-            ReadTagFromACR();
-            // ReadTagFromAPI();
-            ArbitrateNewTags();
-        }
-        
-        public void ReadTagFromACR()
-        {
-            
             ACRCloudJsonObject infosFromACR = Infos.Recognize(MusicFile.FileName);
 
             if (infosFromACR.status.code == 0)
@@ -98,16 +105,62 @@ namespace AutoTagLib
                 {
                     AcrTags.Genre = genres;
                 }
+
+                Logger.Instance.ReadfromACRLog(this,infosFromACR.status.code,infosFromACR.status.msg);
+                return true;
             }
-            Logger.Instance.ReadfromACRLog(this,infosFromACR.status.code,infosFromACR.status.msg);
+
+            switch (infosFromACR.status.code)
+            {
+                case 3001:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_invalid_key);
+                    break;
+
+                case 3014:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_invalid_secret);
+                    break;
+
+                case 555:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_timeout);
+                    break;
+
+                case 666:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
+                    break;
+
+                case 777:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_dll);
+                    break;
+
+                case 3000:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_timeout);
+                    break;
+
+                case 3024:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_invalid_host);
+                    break;
+
+                case 3022:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
+                    break;
+
+                default:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
+                    break;
+            }
+
+            Logger.Instance.ReadfromACRLog(this, infosFromACR.status.code, infosFromACR.status.msg);
+            return false;
         }
 
-        public void ReadTagFromAPI()
+        public bool ReadTagFromAPI()
         {
+            // Not Implemented
             Logger.Instance.ReadfromAPILog(this, string.Empty);
+            return false;
         }
 
-        public void ArbitrateNewTags()
+        public void ArbitrateBetweenTags()
         {
             /*
                 Arbitrage de quels tags sont gardés pour le nouveau fichier.

@@ -12,6 +12,9 @@ namespace AutoTagLib
         public Dictionary<string, List<Musics>> Dict  { get; set; }
         public List<string> Extensions { get; set; } = new List<string>() {".mp3"};
 
+        private bool _fatalACRError = false;
+        private bool _fatalAPIError = false;
+
         #endregion
 
         #region Methods
@@ -30,26 +33,32 @@ namespace AutoTagLib
                 if (!this.Dict.ContainsKey(dir) && listMusics.Count > 0)
                 {
                     this.Dict.Add(dir, listMusics);
-                    foreach(Musics music in listMusics)
-                    {
-                        Logger.Instance.LoadFromDirectoryLog(music);
-                    }
                 }
             }
         }
 
         /// <summary>
-        /// Reading tags on all musics
+        /// 
         /// </summary>
-        public void ReadTags()
+        /// <returns></returns>
+        public bool ReadTags()
         {
             foreach (KeyValuePair<string, List<Musics>> subfoldersKeyValuePair in this.Dict)
             {
                 foreach (var music in subfoldersKeyValuePair.Value)
                 {
-                    music.ReadTags();
+                    this._fatalACRError = this._fatalACRError || !music.ReadTagFromACR();
+                    this._fatalAPIError = this._fatalAPIError || !music.ReadTagFromAPI();
+
+                    if (this._fatalACRError && this._fatalAPIError)
+                    {
+                        this._fatalACRError = this._fatalAPIError = false;
+                        return false;
+                    }
                 }
             }
+
+            return true;
         }
 
         public void WriteTags()
@@ -58,6 +67,7 @@ namespace AutoTagLib
             {
                 foreach (var music in subfoldersKeyValuePair.Value)
                 {
+                    music.ArbitrateBetweenTags();
                     music.WriteTags();
                 }
             }

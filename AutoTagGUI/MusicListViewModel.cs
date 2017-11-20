@@ -259,8 +259,8 @@ namespace AutoTagGUI
                         this.HideProgressBar();
                         _guiErrorManager.WaitErrorManager();
                         _guiErrorManager.ClearErrorManager();
+                        System.Windows.Forms.MessageBox.Show("Your music library has been loaded !", "Library loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    System.Windows.Forms.MessageBox.Show("Your music library has been loaded !", "Library loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             }
         }
@@ -272,13 +272,16 @@ namespace AutoTagGUI
                 return new RelayCommand<MusicsLib>((library) =>
                 {
                     this.ShowProgressBar("Writing tags in loaded library");
-                    this.MusicLibrary.ReadTags();
+                    bool tagsRead = this.MusicLibrary.ReadTags();
                     this.MusicLibrary.WriteTags();
                     this.HideProgressBar();
                     _guiErrorManager.WaitErrorManager();
                     _guiErrorManager.ClearErrorManager();
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
-                    System.Windows.Forms.MessageBox.Show("All tags for your music library have been written !", "Tags written", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (tagsRead)
+                    {
+                        System.Windows.Forms.MessageBox.Show("All tags for your music library have been written !", "Tags written", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 });
             }
         }
