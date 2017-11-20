@@ -36,7 +36,7 @@ namespace AutoTagGUI
         protected override void ShowError(ErrorCodes code, string message)
         {
             ErrorThreads.Add(new Thread(() => {
-                DisplayErrorMessage($"{code} : {message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DisplayErrorMessage($"Erreur code : {code}.\n{message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }));
             ErrorThreads.Last().Start();
         }

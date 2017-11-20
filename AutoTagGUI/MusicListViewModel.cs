@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -38,7 +39,8 @@ namespace AutoTagGUI
 
         #region Properties
 
-        private static GUIErrorManager _guiErrorManager = (GUIErrorManager)GUIErrorManager.GetInstance(); 
+        private static Thread _backgroundThread = new Thread(() => { });
+        private readonly static GUIErrorManager _guiErrorManager = (GUIErrorManager)GUIErrorManager.GetInstance();
 
         public static readonly string NoFolderSelected = "No target folder is selected";
 
@@ -230,15 +232,22 @@ namespace AutoTagGUI
             {
                 return (ICommand) new RelayCommand<MusicsLib>((library) =>
                 {
-                    FolderBrowserDialog openDirDialog = new FolderBrowserDialog();
-                    openDirDialog.ShowDialog();
-                    if (openDirDialog.SelectedPath != String.Empty)
+                    if (_backgroundThread.ThreadState != ThreadState.Running)
                     {
-                        this.ShowProgressBar("Loading Target Folder");
-                        this.MusicLibraryTargetFolder = openDirDialog.SelectedPath;
-                        this.HideProgressBar();
-                        _guiErrorManager.WaitErrorManager();
-                        _guiErrorManager.ClearErrorManager();
+                        FolderBrowserDialog openDirDialog = new FolderBrowserDialog();
+                        openDirDialog.ShowDialog();
+                        if (openDirDialog.SelectedPath != String.Empty)
+                        {
+                            this.ShowProgressBar("Loading Target Folder");
+                            _backgroundThread = new Thread(() =>
+                            {
+                                this.MusicLibraryTargetFolder = openDirDialog.SelectedPath;
+                                this.HideProgressBar();
+                                _guiErrorManager.WaitErrorManager();
+                                _guiErrorManager.ClearErrorManager();
+                            });
+                            _backgroundThread.Start();
+                        }
                     }
                 });
             }
@@ -250,16 +259,23 @@ namespace AutoTagGUI
             {
                 return new RelayCommand<MusicsLib>((library) =>
                 {
-                    FolderBrowserDialog openDirDialog = new FolderBrowserDialog();
-                    openDirDialog.ShowDialog();
-                    if (openDirDialog.SelectedPath != String.Empty)
+                    if (_backgroundThread.ThreadState != ThreadState.Running)
                     {
-                        this.ShowProgressBar("Loading Source Folder");
-                        this.MusicLibraryFolder = openDirDialog.SelectedPath;
-                        this.HideProgressBar();
-                        _guiErrorManager.WaitErrorManager();
-                        _guiErrorManager.ClearErrorManager();
-                        System.Windows.Forms.MessageBox.Show("Your music library has been loaded !", "Library loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        FolderBrowserDialog openDirDialog = new FolderBrowserDialog();
+                        openDirDialog.ShowDialog();
+                        if (openDirDialog.SelectedPath != String.Empty)
+                        {
+                            this.ShowProgressBar("Loading Source Folder");
+                            _backgroundThread = new Thread(() =>
+                            {
+                                this.MusicLibraryFolder = openDirDialog.SelectedPath;
+                                this.HideProgressBar();
+                                _guiErrorManager.WaitErrorManager();
+                                _guiErrorManager.ClearErrorManager();
+                                System.Windows.Forms.MessageBox.Show("Your music library has been loaded !", "Library loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            });
+                            _backgroundThread.Start();
+                        }
                     }
                 });
             }
@@ -271,16 +287,23 @@ namespace AutoTagGUI
             {
                 return new RelayCommand<MusicsLib>((library) =>
                 {
-                    this.ShowProgressBar("Writing tags in loaded library");
-                    bool tagsRead = this.MusicLibrary.ReadTags();
-                    this.MusicLibrary.WriteTags();
-                    this.HideProgressBar();
-                    _guiErrorManager.WaitErrorManager();
-                    _guiErrorManager.ClearErrorManager();
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
-                    if (tagsRead)
+                    if (_backgroundThread.ThreadState != ThreadState.Running)
                     {
-                        System.Windows.Forms.MessageBox.Show("All tags for your music library have been written !", "Tags written", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.ShowProgressBar("Writing tags in loaded library");
+                        _backgroundThread = new Thread(() =>
+                        {
+                            bool tagsRead = this.MusicLibrary.ReadTags();
+                            this.MusicLibrary.WriteTags();
+                            this.HideProgressBar();
+                            _guiErrorManager.WaitErrorManager();
+                            _guiErrorManager.ClearErrorManager();
+                            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
+                            if (tagsRead)
+                            {
+                                System.Windows.Forms.MessageBox.Show("All tags for your music library have been written !", "Tags written", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        });
+                        _backgroundThread.Start();
                     }
                 });
             }
@@ -292,13 +315,20 @@ namespace AutoTagGUI
             {
                 return new RelayCommand<MusicsLib>((library) =>
                 {
-                    this.ShowProgressBar("Reorganizing your library");
-                    MusicLibrary.Reorganize(this.CompleteReorganizeFormat, this.CopyFiles);
-                    this.HideProgressBar();
-                    _guiErrorManager.WaitErrorManager();
-                    _guiErrorManager.ClearErrorManager();
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
-                    System.Windows.Forms.MessageBox.Show("Your music library has been reorganized !", "Library reoarginzed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (_backgroundThread.ThreadState != ThreadState.Running)
+                    {
+                        this.ShowProgressBar("Reorganizing your library");
+                        _backgroundThread = new Thread(() =>
+                        {
+                            MusicLibrary.Reorganize(this.CompleteReorganizeFormat, this.CopyFiles);
+                            this.HideProgressBar();
+                            _guiErrorManager.WaitErrorManager();
+                            _guiErrorManager.ClearErrorManager();
+                            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MusicLibrary"));
+                            System.Windows.Forms.MessageBox.Show("Your music library has been reorganized !", "Library reoarginzed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        });
+                        _backgroundThread.Start();
+                    }
                 });
             }
         }
