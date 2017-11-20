@@ -165,7 +165,7 @@
                             BorderThickness="0"
                             Grid.Column="0"
                             Grid.Row="1"
-                            ItemsSource="{Binding MusicLibrary.Dict, UpdateSourceTrigger=PropertyChanged}">
+                            ItemsSource="{Binding MusicLibrary.Dict}">
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="{x:Type TreeViewItem}">
                             <Setter Property="IsExpanded" Value="True"/>

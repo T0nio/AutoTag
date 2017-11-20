@@ -8,6 +8,8 @@
         public static string DECODE_AUDIO_ERROR = "{\"status\":{\"msg\":\"Can not decode audio data\", \"code\":2005}}";
         public static string RECORD_ERROR = "{\"status\":{\"msg\":\"Record Error\", \"code\":2000}}";
         public static string JSON_ERROR = "{\"status\":{\"msg\":\"json error\", \"code\":2002}}";
+        public static string URL_ERROR = "{\"status\":{\"msg\":\"url error\", \"code\":3024}}";
+        public static string UNKNOWN_ERROR = "{\"status\":{\"msg\":\"unknown error\", \"code\":3022}}";
     }
 
 }

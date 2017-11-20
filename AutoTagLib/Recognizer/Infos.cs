@@ -13,11 +13,8 @@ namespace AutoTagLib.Recognizer
             {
                 string result = ACRCloudRecognizer.Instance.RecognizeByFile(filePath, 10);
                 return Newtonsoft.Json.JsonConvert.DeserializeObject<ACRCloudJsonObject>(result);
-            }
-            catch (System.Net.WebException)
+            } catch (System.Net.WebException)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_timeout);
-                
                 return new ACRCloudJsonObject()
                 {
                     status =
@@ -27,11 +24,8 @@ namespace AutoTagLib.Recognizer
                         version = "1.0"
                     }
                 };
-            }
-            catch (System.DllNotFoundException e)
+            } catch (System.DllNotFoundException)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_dll);
-
                 return new ACRCloudJsonObject()
                 {
                     status =
@@ -41,11 +35,8 @@ namespace AutoTagLib.Recognizer
                         version = "1.0"
                     }
                 };
-            }
-            catch (Exception e)
+            } catch (Exception)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
-                
                 return new ACRCloudJsonObject()
                 {
                     status =

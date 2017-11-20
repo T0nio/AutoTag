@@ -160,20 +160,16 @@ namespace AutoTagLib.Recognizer
                 response = (HttpWebResponse)request.GetResponse();
                 myReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                 result = myReader.ReadToEnd();
-            }
-            catch (WebException)
-            {            
-                // HEREGUY
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_timeout);
-                
-                result = ACRCloudStatusCode.HTTP_ERROR;
-            }
-            catch (Exception e)
+            } catch (WebException)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
                 result = ACRCloudStatusCode.HTTP_ERROR;
-            }
-            finally
+            } catch (UriFormatException)
+            {
+                result = ACRCloudStatusCode.URL_ERROR;
+            } catch (Exception)
+            {
+                result = ACRCloudStatusCode.UNKNOWN_ERROR;
+            } finally
             {
                 if (memStream != null)
                 {
