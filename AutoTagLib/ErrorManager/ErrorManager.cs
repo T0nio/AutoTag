@@ -6,7 +6,7 @@ namespace AutoTagLib.ErrorManager
 {
     public enum ErrorCodes
     {
-        unknown, acr_timeout, acr_unknown, acr_decode_audio, acr_dll, acr_invalid_host, acr_invalid_key, acr_invalid_secret, id3v2_not_supported, invalid_encoding
+        unknown, acr_timeout, acr_unknown, acr_decode_audio, acr_dll, acr_invalid_host, acr_invalid_key, acr_invalid_secret, id3v2_not_supported, invalid_encoding, acr_limit_reached
     }
 
     public abstract class ErrorManager : IErrorManager
@@ -23,6 +23,7 @@ namespace AutoTagLib.ErrorManager
             _errors.Add(ErrorCodes.acr_invalid_host, "Un problème est survenue lors de la reconnaissance audio des titres : aucun hôte spécifié.");
             _errors.Add(ErrorCodes.acr_invalid_key, "Un problème est survenue lors de la reconnaissance audio des titres : votre clé est manquante ou invalide.");
             _errors.Add(ErrorCodes.acr_invalid_secret, "Un problème est survenue lors de la reconnaissance audio des titres : votre signature est manquante ou invalide.");
+            _errors.Add(ErrorCodes.acr_limit_reached, "Un problème est survenue lors de la reconnaissance audio des titres : vous avez atteint votre limite d'appels à l'API ACR.");
             _errors.Add(ErrorCodes.id3v2_not_supported, "Un problème est survenue lors du chargement. Les tags ID3V2 ne sont pas supportés.");
             _errors.Add(ErrorCodes.invalid_encoding, "Un problème d'necoding est survenue lors du chargement.");
         }

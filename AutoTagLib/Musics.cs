@@ -144,6 +144,10 @@ namespace AutoTagLib
                     ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
                     break;
 
+                case 3003:
+                    ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_limit_reached);
+                    break;
+
                 default:
                     ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_unknown);
                     break;
