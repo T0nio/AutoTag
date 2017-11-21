@@ -8,7 +8,7 @@ namespace AutoTagGUI
 {
     public class GUIErrorManager: ErrorManager
     {
-        public List<Thread> ErrorThreads { get; set; }
+        private List<Thread> ErrorThreads { get; set; }
 
         private GUIErrorManager() : base()
         {
@@ -36,7 +36,7 @@ namespace AutoTagGUI
         protected override void ShowError(ErrorCodes code, string message)
         {
             ErrorThreads.Add(new Thread(() => {
-                DisplayErrorMessage($"Erreur code : {code}.\n{message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DisplayErrorMessage($"Erreur : {code}.\n{message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }));
             ErrorThreads.Last().Start();
         }
