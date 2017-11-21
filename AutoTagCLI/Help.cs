@@ -13,7 +13,7 @@ namespace AutoTagCLI
             Console.WriteLine("-dd DIRECTORY       - The destination directory.");
             Console.WriteLine("-r                  - Enable music recognition");
             Console.WriteLine("-m                  - Enable reorganisation by moving");
-            Console.WriteLine("-c                  - Enable reorganisation by moving");
+            Console.WriteLine("-c                  - Enable reorganisation by copying");
             Console.WriteLine("--help              - This help");
             
         }    

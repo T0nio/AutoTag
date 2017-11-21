@@ -4,7 +4,7 @@
 ## Table of contents
 1. [Purpose](#purpose)
 2. [Graphic User Interface (Windows)](#GUI)
-3. [Command Line Interface (Linux)](#CLI)
+3. [Command Line Interface (Linux & Windows)](#CLI)
 4. [Next development](#next)
 5. [Legal Notice](#notice)
 
@@ -57,8 +57,16 @@ For example (recognition of the music library and move to a new place):
 For some help about the usage of the CLI:
 > mono AutoTagCLI.exe --help 
 
+### Using in Windows
 
+To use AutoTag CLI on Windows, download the AutoTag/bin/CLI folder, open a terminal in this folder.
+Then you can use the CLI:
+> AutoTagCLI.exe [params]
 
+For some help about the usage of the CLI:
+> AutoTagCLI.exe --help 
+
+To use it from everywhere (and not only from the folder bin), just add AutoTagCLI.exe to your PATH.
 
 ## Next development <a name="next"></a>
 
