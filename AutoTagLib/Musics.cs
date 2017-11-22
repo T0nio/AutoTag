@@ -273,7 +273,7 @@ namespace AutoTagLib
             
             Directory.CreateDirectory(Path.GetDirectoryName(target));
 
-            if (this.MusicFile.FileName != target)
+            if (this.MusicFile.FileName != target && !File.Exists(target))
             {
                 if (copy)
                 {
