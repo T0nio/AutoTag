@@ -242,6 +242,15 @@ namespace AutoTagLib
             }
             catch (NotImplementedException e)
             {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.id3v2_not_supported, MusicFile.FileName);
+                Logger.Instance.WriteTagsLog(this, e.ToString());
+            } catch (InvalidFrameException e)
+            {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.invalid_encoding, MusicFile.FileName);
+                Logger.Instance.WriteTagsLog(this, e.ToString());
+            } catch (Exception e)
+            {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.unknown, MusicFile.FileName);
                 Logger.Instance.WriteTagsLog(this, e.ToString());
             }
             Logger.Instance.WriteTagsLog(this, "No exception");
@@ -293,7 +302,11 @@ namespace AutoTagLib
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        var propValue = p.GetValue(this.MusicFile.TagHandler).ToString();
+                        var propValue = String.Empty;
+                        try
+                        {
+                            propValue = p.GetValue(this.MusicFile.TagHandler).ToString();
+                        } catch (Exception) { }
                         foreach (char c in _illegalCharFromFileName)
                         {
                             propValue = propValue.Replace(c.ToString(), _illegalCharReplacor);

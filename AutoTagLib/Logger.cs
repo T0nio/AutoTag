@@ -207,7 +207,13 @@ namespace AutoTagLib
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        prop = p.GetValue(music.MusicFile.TagHandler).ToString();
+                        try
+                        {
+                            prop = p.GetValue(music.MusicFile.TagHandler).ToString();
+                        } catch (Exception)
+                        {
+                            prop = string.Empty;
+                        }
                         prop = prop.Replace(";", ",");
                         prop = prop.Replace("\"", "'");
                         logFile.Write($"=\"{prop}\";");
