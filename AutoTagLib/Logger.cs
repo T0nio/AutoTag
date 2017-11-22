@@ -13,7 +13,7 @@ namespace AutoTagLib
         private static Logger _instance;
         static readonly object instanceLock = new object();
         private StreamWriter logFile;
-        private string pathLog = $"logs{Path.DirectorySeparatorChar}{DateTime.Now.ToString("yyyyMMddHHmm")}.csv";
+        private string pathLog = $"logs{Path.DirectorySeparatorChar}Running_{DateTime.Now.ToString("yyyyMMddHHmm")}.csv";
 
         public enum Events
         {
@@ -33,8 +33,8 @@ namespace AutoTagLib
         private Logger()
         {
             Directory.CreateDirectory(Path.GetDirectoryName(pathLog));
-            logFile = new StreamWriter(pathLog);
-            logFile.WriteLineAsync("Time;Event;Result;Path;File;Album;Artist;Composer;Disc;Genre;Title;Track;Year"); //Initialize the csv file        
+            logFile = new StreamWriter(pathLog) { AutoFlush = true };
+            logFile.WriteLine("Time;Event;Result;Path;File;Album;Artist;Composer;Disc;Genre;Title;Track;Year"); //Initialize the csv file        
         }
 
         #endregion
@@ -88,7 +88,7 @@ namespace AutoTagLib
                     }
                 }
             }
-            logFile.WriteLineAsync();
+            logFile.WriteLine();
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace AutoTagLib
                     }
                 }
             }
-            logFile.WriteLineAsync();
+            logFile.WriteLine();
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace AutoTagLib
                     }
                 }
             }
-            logFile.WriteLineAsync();
+            logFile.WriteLine();
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace AutoTagLib
                     }
                 }
             }
-            logFile.WriteLineAsync();
+            logFile.WriteLine();
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace AutoTagLib
                     }
                 }
             }
-            logFile.WriteLineAsync();
+            logFile.WriteLine();
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace AutoTagLib
                     }
                 }
             }
-            logFile.WriteLineAsync();
+            logFile.WriteLine();
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace AutoTagLib
                     }
                 }
             }
-            logFile.WriteLineAsync();
+            logFile.WriteLine();
         }
 
         /// <summary>
