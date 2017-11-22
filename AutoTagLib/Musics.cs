@@ -276,7 +276,7 @@ namespace AutoTagLib
 
             if (this.MusicFile.FileName != target)
             {
-                if (File.Exists(target) && target.Contains("Unknown Title"))
+                if (File.Exists(target))
                 {
                     int count = 1;
                     string fileNameOnly = Path.GetFileNameWithoutExtension(target);
