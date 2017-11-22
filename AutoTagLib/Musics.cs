@@ -273,8 +273,23 @@ namespace AutoTagLib
             
             Directory.CreateDirectory(Path.GetDirectoryName(target));
 
-            if (this.MusicFile.FileName != target && !File.Exists(target))
+
+            if (this.MusicFile.FileName != target)
             {
+                if (File.Exists(target) && target.Contains("Unknown Title"))
+                {
+                    int count = 1;
+                    string fileNameOnly = Path.GetFileNameWithoutExtension(target);
+                    string extension = Path.GetExtension(target);
+                    string path = Path.GetDirectoryName(target);
+
+                    while (File.Exists(target))
+                    {
+                        string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
+                        target = Path.Combine(path, tempFileName + extension);
+                    }
+                }
+
                 if (copy)
                 {
                     File.Copy(this.MusicFile.FileName, target, true);
