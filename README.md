@@ -41,6 +41,10 @@ The music files will be then renamed and moved (or copy) in the folder of their 
 
 ## Graphic User Interface <a name="GUI"></a>
 
+To use AutoTag GUI on Windows, download the AutoTag/bin/GUI folder, and execute AutotagGUI.exe. The user will be asked to follow the previous steps described :
+- Load a library from a folder,
+- Update and write new tags,
+- Reorganize the files by moving or copying them to another location with the previous method.
 
 
 ## Command Line Interface <a name="CLI"></a>
