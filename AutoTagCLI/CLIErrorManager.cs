@@ -15,5 +15,10 @@ namespace AutoTagCLI
         {
             Console.WriteLine($"Erreur {(int)code}: {message}");
         }
+
+        protected override void ShowError(ErrorCodes code, string message, string musicFile)
+        {
+            Console.WriteLine($"Erreur {(int)code}: {message} Fichier concerné par l'erreur : {musicFile}");
+        }
     }
 }
