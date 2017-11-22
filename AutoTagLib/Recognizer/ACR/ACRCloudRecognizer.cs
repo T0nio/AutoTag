@@ -89,7 +89,7 @@ namespace AutoTagLib.Recognizer
             }
             catch (Exception)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_decode_audio);
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.acr_decode_audio, filePath);
                 return ACRCloudStatusCode.DECODE_AUDIO_ERROR;
             }
 

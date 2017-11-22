@@ -135,11 +135,11 @@ namespace AutoTagCLI
                             myMusics.Reorganize(destinationDirectory, false);
                         }
                     }
-                    catch (DirectoryNotFoundException e)
+                    catch (DirectoryNotFoundException)
                     {
                         Console.WriteLine("Please enter a valid input directory name");
                     }
-                    catch (System.Net.WebException e)
+                    catch (System.Net.WebException)
                     {
                         Console.WriteLine("Net Exption déso");
                     }

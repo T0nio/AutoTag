@@ -58,21 +58,21 @@ namespace AutoTagLib
                 NewTags = new Mp3File(path).TagHandler;
             } catch (NotImplementedException)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.id3v2_not_supported);
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.id3v2_not_supported, MusicFile.FileName);
                 OriginalTags = new TagHandler(new TagModel());
                 AcrTags = new TagHandler(new TagModel());
                 ApiTags = new TagHandler(new TagModel());
                 NewTags = new TagHandler(new TagModel());
             } catch (InvalidFrameException)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.invalid_encoding);
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.invalid_encoding, MusicFile.FileName);
                 OriginalTags = new TagHandler(new TagModel());
                 AcrTags = new TagHandler(new TagModel());
                 ApiTags = new TagHandler(new TagModel());
                 NewTags = new TagHandler(new TagModel());
             } catch (Exception)
             {
-                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.unknown);
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.unknown, MusicFile.FileName);
                 OriginalTags = new TagHandler(new TagModel());
                 AcrTags = new TagHandler(new TagModel());
                 ApiTags = new TagHandler(new TagModel());
@@ -242,6 +242,15 @@ namespace AutoTagLib
             }
             catch (NotImplementedException e)
             {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.id3v2_not_supported, MusicFile.FileName);
+                Logger.Instance.WriteTagsLog(this, e.ToString());
+            } catch (InvalidFrameException e)
+            {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.invalid_encoding, MusicFile.FileName);
+                Logger.Instance.WriteTagsLog(this, e.ToString());
+            } catch (Exception e)
+            {
+                ((IErrorManager)Lookup.GetInstance().Get(typeof(IErrorManager))).NewError(ErrorCodes.unknown, MusicFile.FileName);
                 Logger.Instance.WriteTagsLog(this, e.ToString());
             }
             Logger.Instance.WriteTagsLog(this, "No exception");
@@ -293,7 +302,11 @@ namespace AutoTagLib
                 {
                     if (propName.ToString() == p.Name)
                     {
-                        var propValue = p.GetValue(this.MusicFile.TagHandler).ToString();
+                        var propValue = String.Empty;
+                        try
+                        {
+                            propValue = p.GetValue(this.MusicFile.TagHandler).ToString();
+                        } catch (Exception) { }
                         foreach (char c in _illegalCharFromFileName)
                         {
                             propValue = propValue.Replace(c.ToString(), _illegalCharReplacor);
@@ -303,7 +316,7 @@ namespace AutoTagLib
                             toReturn = toReturn.Replace($"%{p.Name}%", $"Unknown {p.Name}");
                         } else
                         {
-                            toReturn = toReturn.Replace($"%{p.Name}%", propValue);
+                            toReturn = toReturn.Replace($"%{p.Name}%", p.Name == "Track" && int.TryParse(propValue, out int propValueInt) ? $"{propValueInt:00}" : propValue);
                         }
                     }
                 }
